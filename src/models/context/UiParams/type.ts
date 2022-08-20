@@ -5,7 +5,11 @@ export type UiParams = {
 }
 
 export type UiLayout = {
+    BreadcrumbHeight: number,
     TopMenuHeight: number,
+    BlogComponentRowHeight: number,
+    BlogComponentColumnCount: number,
+    BorderRadius: number,
 }
 
 export type UiPalette = {
@@ -17,6 +21,13 @@ export type UiPalette = {
         Light: string,
     },
     Background: {
+        Main: string,
+        Light: string,
+        Lighter: string,
+        Darker: string,
+    },
+    FontColor: {
+        Darker: string,
         Main: string
     }
 }
@@ -24,6 +35,9 @@ export type UiPalette = {
 export type UiFontSize = {
     Largest: number,
     MuchLarger: number,
+    Larger: number,
     Large: number,
     Main: number,
+    Small: number,
+    Smaller: number,
 }

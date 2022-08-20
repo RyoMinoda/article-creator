@@ -1,10 +1,9 @@
-import { CSSProperties, useContext } from "react";
-import { UiParamsContext } from "../../models/context/UiParams/lib";
+import { SxProps, Theme } from "@mui/material";
 
-export const getInputStyle = (width: number, height: number, fontSize: number): CSSProperties => {
+export const getInputStyle = (width: number, height: number, fontSize: number): SxProps<Theme> => {
     return {
         width,
-        height: height - 4,
+        height,
         textIndent: 5,
         borderWidth: 1,
         borderRadius: 1,

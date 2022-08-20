@@ -3,7 +3,11 @@ import { UiFontSize, UiLayout, UiPalette, UiParams } from "./type";
 
 
 const initialLayout: UiLayout = {
-    TopMenuHeight: 70
+    BreadcrumbHeight: 70,
+    TopMenuHeight: 70,
+    BlogComponentRowHeight: 40,
+    BlogComponentColumnCount: 12,
+    BorderRadius: 2,
 }
 
 const initialPalette: UiPalette = {
@@ -15,15 +19,25 @@ const initialPalette: UiPalette = {
         Light: "#90D6F5",
     },
     Background: {
-        Main: "#EAEDFE"
+        Main: "#EAEDFE",
+        Light: "#FDFDFD",
+        Lighter: "#DDDDDD",
+        Darker: "#AAAAAA"
+    },
+    FontColor: {
+        Darker: "#AAAAAA",
+        Main: "#777777"
     }
 }
 
 const initialFontSize: UiFontSize = {
-    Largest: 24,
-    MuchLarger: 22,
-    Large: 20,
-    Main: 18
+    Largest: 25,
+    MuchLarger: 23,
+    Larger: 21,
+    Large: 19,
+    Main: 17,
+    Small: 15,
+    Smaller: 13,
 }
 
 const initialUiParams: UiParams = {

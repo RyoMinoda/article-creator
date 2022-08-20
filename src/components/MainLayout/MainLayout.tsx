@@ -17,7 +17,7 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
             <Row style={{ height: Layout.TopMenuHeight, background: Palette.Main.Vivid }}>
                 <TopMenu />
             </Row>
-            <Row style={{ height: mainHeight, background: Palette.Background.Main, overflowY: "auto" }}>
+            <Row style={{ height: mainHeight, background: Palette.Background.Main, overflowY: "auto", overflowX: "hidden" }}>
                 {children}
             </Row>
         </Container>
