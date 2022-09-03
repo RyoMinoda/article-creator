@@ -1,8 +1,8 @@
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, SxProps } from "@mui/material";
 import { Theme } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export type DefaultSelectorProps = {
+export type BlogEditorMenuSelectorProps = {
     label: string,
     array: Array<string>,
     item: string,
@@ -11,9 +11,12 @@ export type DefaultSelectorProps = {
     onChangeHandler: (index: number) => void, 
 }
 
-export const DefaultSelector = ({ props }: { props: DefaultSelectorProps }) => {
+export const BlogEditorMenuSelector = ({ props }: { props: BlogEditorMenuSelectorProps }) => {
     const { label, array, item, width, onChangeHandler, height } = props;
     const [ target, setTarget ] = useState<string>(item);
+    useEffect(() => {
+        setTarget(item);
+    }, [item])
     const handler = (e: SelectChangeEvent<string>) => {
         var target = e.target.value;
         var index = array.indexOf(target);

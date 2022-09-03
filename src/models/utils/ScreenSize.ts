@@ -15,7 +15,7 @@ export const useScreenSize = (): ScreenSize => {
       const updateSize = () => {
         setSize({
             screenWidth: window.innerWidth,
-            screenHeight: window.innerHeight
+            screenHeight: window.innerHeight - 1
         });
       }
       window.addEventListener('resize', updateSize);

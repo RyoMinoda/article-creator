@@ -5,10 +5,12 @@ export type BlogComponent = {
     ComponentType: BlogComponentType,
     RowSpan: number,
     ColumnSpan: number,
+    ComponentTitle: string,
+    StrContent: string;
 }
 
 export const BlogComponentType = {
-    Document: "Document", 
+    Article: "Article", 
     Picture: "Picture",
     Line: "Line",
     Table: "Table",

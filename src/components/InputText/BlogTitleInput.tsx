@@ -8,14 +8,13 @@ export type BlogTitleInputProps = {
     width: number,
     height: number,
     inputHeight: number,
-    sideMargin: number,
     text: string,
     setText: React.Dispatch<React.SetStateAction<string>>
 }
 
 export const BlogTitleInput = ({ props }: { props: BlogTitleInputProps }) => {
-    const { text, width, height, inputHeight, sideMargin } = props;
-    const inputWidth = width - 2 * sideMargin;
+    const { text, width, height, inputHeight } = props;
+    const inputWidth = width;
     const outerStyle: SxProps<Theme> = {
         display: "flex",
         alignItems: "center",
@@ -34,7 +33,7 @@ export const BlogTitleInput = ({ props }: { props: BlogTitleInputProps }) => {
     return (
         <Grid container sx={outerStyle}>
             <TextField
-                id="standard-basic" 
+                id="blog-title-input" 
                 label="Title" 
                 variant="standard"
                 sx={style}

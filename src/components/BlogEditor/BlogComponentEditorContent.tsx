@@ -11,17 +11,17 @@ export type BlogComponentEditorContentProps = {
     components: Array<BlogComponentObj>,
     updateComponent: (obj: BlogComponentObj) => void,
     updateActiveComponentIndex: (index: number) => void,
+    rowCount: number,
     width: number,
     height: number,
 }
 
 export const BlogComponentEditorContent = ({ props }: { props: BlogComponentEditorContentProps }) => {
-    const { width, height, components, updateComponent, updateActiveComponentIndex } = props;
+    const { width, height, components, updateComponent, updateActiveComponentIndex, rowCount } = props;
     const { Palette, Layout } = useContext(UiParamsContext);
     const marginTopBottom = 1.5;
     const marginSide = 1;
     const cellWidth = (width - marginSide * 8 * 2) / 12;
-    const rowCount = components.map(x => x.RowSpan).reduce((a, b) => a + b);
     const backgroundProps: BlogComponentEditorBackgroundProps = {
         width, height, marginTopBottom,
         rowCount, 
@@ -50,7 +50,7 @@ export const BlogComponentEditorContent = ({ props }: { props: BlogComponentEdit
                         zIndex: 10,
                     }
                     switch(component.ComponentType) {
-                        case BlogComponentType.Document:
+                        case BlogComponentType.Article:
                             Component = <BlogComponentEditorComponentDocument props={props} />;
                             break;
                         case BlogComponentType.Line:

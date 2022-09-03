@@ -1,6 +1,7 @@
 import { Grid, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
+import styled from 'styled-components';
 
 export type BlogComponentEditorBackgroundProps = {
     width: number,
@@ -32,31 +33,31 @@ export const BlogComponentEditorBackground = ({ props } : { props: BlogComponent
     return (
         <Grid container sx={outerSx}>
             {cells.map(x => {
+                const key = "top-cell-" + x;
                 const cellProps: CellProps = {
                     top: 0, i: x, marginSide, borderStyle, cellWidth, marginTopBottom,
-                    height: marginTopBottom * 8 - 1,
+                    height: marginTopBottom * 8 - 1
                 }
-                const key = "top-cell-" + x;
                 return <Cell props={cellProps} key={key} />
             })}
             {rows.map(row => {
                 return cells.map(col => {
                     const top = marginTopBottom * 8 + row * Layout.BlogComponentRowHeight;
+                    const key = "center-cell-" + row + "-" + col;
                     const cellProps: CellProps = {
                         top, i: col, marginSide, borderStyle, cellWidth, marginTopBottom,
-                        height: Layout.BlogComponentRowHeight,
+                        height: Layout.BlogComponentRowHeight
                     }
-                    const key = "center-cell-" + row + "-" + col;
                     return <Cell key={key} props={cellProps} />
                 })
             })}
             {cells.map(x => {
                 const top = rowCount * Layout.BlogComponentRowHeight + marginTopBottom * 8;
+                const key = "bottom-cell-" + x;
                 const cellProps: CellProps = {
                     top, i: x, marginSide, borderStyle, cellWidth, marginTopBottom,
-                    height: marginTopBottom * 8 - 1,
+                    height: marginTopBottom * 8
                 }
-                const key = "bottom-cell-" + x;
                 return <Cell props={cellProps} key={key} />
             })}
         </Grid>
@@ -74,9 +75,8 @@ type CellProps = {
 }
 
 const Cell = ({ props }: { props: CellProps }) => {
-    const { i, marginTopBottom, cellWidth, marginSide, borderStyle, top, height } = props;
-    const topBottomCellSx: SxProps<Theme> = {
-        position: "absolute",
+    const { i, cellWidth, marginSide, borderStyle, top, height } = props;
+    const cellDivProps: CellDivProps = {
         width: cellWidth,
         height,
         top, 
@@ -86,16 +86,40 @@ const Cell = ({ props }: { props: CellProps }) => {
         bgcolor: "white",
     }
     if (i == 0) {
-        topBottomCellSx.left = 0;
-        topBottomCellSx.width = marginSide * 8;
+        cellDivProps.left = 0;
+        cellDivProps.width = marginSide * 8;
     }
     if (i == 13) {
-        topBottomCellSx.left = cellWidth * 12 + marginSide * 8;
-        topBottomCellSx.width = marginSide * 8;
-        topBottomCellSx.borderRight = "none";
+        cellDivProps.left = cellWidth * 12 + marginSide * 8;
+        cellDivProps.width = marginSide * 8;
+        cellDivProps.borderRight = "none";
     }
     return (
-        <Grid item sx={topBottomCellSx}>
-        </Grid>
+        <CellDiv {...cellDivProps} />
     );
 }
+
+type CellDivProps = {
+    top: number,
+    left: number,
+    width: number,
+    height: number,
+    borderRight: string,
+    borderBottom: string,
+    bgcolor: string,
+}
+
+const CellDiv = styled.div.attrs<CellDivProps>(( props: CellDivProps ) => (
+    {
+        style: {
+            top: props.top,
+            left: props.left,
+            height: props.height,
+            width: props.width,
+            borderBottom: props.borderBottom,
+            borderRight: props.borderRight,
+            backgroundColor: props.bgcolor,
+        }
+    }))<CellDivProps>`
+    position: absolute;
+  `

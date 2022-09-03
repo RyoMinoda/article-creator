@@ -31,7 +31,7 @@ export const MultiRowInput = ({ props }: { props: MultiRowInputProps }) => {
             id={"multiline-input-" + key}
             label={label}
             multiline
-            value={text}
+            value={input}
             onChange={handleChange}
             onFocus={handleFocus}
             sx={{ 

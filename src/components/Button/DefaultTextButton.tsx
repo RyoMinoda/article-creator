@@ -12,6 +12,7 @@ export const DefaultTextButton = ({ props }: { props: DefaultTextButtonProps }) 
     const style: SxProps<Theme> = {
         width, height,
         padding: 0, margin: 0,
+        textTransform: "none"
     }
     return (
         <Button variant="text" sx={style} onClick={() => onClickHandler()}>

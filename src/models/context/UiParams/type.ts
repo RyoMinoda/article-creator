@@ -1,7 +1,7 @@
 export type UiParams = {
     Layout: UiLayout,
     Palette: UiPalette,
-    FontSize: UiFontSize
+    FontSize: UiFontSize,
 }
 
 export type UiLayout = {
@@ -10,6 +10,8 @@ export type UiLayout = {
     BlogComponentRowHeight: number,
     BlogComponentColumnCount: number,
     BorderRadius: number,
+    ButtonHeight: number,
+    BlogPreviewWidth: number,
 }
 
 export type UiPalette = {
@@ -18,17 +20,32 @@ export type UiPalette = {
         Deep: string,
         Vivid: string,
         Bright: string,
-        Light: string,
+        Light: string
+    },
+    Second: {
+        Green: string,
     },
     Background: {
         Main: string,
         Light: string,
         Lighter: string,
+        Lightest: string,
         Darker: string,
     },
     FontColor: {
         Darker: string,
-        Main: string
+        Main: string,
+        Light: string,
+    },
+    Pastel: {
+        Red: string,
+        Green1: string,
+        Green2: string,
+        Blue1: string,
+        Blue2: string,
+        Yellow: string,
+        Purple: string,
+        Gray: string,
     }
 }
 
@@ -38,6 +55,6 @@ export type UiFontSize = {
     Larger: number,
     Large: number,
     Main: number,
-    Small: number,
     Smaller: number,
+    Small: number,
 }

@@ -1,10 +1,14 @@
-import { ComponentType } from "react";
+import { SxProps, Theme } from "@mui/material";
+import { Component, ComponentType } from "react";
 import { Uuid } from "../../../utils/Uuid";
+import { UiPalette } from "../../context/UiParams/type";
+import { getBlogComponentIcon } from "./components";
 import { getBlogComponentTypeName } from "./func";
 import { BlogComponent, BlogComponentType } from "./type";
 
 export class BlogComponentObj implements BlogComponent {
     BlogComponentId: string;
+    ComponentTitle: string;
     X: number;
     Y: number;
     ComponentType: BlogComponentType;
@@ -12,24 +16,93 @@ export class BlogComponentObj implements BlogComponent {
     ColumnSpan: number;
     StrContent: string;
     
-    constructor(componentType: BlogComponentType, components: Array<BlogComponentObj>) {
+    constructor(componentType: BlogComponentType, x: number, y: number, rowSpan: number, colSpan: number, components?: Array<BlogComponentObj>) {
         this.BlogComponentId = Uuid.NewUuid();
-        const { x, y } = this.getXY(componentType, components);
+        this.ComponentTitle = "";
+        if (components != undefined) {
+            this.ComponentTitle = this.getComponentTitle(componentType, components);
+        }
         this.X = x;
         this.Y = y;
         this.ComponentType = componentType;
         this.StrContent = "";
-        this.RowSpan = this.getComponentDefaultRowSpan(componentType);
-        this.ColumnSpan = this.getComponentDefaultColumnSpan(componentType);
+        this.RowSpan = rowSpan;
+        this.ColumnSpan = colSpan;
     }
 
-    private getXY = (componentType: BlogComponentType, components: Array<BlogComponentObj>): { x: number, y: number } => {
+    private getComponentTitle = (componentType: BlogComponentType, components: Array<BlogComponentObj>): string => {
+        const count = components.filter(x => x.ComponentType == componentType).length;
+        return componentType + (count + 1).toString();
+    }
+
+    private setComponentProps = (component: BlogComponent) => {
+        this.BlogComponentId = component.BlogComponentId;
+        this.ComponentTitle = component.ComponentTitle;
+        this.ColumnSpan = component.ColumnSpan;
+        this.RowSpan = component.RowSpan;
+        this.ComponentType = component.ComponentType;
+        this.X = component.X;
+        this.Y = component.Y;
+        this.ComponentType = component.ComponentType;
+        this.StrContent = component.StrContent;
+    }
+
+    public getComponentTypeName = () => getBlogComponentTypeName(this.ComponentType);
+
+    public getComponentIndex = () => this.X * 100 + this.Y;
+
+    public setStrCountent = (value: string) => {
+        this.StrContent = value;
+    };
+
+    public include = (r: number, c: number): boolean => {
+        if (this.X <= c && c <= this.X + this.ColumnSpan - 1  && this.Y <= r && r <= this.Y + this.RowSpan - 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public getTileColor = (palette: UiPalette) => {
+        switch (this.ComponentType) {
+            case BlogComponentType.Article:
+                return palette.Pastel.Blue1;
+            default:
+                return "";
+        }
+    }
+
+    public getIcon = (sx: SxProps<Theme>) => getBlogComponentIcon(this.ComponentType, sx);
+
+    public getComponent = (): BlogComponent => {
+        var component: BlogComponent = {
+            ...this,
+        }
+        return component;
+    }
+
+    public static getEmpty = () => {
+        return new BlogComponentObj(BlogComponentType.Article, 0, 0, 0, 0);
+    }
+
+    public static createObj = (component: BlogComponent): BlogComponentObj => {
+        var target = this.getEmpty();
+        target.setComponentProps(component);
+        return target;
+    }
+
+    public static create = (componentType: BlogComponentType, components: Array<BlogComponentObj>): BlogComponentObj => {
+        const { x, y } = this.getXY(componentType, components);
+        const rowSpan = this.getComponentDefaultRowSpan(componentType);
+        const columnSpan = this.getComponentDefaultColumnSpan(componentType);
+        return new BlogComponentObj(componentType, x, y, rowSpan - 1, columnSpan - 1, components);
+    }
+    
+    private static getXY = (componentType: BlogComponentType, components: Array<BlogComponentObj>): { x: number, y: number } => {
         if (components.length == 0) return { x: 0, y: 0 };
         const array = new Array(12).fill(0);
         const arrayLength = components.map(x => x.RowSpan).reduce((a, b) => a + b);
         const rowSpan = this.getComponentDefaultRowSpan(componentType);
-        console.log(rowSpan);
-        const array2: number[][] = new Array(arrayLength + rowSpan).fill(0).map(_ => array.map(x => x));
+        const array2: number[][] = new Array(arrayLength + rowSpan + 1 + 12).fill(0).map(_ => array.map(x => x));
         components.forEach((component) => {
             const columnCellArray = new Array(component.ColumnSpan).fill(1);
             const rowCellArray: Array<number[]> = new Array(component.RowSpan).fill(columnCellArray);
@@ -55,9 +128,9 @@ export class BlogComponentObj implements BlogComponent {
         return { x, y }
     }
 
-    private getComponentDefaultRowSpan = (type: BlogComponentType): number => {
+    private  static getComponentDefaultRowSpan = (type: BlogComponentType): number => {
         switch(type) {
-            case BlogComponentType.Document:
+            case BlogComponentType.Article:
                 return 2;
             case BlogComponentType.Line:
                 return 1;
@@ -72,9 +145,9 @@ export class BlogComponentObj implements BlogComponent {
         }
     }
 
-    private getComponentDefaultColumnSpan = (type: BlogComponentType): number => {
+    private static getComponentDefaultColumnSpan = (type: BlogComponentType): number => {
         switch(type) {
-            case BlogComponentType.Document:
+            case BlogComponentType.Article:
                 return 12;
             case BlogComponentType.Line:
                 return 12;
@@ -88,12 +161,4 @@ export class BlogComponentObj implements BlogComponent {
                 throw new Error("getComponentDefaultColumnSpan");
         }
     }
-
-    public getComponentTypeName = () => getBlogComponentTypeName(this.ComponentType);
-
-    public getComponentIndex = () => this.X * 100 + this.Y;
-
-    public setStrCountent = (value: string) => {
-        this.StrContent = value;
-    };
 }

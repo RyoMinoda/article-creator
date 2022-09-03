@@ -1,4 +1,4 @@
-import { Button, SxProps, Theme } from "@mui/material"
+import { Button, Grid, SxProps, Theme, Typography } from "@mui/material"
 import { useContext } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 import { BlogComponentObj } from "../../models/state/BlogComponent/obj";
@@ -17,10 +17,8 @@ export const BlogComponentEditorComponentListItem = ({ props }: { props: BlogCom
     const isActive = activeComponentIndex == component.getComponentIndex();
     const bgcolor = isActive ? Palette.Background.Light : "transparent";
     const color = isActive ? Palette.FontColor.Main : Palette.FontColor.Darker;
-    const hoverColor = isActive ? Palette.Background.Main : Palette.Background.Lighter;
     const buttonSx: SxProps<Theme> = {
         width, height,
-        fontSize: FontSize.Main,
         textTransform: "none",
         color,
         bgcolor,
@@ -28,10 +26,43 @@ export const BlogComponentEditorComponentListItem = ({ props }: { props: BlogCom
             background: bgcolor
         },
     }
+    const containerSx: SxProps<Theme> = {
+        width, height
+    }
+    const typeHeight = height * 0.2;
+    const titleHeight = height - typeHeight;
+    const paddingSide = 1;
+    const innerWidth = width - 2 * paddingSide * 8;
+    const componentTypeSx: SxProps<Theme> = {
+        width: innerWidth, 
+        height: typeHeight, 
+        display: "flex",
+        paddingLeft: paddingSide,
+    }
+    const componentTypeTypo: SxProps<Theme> = {
+        fontSize: FontSize.Small
+    }
+    const componentTitleSx: SxProps<Theme> = {
+        width, height: titleHeight,
+    }
+    const componentTitleTypo: SxProps<Theme> = {
+        fontSize: FontSize.Main
+    }
     const onClickHandler = () => onClickListItem(component.getComponentIndex());
     return (
         <Button sx={buttonSx} onClick={onClickHandler}>
-            {component.getComponentTypeName()}
+            <Grid container sx={containerSx}>
+                <Grid item sx={componentTypeSx}>
+                    <Typography sx={componentTypeTypo}>
+                        {component.getComponentTypeName()}
+                    </Typography>
+                </Grid>
+                <Grid item sx={componentTitleSx}>
+                    <Typography sx={componentTitleTypo}>
+                        {component.ComponentTitle}
+                    </Typography>
+                </Grid>
+            </Grid>
         </Button>
     );
 }

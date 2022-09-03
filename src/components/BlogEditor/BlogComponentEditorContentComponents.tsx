@@ -14,6 +14,9 @@ export type BlogComponentEditorContentComponentProps = {
     cellHeight: number,
 }
 
+export const BlogComponentEditorComponentHeadline = ({ props }: { props: BlogComponentEditorContentComponentProps }) => {
+    return (<></>)
+}
 
 export const BlogComponentEditorComponentDocument = ({ props }: { props: BlogComponentEditorContentComponentProps }) => {
     const { component, marginTopBottom, marginSide, cellWidth, cellHeight, onChangeComponent, onSelectComponent } = props;
@@ -23,7 +26,7 @@ export const BlogComponentEditorComponentDocument = ({ props }: { props: BlogCom
         text: component.StrContent,
         key: "document-component-" + component.getComponentIndex(),
         row: component.RowSpan * 2,
-        label: "Document",
+        label: "Article",
         onChangeText: (text: string) => {
             component.setStrCountent(text);
             onChangeComponent(component);
@@ -51,7 +54,7 @@ export const BlogComponentEditorComponentLine = ({ props }: { props: BlogCompone
 export const BlogComponentEditorComponentPicture = ({ props }: { props: BlogComponentEditorContentComponentProps }) => {
     return (
         <Grid>
-            
+
         </Grid>
     );
 }
