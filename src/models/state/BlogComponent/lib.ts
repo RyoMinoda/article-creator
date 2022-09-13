@@ -1,5 +1,5 @@
 import { Uuid } from "../../../utils/Uuid";
-import { BlogComponent, BlogComponentType } from "./type";
+import { BlogComponent, BlogComponentKeyValues, BlogComponentType } from "./type";
 
 export const initialBlogComponent: BlogComponent = {
     ComponentTitle: "",
@@ -7,7 +7,7 @@ export const initialBlogComponent: BlogComponent = {
     BlogComponentId: Uuid.NewUuid(),
     X: 0,
     Y: 0,
-    ComponentType: BlogComponentType.Article,
+    ComponentType: BlogComponentKeyValues.Article,
     ColumnSpan: 0,
     RowSpan: 0,
 }
@@ -18,7 +18,7 @@ export const no1BlocComponent: BlogComponent = {
     StrContent: "",
     X: 0,
     Y: 10,
-    ComponentType: BlogComponentType.Article,
+    ComponentType: BlogComponentKeyValues.Article,
     ColumnSpan: 0,
     RowSpan: 0,
 }

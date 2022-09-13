@@ -4,15 +4,14 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
-import { ComponentEditorMapperProps } from "../ComponentEditorMenu/types";
+import { BlogEditorMapperProps } from "../BlogEditorMenu/types";
 import { BlogComponentMapTiles, BlogComponentMapTileType } from "./BlogComponentMapTiles";
 
 export type BlogComponentMapProps = {
     height: number,
     width: number,
     emptyRowCount: number,
-    sideMargin: number,
-    mapperProps: ComponentEditorMapperProps,
+    mapperProps: BlogEditorMapperProps,
     components: Array<BlogComponentObj>,
     updateSpan: (rowSpan: number, colSpan: number) => void;
     updatePosition: (row: number, col: number) => void;
@@ -26,7 +25,7 @@ const getPosition = (str: string): { r: number, c: number } => {
 }
 
 export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) => {
-    const { height, width, sideMargin, components, emptyRowCount,
+    const { height, width, components, emptyRowCount,
             updatePosition, updateSpan, mapperProps } = props;
     const { FontSize, Palette, Layout } = useContext(UiParamsContext);
     const [ hoverRow, setHoverRow ] = useState(-1);
@@ -56,20 +55,17 @@ export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) =>
         setDesided(true);
     }, [mapperProps]);
 
-    const innerWidth = width - sideMargin * 2;
-    const marginLeft = (width - innerWidth) / 2 / 8;
     const columnCount = 12;
     const rowCount = emptyRowCount;
     const innerStyle: SxProps<Theme> = {
         position: "relative",
-        width: innerWidth,
+        width: width,
         height: Layout.BlogComponentRowHeight * rowCount,
         marginTop: 5, 
-        marginLeft,
         borderRadius: 1,
     };
     const colSx: SxProps<Theme> = {
-        width: innerWidth / columnCount,
+        width: width / columnCount,
         height: Layout.BlogComponentRowHeight,
         border: "solid 1px",
         borderColor: "transparent",
@@ -80,7 +76,6 @@ export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) =>
     const inactiveColor = "transparent";
     const activeColor = Palette.Main.Light;
     const hoverColor = Palette.Background.Light;
-    const decideColor = Palette.Main.Bright;
     const componentColor = Palette.Background.Lightest;
     const cellSx: SxProps<Theme> = {
         borderRadius: 0,
@@ -140,11 +135,6 @@ export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) =>
         if (includes.length > 0) {
             return componentColor;
         }
-        if (decided) {
-            if (decideRowS <= r && r <= decideRowE && decideColS <= c && c <= decideColE) {
-                return decideColor;
-            }
-        }
         if (!hovered || !clicked) return inactiveColor;
         const plusMinus1 = [ 1, -1 ];
         const plusMinus2 = [ 1, -1 ];
@@ -158,7 +148,7 @@ export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) =>
         })
         return color;
     }
-    const divWidth = innerWidth / columnCount;
+    const divWidth = width / columnCount;
     const Component = rows.map(r => {
         return columns.map(c => {
             const key = r * columnCount + c;

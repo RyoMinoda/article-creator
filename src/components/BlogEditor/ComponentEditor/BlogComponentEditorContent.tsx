@@ -1,9 +1,9 @@
 import { Box, Grid, SxProps, Theme } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useContext } from "react";
-import { UiParamsContext } from "../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../models/state/BlogComponent/obj";
-import { BlogComponentType } from "../../models/state/BlogComponent/type";
+import { UiParamsContext } from "../../../models/context/UiParams/lib";
+import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentKeyValues, BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogComponentEditorBackground, BlogComponentEditorBackgroundProps } from "./BlogComponentEditorBackground";
 import { BlogComponentEditorComponentDocument, BlogComponentEditorComponentLine, BlogComponentEditorContentComponentProps } from "./BlogComponentEditorContentComponents";
 
@@ -50,10 +50,10 @@ export const BlogComponentEditorContent = ({ props }: { props: BlogComponentEdit
                         zIndex: 10,
                     }
                     switch(component.ComponentType) {
-                        case BlogComponentType.Article:
+                        case BlogComponentKeyValues.Article:
                             Component = <BlogComponentEditorComponentDocument props={props} />;
                             break;
-                        case BlogComponentType.Line:
+                        case BlogComponentKeyValues.Line:
                             Component = <BlogComponentEditorComponentLine props={props} />;
                             break;
                         

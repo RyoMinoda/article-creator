@@ -1,8 +1,9 @@
 import { Box, Button, Grid, Stack, SxProps, Theme, Typography } from "@mui/material";
 import { useContext } from "react";
-import { UiParamsContext } from "../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../models/state/BlogComponent/obj";
+import { UiParamsContext } from "../../../models/context/UiParams/lib";
+import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
 import { BlogComponentEditorComponentListItem, BlogComponentEditorComponentListItemProps } from "./BlogComponentEditorComponentListItem";
+
 
 export type BlogComponentEditorComponentListProps = {
     components: Array<BlogComponentObj>,

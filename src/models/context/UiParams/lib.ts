@@ -3,13 +3,16 @@ import { UiFontSize, UiLayout, UiPalette, UiParams } from "./type";
 
 
 const initialLayout: UiLayout = {
-    BreadcrumbHeight: 45,
-    TopMenuHeight: 70,
+    BreadcrumbHeight: 35,
+    TopMenuHeight: 60,
     BlogComponentRowHeight: 30,
     BlogComponentColumnCount: 12,
     BorderRadius: 2,
     ButtonHeight: 35,
     BlogPreviewWidth: 300,
+    BlogEditorTitleHeight: 45,
+    BlogEditorModeMenuWidth: 60,
+    BlogTitleHeight: 45,
 }
 
 const initialPalette: UiPalette = {
@@ -17,18 +20,19 @@ const initialPalette: UiPalette = {
         Dark: "#263466",
         Deep: "#425AB3",
         Vivid: "#658AE6",
-        Bright: "#80B9FF",
-        Light: "#bed7fa"
+        Bright: "#659BE6",
+        Light: "#6598f7"
     },
     Second: {
         Green: "#4caf50",
     },
     Background: {
-        Main: "#EAEDFE",
-        Light: "#DCDCDC",
-        Lighter: "#EDEDED",
-        Lightest: "#FDFDFD",
-        Darker: "#AAAAAA"
+        Main: "#d4dafc",
+        Light: "#EAEDFE",
+        Lighter: "#f5f6ff",
+        Lightest: "#FFFFFF",
+        Dark: "#BBBBBB",
+        Darker: "#000000",
     },
     FontColor: {
         Darker: "#333333",
@@ -48,13 +52,14 @@ const initialPalette: UiPalette = {
 }
 
 const initialFontSize: UiFontSize = {
-    Largest: 25,
-    MuchLarger: 23,
-    Larger: 21,
-    Large: 19,
-    Main: 17,
-    Smaller: 15,
-    Small: 13,
+    Largest: 24,
+    MuchLarger: 22,
+    Larger: 20,
+    Large: 18,
+    Main: 16,
+    Small: 14,
+    Smaller: 12,
+    Smallest: 10,
 }
 
 const initialUiParams: UiParams = {

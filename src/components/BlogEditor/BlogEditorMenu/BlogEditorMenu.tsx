@@ -1,64 +1,56 @@
-import { TabContext, TabList, TabPanel } from "@mui/lab";
-import { Box, Grid, Tab, Tabs, Typography } from "@mui/material";
-import { useContext, useState } from "react";
+import { TabContext, TabPanel } from "@mui/lab";
+import { Box } from "@mui/material";
+import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { TabButton, TabButtonProps } from "../../Button/TabButton";
-import { ComponentEditorMenuArticleTab } from "./ComponentEditorMenuArticleTab";
-import { ComponentEditorMenuCreationTab } from "./ComponentEditorMenuCreationTab";
-import { ComponentEditorMapperProps, ComponentEditorMenuTabProps, ComponentEditorMenuTabType } from "./types";
+import { BlogEditorMenuTabKeyValues, BlogEditorMenuTabType } from "../type";
+import { getBlogEditorMenuTab } from "./func";
+import { BlogEditorMapperProps, BlogEditorMenuTabProps } from "./types";
 
-export type ComponentEditorMenuProps = {
+export type BlogEditorMenuProps = {
     width: number,
     height: number,
     sideMargin: number,
     componentType: BlogComponentType,
     tabType: string,
-    mapperProps: ComponentEditorMapperProps,
+    mapperProps: BlogEditorMapperProps,
     addComponent: () => void,
     updateComponentType: (componentType: BlogComponentType) => void,
     updateTabType: (tab: string) => void,
-    updateMapperProps: (mapperProps: ComponentEditorMapperProps) => void,
-    updateMenuCreationProps: (menuProps: ComponentEditorMapperProps) => void,
+    updateMapperProps: (mapperProps: BlogEditorMapperProps) => void,
+    updateMenuInsertProps: (menuProps: BlogEditorMapperProps) => void,
 }
 
-const getTab = (type: string, props: ComponentEditorMenuTabProps) => {
-    switch (type) {
-        case ComponentEditorMenuTabType.Article:
-            return <ComponentEditorMenuArticleTab props={props} />
-        case ComponentEditorMenuTabType.Creation:
-            return <ComponentEditorMenuCreationTab props={props} />
-        default:
-            return <></>
-    }
-}
 
-export const ComponentEditorMenu = ({ props }: { props: ComponentEditorMenuProps }) => {
+
+export const BlogEditorMenu = ({ props }: { props: BlogEditorMenuProps }) => {
     const { width, height, sideMargin, tabType, updateTabType } = props;
     const { Palette, Layout } = useContext(UiParamsContext);
     const innerWidth = width - 2 * sideMargin;
-    const tabButtonHeight = height * 0.15;
+    const tabButtonHeight = height * 0.17;
     const tabButtonWidth = innerWidth * 0.1;
-    const tabs = Object.keys(ComponentEditorMenuTabType)
+    const tabs = Object.keys(BlogEditorMenuTabKeyValues)
         .map((x, i) => {
             const bgcolor = x == tabType ? Palette.Background.Lightest : Palette.Background.Light;
             const color = x == tabType ? Palette.FontColor.Darker : Palette.FontColor.Main;
             const tabProps: TabButtonProps = {
-                height: tabButtonHeight, width: tabButtonWidth, color,
+                height: tabButtonHeight, width: tabButtonWidth, color, 
                 text: x, bgcolor, hoverBgColor: bgcolor, activeBgColor: bgcolor,
                 onClickHandler: () => updateTabType(x),
             }
             return (
                 <TabButton props={tabProps} key={"tab-button-" + i} />);
         })
-    const tabProps: ComponentEditorMenuTabProps = {
+    const tabProps: BlogEditorMenuTabProps = {
         ...props,
         width: innerWidth,
+        margin: 1,
         height: height - tabButtonHeight,
     }
-    const tabPanels = Object.keys(ComponentEditorMenuTabType)
+    const tabPanels = Object.keys(BlogEditorMenuTabKeyValues)
         .map((x, i) => {
-            const tab = getTab(x, tabProps);
+            const tab = getBlogEditorMenuTab(x, tabProps);
             return <TabPanel value={x} key={"tab" + i} sx={{ padding: 0 }}>{tab}</TabPanel>
         });
     return (

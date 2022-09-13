@@ -1,38 +1,71 @@
-import { Box, SxProps, Theme } from "@mui/material";
-import { useContext } from "react";
+import { Box, Grid, Stack, SxProps, Theme } from "@mui/material";
+import { useContext, useState } from "react";
+import { EditorPreviewHeader, EditorPreviewHeaderProps } from "../components/BlogEditor/EditorPreview/EditPreviewHeader";
+import { PreviewWidthValues } from "../components/BlogEditor/EditorPreview/type";
 import { UiParamsContext } from "../models/context/UiParams/lib";
 import { Blog } from "../models/state/Blog/type"
-import { useScreenSize } from "../models/utils/ScreenSize";
+import { BlogEditDetail } from "../models/state/BlogEditDetail/type";
+import { useScreenSize } from "../models/utils/ScreenSize/func";
+
 import { BlogViewer, BlogViewerProps } from "./BlogViewer"
 
 export type BlogEditorPreviewProps = {
     Blog: Blog,
+    windowWidth: number,
+    updateWindowWidth: (width: number) => void,
 }
 
 export const BlogEditorPreview = ({ props }: { props: BlogEditorPreviewProps }) => {
-    const { Blog } = props;
+    const { Blog, windowWidth, updateWindowWidth } = props;
     const { Palette } = useContext(UiParamsContext);
     const { screenHeight, screenWidth } = useScreenSize();
-    const minWidth = 600;
-    const defaultWidth = screenWidth * 0.5;
-    const previewWidth = defaultWidth < minWidth ? minWidth : defaultWidth;
     const previewHeight = screenHeight * 0.8;
+    const headerHeight = 60;
+    const padding = 8;
+    const headerItemSx: SxProps<Theme> = {
+        position: "absolute", top: 0, left: 0,
+        width: windowWidth,
+        height: previewHeight,
+        bgcolor: Palette.Main.Light,
+        borderRadius: 1,
+    }
+    const mainItemSx: SxProps<Theme> = {
+        position: "absolute",
+        top: headerHeight,
+        left: padding,
+        width: windowWidth - padding * 2,
+        height: previewHeight - headerHeight,
+        bgcolor: Palette.Background.Lightest,
+        borderTopLeftRadius: 2,
+        borderTopRightRadius: 2
+    }
+    const windowSx: SxProps<Theme> = {
+        width: windowWidth - padding * 2,
+        height: previewHeight - headerHeight,
+    }
     const viewerProps: BlogViewerProps = {
         Blog,
-        width: previewWidth,
+        width: windowWidth - padding * 2,
         height: screenHeight * 0.8
     }
-    const windowPadding = 1;
-    const windowSx: SxProps<Theme> = {
-        width: previewWidth + windowPadding * 2,
-        height: previewHeight + windowPadding * 2,
-        padding: windowPadding,
-        borderRadius: 1,
-        bgcolor: Palette.Background.Lightest
+    const headerProps: EditorPreviewHeaderProps = {
+        height: headerHeight,
+        width: windowWidth,
+        previewWindowWidth: windowWidth,
+        updatePreviewWindowWidth: (width: number) => {
+            updateWindowWidth(width);
+        }
     }
     return (
         <Box sx={windowSx}>
-            <BlogViewer props={viewerProps} />
+            <Stack position="relative">
+                <Box sx={headerItemSx}>
+                    <EditorPreviewHeader props={headerProps} />
+                </Box>
+                <Box sx={mainItemSx}>
+                    <BlogViewer props={viewerProps} />
+                </Box>
+            </Stack>
         </Box>
     )
 }   

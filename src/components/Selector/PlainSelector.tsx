@@ -1,8 +1,7 @@
-import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, SxProps } from "@mui/material";
-import { Theme } from "@mui/system";
-import { useEffect, useState } from "react";
+import { FormControl, MenuItem, Select, SelectChangeEvent, SxProps, Theme } from "@mui/material";
+import { useState } from "react";
 
-export type BlogEditorMenuSelectorProps = {
+export type PlainSelectorProps = {
     label: string,
     array: Array<string>,
     item: string,
@@ -11,12 +10,9 @@ export type BlogEditorMenuSelectorProps = {
     onChangeHandler: (index: number) => void, 
 }
 
-export const BlogEditorMenuSelector = ({ props }: { props: BlogEditorMenuSelectorProps }) => {
+export const PlainSelector = ({ props }: { props: PlainSelectorProps }) => {
     const { label, array, item, width, onChangeHandler, height } = props;
     const [ target, setTarget ] = useState<string>(item);
-    useEffect(() => {
-        setTarget(item);
-    }, [item])
     const handler = (e: SelectChangeEvent<string>) => {
         var target = e.target.value;
         var index = array.indexOf(target);
@@ -44,10 +40,10 @@ export const BlogEditorMenuSelector = ({ props }: { props: BlogEditorMenuSelecto
                         paddingLeft: 2,
                     }
                 }}
-                IconComponent={() => <></>}
                 variant="standard"
                 disableUnderline
                 displayEmpty
+                IconComponent={() => <></>}
             >
                 {array.map((name, i) => (
                     <MenuItem value={name} key={i}>{name}</MenuItem>

@@ -12,6 +12,9 @@ export type UiLayout = {
     BorderRadius: number,
     ButtonHeight: number,
     BlogPreviewWidth: number,
+    BlogEditorTitleHeight: number,
+    BlogEditorModeMenuWidth: number,
+    BlogTitleHeight: number
 }
 
 export type UiPalette = {
@@ -31,6 +34,7 @@ export type UiPalette = {
         Lighter: string,
         Lightest: string,
         Darker: string,
+        Dark: string,
     },
     FontColor: {
         Darker: string,
@@ -55,6 +59,7 @@ export type UiFontSize = {
     Larger: number,
     Large: number,
     Main: number,
-    Smaller: number,
     Small: number,
+    Smaller: number,
+    Smallest: number,
 }

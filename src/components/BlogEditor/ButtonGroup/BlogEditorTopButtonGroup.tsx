@@ -1,9 +1,10 @@
 import { Grid, SxProps, Theme } from "@mui/material";
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import SaveIcon from '@mui/icons-material/Save';
-import DefaultButton, { DefaultButtonProps } from "../Button/DefaultButton";
+import DoneIcon from '@mui/icons-material/Done';
+import DefaultButton, { DefaultButtonProps } from "../../Button/DefaultButton";
 import { useContext } from "react";
-import { UiParamsContext } from "../../models/context/UiParams/lib";
+import { UiParamsContext } from "../../../models/context/UiParams/lib";
 
 export type BlogEditorTopButtonGroupProps = {
     width: number,
@@ -14,26 +15,31 @@ export type BlogEditorTopButtonGroupProps = {
 
 export const BlogEditorTopButtonGroup = ({ props }: { props: BlogEditorTopButtonGroupProps }) => {
     const { height, width, preview, save } = props;
-    const { Layout, Palette } = useContext(UiParamsContext);
-    const sideMargin = 2;
-    const innerWidth = width - 2 * sideMargin * 8;
-    const buttonHeight = height * 0.8;
+    const { Palette } = useContext(UiParamsContext);
+    const buttonCount = 3;
+    const buttonWidth = width / buttonCount;
+    const buttonHeightConst = height * 0.8;
+    const buttonHeight = buttonHeightConst < buttonWidth ? buttonHeightConst : buttonWidth;
     const containerSx: SxProps<Theme> = {
-        width: innerWidth,
-        marginLeft: sideMargin,
+        width: width,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
     const itemSx:  SxProps<Theme> = {
-        width: innerWidth / 2,
-        height,
+        width: buttonWidth,
+        height: buttonHeight,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        marginTop: 1
     }
     const viewButtonProps: DefaultButtonProps = {
         sx: {
-            width: innerWidth / 2,
+            width: buttonWidth,
             height: buttonHeight,
+            margin: 0,
+            padding: 0,
+            minWidth: 0
         },
         onClick: () => {
 
@@ -52,6 +58,11 @@ export const BlogEditorTopButtonGroup = ({ props }: { props: BlogEditorTopButton
             <Grid item sx={itemSx}>
                 <DefaultButton props={{ ...viewButtonProps, onClick: save }}>
                     <SaveIcon sx={iconSx} />
+                </DefaultButton>
+            </Grid>
+            <Grid item sx={itemSx}>
+                <DefaultButton props={{ ...viewButtonProps, onClick: save }}>
+                    <DoneIcon sx={iconSx} />
                 </DefaultButton>
             </Grid>
         </Grid>

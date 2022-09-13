@@ -1,45 +1,61 @@
 import { Grid, InputBaseComponentProps, InputLabelProps, SxProps, TextField } from "@mui/material";
 import { Theme } from "@mui/system";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
-import { getInputStyle } from "./styles";
 
 export type BlogTitleInputProps = {
     width: number,
     height: number,
-    inputHeight: number,
-    text: string,
-    setText: React.Dispatch<React.SetStateAction<string>>
+    defaultText: string,
+    updateText: (value: string) => void
 }
 
 export const BlogTitleInput = ({ props }: { props: BlogTitleInputProps }) => {
-    const { text, width, height, inputHeight } = props;
-    const inputWidth = width;
+    const { defaultText, width, height, updateText } = props;
+    const [ text, setText ] = useState(defaultText);
+
+    useEffect(() => {
+        updateText(text);
+    }, [text])
+
     const outerStyle: SxProps<Theme> = {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
         height,
         width
     }
     const  { FontSize } = useContext(UiParamsContext);
-    const style = getInputStyle(inputWidth, inputHeight, FontSize.Largest)
-    const inputProps: InputBaseComponentProps = {
-        style: { fontSize: FontSize.MuchLarger }
+    const fieldSx: SxProps<Theme> = {
+        width,
+        height,
+        border: "none",
+        margin: 0,
+        padding: 0,
+        '& .MuiInput-underline:before': {
+            borderBottomColor: 'transparent'
+        },
+        '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
+            borderBottomColor: 'transparent'
+        },
     }
-    const inputLabelProps: InputLabelProps = {
-        style: { fontSize: FontSize.Main }
+    const inputProps: InputBaseComponentProps = {
+        style: { 
+            fontSize: FontSize.Main, 
+            padding: 0,
+            height,
+            paddingLeft: 10
+        }
+    }
+    const onChangeHandler: React.ChangeEventHandler<HTMLTextAreaElement> = (e) => {
+        setText(e.target.value);
     }
     return (
-        <Grid container sx={outerStyle}>
+        <Grid item sx={outerStyle}>
             <TextField
                 id="blog-title-input" 
-                label="Title" 
                 variant="standard"
-                sx={style}
+                sx={fieldSx}
                 value={text}
                 inputProps={inputProps}
-                InputLabelProps={inputLabelProps} />
+                onChange={onChangeHandler} />
         </Grid>
     );
 }

@@ -1,13 +1,14 @@
 import { Button, Grid, SxProps, Theme, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogComponentType } from "../../../models/state/BlogComponent/type";
+import { BlogComponentKeyValues, BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogEditorMenuTextInput, BlogEditorMenuTextInputProps } from "../../InputText/BlogEditorMenuTextInput";
 import { BlogEditorMenuSelector, BlogEditorMenuSelectorProps } from "../../Selector/BlogEditorMenuSelector";
-import { ComponentEditorMapperProps, ComponentEditorMenuTabProps } from "./types"
+import { BlogEditorMenuItemLayout, BlogEditorMenuItemLayoutProps } from "./BlogEditorMenuItemLayout";
+import { BlogEditorMapperProps, BlogEditorMenuTabProps } from "./types"
 
-export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEditorMenuTabProps }) => {
-    const { width, height, mapperProps, updateMapperProps, updateMenuCreationProps,
+export const BlogEditorMenuInsertTab = ({ props }: { props: BlogEditorMenuTabProps }) => {
+    const { width, height, mapperProps, updateMapperProps, updateMenuInsertProps, margin,
         addComponent } = props;
     const { col, row, colSpan, rowSpan, mapperValueChanged, menuValueChanged } = mapperProps;
     const { FontSize, Palette, Layout } = useContext(UiParamsContext);
@@ -16,18 +17,15 @@ export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEdit
     const [ rowSpanSelected, setRowSpanSelected ] = useState(rowSpan + 1);
     const [ colSpanSelected, setColSpanSelected ] = useState(colSpan + 1);
     const [ valueChanged, setValueChanged ] = useState(-1);
-    const margin = 3;
     const innerMargin = 1;
     const buttonAreaHeight = Layout.ButtonHeight + 8;
     const innerWidth = width - margin * 8 * 2;
-    const columnCount = 4;
+    const columnCount = 5;
     const mainHeight = height - buttonAreaHeight - margin * 8 * 2;
     const cellWidth = (innerWidth / columnCount) - margin * 8;
-    const borderStyle = "solid 2px LightGray";
     const titleHeight = mainHeight * 0.2;
     const contentHeight = mainHeight - titleHeight;
     const color = Palette.FontColor.Main;
-    const titleFontSize = FontSize.Small;
 
     useEffect(() => {
         if (mapperValueChanged < 1) return;
@@ -40,7 +38,7 @@ export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEdit
     useEffect(() => {
         const f = async () => await new Promise(r => setTimeout(r, 1000));
         f();
-        const menuProps: ComponentEditorMapperProps = {
+        const menuProps: BlogEditorMapperProps = {
             row: rowSelected - 1, 
             col: colSelected - 1, 
             rowSpan: rowSpanSelected - 1, 
@@ -48,22 +46,9 @@ export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEdit
             menuValueChanged: menuValueChanged + 1,
             mapperValueChanged
         }
-        updateMenuCreationProps(menuProps);
+        updateMenuInsertProps(menuProps);
     }, [valueChanged]);
-    
-    const cellContainerSx: SxProps<Theme> = {
-        width: cellWidth, 
-        height: mainHeight, 
-        borderRight: borderStyle, 
-        marginLeft: margin
-    }
-    const titleSx: SxProps<Theme> = {
-        width: cellWidth, 
-        height: titleHeight, 
-        display: "flex", 
-        alignItems: "center", 
-        justifyContent: "start"
-    }
+
     const contentWidth = cellWidth - innerMargin * 8;
     const contentSx: SxProps<Theme> = {
         width: contentWidth,
@@ -78,7 +63,7 @@ export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEdit
         paddingLeft: innerMargin / 2,
         paddingRight: innerMargin / 2
     }
-    const componentTypes = Object.values(BlogComponentType).map(x => x);
+    const componentTypes = Object.values(BlogComponentKeyValues).map(x => x);
     const componentTypeProps: BlogEditorMenuSelectorProps = {
         label: "component-type",
         width: cellWidth - innerMargin * 2 * 8,
@@ -103,7 +88,6 @@ export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEdit
         alignItems: "center",
         height: subcontentHeight,
         width: subtitleWidth,
-
     }
     
     const rowSpanSelectorProps: BlogEditorMenuSelectorProps = {
@@ -173,114 +157,84 @@ export const ComponentEditorMenuCreationTab = ({ props }: { props: ComponentEdit
     const onCreateClickHandler = () => {
         addComponent()
     }
+    const itemLayoutProps: BlogEditorMenuItemLayoutProps = {
+        width: cellWidth,
+        height: mainHeight,
+        title: "Type",
+        splitUp: true
+    }
     return (
         <Grid container>
             <Grid item>
                 <Grid container sx={{ width: innerWidth, height: mainHeight, margin }}>
-                    <Grid item>
-                        <Grid container sx={cellContainerSx}>
-                            <Grid item sx={titleSx}>
-                                <Typography sx={{ fontSize: titleFontSize, color }}>
-                                    Type
-                                </Typography>
-                            </Grid>
-                            <Grid item sx={contentSx}>
-                                <BlogEditorMenuSelector props={componentTypeProps} />
-                            </Grid>
-                        </Grid>
-                    </Grid>
-                    <Grid item>
-                        <Grid container sx={{ ...cellContainerSx }}>
-                            <Grid item sx={titleSx}>
-                                <Typography sx={{ fontSize: titleFontSize, color }}>
-                                    Position
-                                </Typography>
-                            </Grid>
-                            <Grid item sx={contentSx}>
-                                <Grid container sx={contentSx}>
-                                    <Grid item sx={halfContentSx}>
-                                        <Grid container>
-                                            <Grid item sx={subtitleSx}>
-                                                <Typography fontSize={FontSize.Small} color={color}>
-                                                    Row
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item sx={subContentSx}>
-                                                <BlogEditorMenuSelector props={rowSelectorProps} />
-                                            </Grid>
-                                        </Grid>
+                    <BlogEditorMenuItemLayout props={{ ...itemLayoutProps, title: "Type" }}>
+                        <BlogEditorMenuSelector props={componentTypeProps} />
+                    </BlogEditorMenuItemLayout>
+                    <BlogEditorMenuItemLayout props={{ ...itemLayoutProps, title: "Position" }}>
+                        <Grid container sx={contentSx}>
+                            <Grid item sx={halfContentSx}>
+                                <Grid container>
+                                    <Grid item sx={subtitleSx}>
+                                        <Typography fontSize={FontSize.Small} color={color}>
+                                            Row
+                                        </Typography>
                                     </Grid>
-                                    <Grid item sx={{ ...halfContentSx, border: "none" }}>
-                                        <Grid container>
-                                            <Grid item sx={subtitleSx}>
-                                                <Typography fontSize={FontSize.Small} color={color}>
-                                                    Column
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item sx={subContentSx}>
-                                                <BlogEditorMenuSelector props={colSelectorProps} />
-                                            </Grid>
-                                        </Grid>
+                                    <Grid item sx={subContentSx}>
+                                        <BlogEditorMenuSelector props={rowSelectorProps} />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item sx={{ ...halfContentSx, border: "none" }}>
+                                <Grid container>
+                                    <Grid item sx={subtitleSx}>
+                                        <Typography fontSize={FontSize.Small} color={color}>
+                                            Column
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item sx={subContentSx}>
+                                        <BlogEditorMenuSelector props={colSelectorProps} />
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item>
-                        <Grid container sx={cellContainerSx}>
-                            <Grid item sx={titleSx}>
-                                <Typography sx={{ fontSize: titleFontSize, color }}>
-                                    Size
-                                </Typography>
-                            </Grid>
-                            <Grid item sx={contentSx}>
-                                <Grid container sx={contentSx}>
-                                    <Grid item sx={halfContentSx}>
-                                        <Grid container>
-                                            <Grid item sx={subtitleSx}>
-                                                <Typography fontSize={FontSize.Small} color={color}>
-                                                    RowSpan
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item sx={subContentSx}>
-                                                <BlogEditorMenuSelector props={rowSpanSelectorProps} />
-                                            </Grid>
-                                        </Grid>
+                    </BlogEditorMenuItemLayout>
+                    <BlogEditorMenuItemLayout props={{ ...itemLayoutProps, title: "Size" }}>
+                        <Grid container sx={contentSx}>
+                            <Grid item sx={halfContentSx}>
+                                <Grid container>
+                                    <Grid item sx={subtitleSx}>
+                                        <Typography fontSize={FontSize.Small} color={color}>
+                                            RowSpan
+                                        </Typography>
                                     </Grid>
-                                    <Grid item sx={{ ...halfContentSx, border: "none" }}>
-                                        <Grid container>
-                                            <Grid item sx={subtitleSx}>
-                                                <Typography fontSize={FontSize.Small} color={color}>
-                                                    ColSpan
-                                                </Typography>
-                                            </Grid>
-                                            <Grid item sx={subContentSx}>
-                                                <BlogEditorMenuSelector props={colSpanSelectorProps} />
-                                            </Grid>
-                                        </Grid>
+                                    <Grid item sx={subContentSx}>
+                                        <BlogEditorMenuSelector props={rowSpanSelectorProps} />
+                                    </Grid>
+                                </Grid>
+                            </Grid>
+                            <Grid item sx={{ ...halfContentSx, border: "none" }}>
+                                <Grid container>
+                                    <Grid item sx={subtitleSx}>
+                                        <Typography fontSize={FontSize.Small} color={color}>
+                                            ColSpan
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item sx={subContentSx}>
+                                        <BlogEditorMenuSelector props={colSpanSelectorProps} />
                                     </Grid>
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </Grid>
-                    <Grid item>
-                        <Grid container sx={{ ...cellContainerSx, border: "none" }}>
-                            <Grid item sx={titleSx}>
-                                <Typography sx={{ fontSize: titleFontSize, color }}>
-                                    Concept
-                                </Typography>
-                            </Grid>
-                            <Grid item sx={{ ...contentSx, paddingLeft: 1, paddingTop: 2 }}>
-                                <BlogEditorMenuTextInput props={menuTitleTextInputProps} />
-                            </Grid>
-                        </Grid>
-                    </Grid>
+                    </BlogEditorMenuItemLayout>
+                    <BlogEditorMenuItemLayout props={{ ...itemLayoutProps, title: "Title" }}>
+                        <BlogEditorMenuTextInput props={menuTitleTextInputProps} />
+                    </BlogEditorMenuItemLayout>
                 </Grid>
             </Grid>
             <Grid item>
                 <Grid container sx={{ width, height: buttonAreaHeight, display: "flex", justifyContent: "center" }}>
                     <Button sx={createButtonSx} onClick={onCreateClickHandler}>
-                        Create
+                        Insert
                     </Button>
                 </Grid>
             </Grid>

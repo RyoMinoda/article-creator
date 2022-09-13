@@ -1,6 +1,6 @@
 import { Grid, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
-import { UiParamsContext } from "../../models/context/UiParams/lib";
+import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import styled from 'styled-components';
 
 export type BlogComponentEditorBackgroundProps = {

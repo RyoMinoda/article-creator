@@ -14,7 +14,7 @@ export type TabButtonProps = {
 }
 
 export const TabButton = ({ props }: { props: TabButtonProps }) => {
-    const { Palette } = useContext(UiParamsContext);
+    const { Palette, FontSize } = useContext(UiParamsContext);
     const { width, height, text, bgcolor, hoverBgColor, activeBgColor, onClickHandler, color } = props;
     const sx: SxProps<Theme> = {
         width,
@@ -30,6 +30,8 @@ export const TabButton = ({ props }: { props: TabButtonProps }) => {
         },
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
+        fontSize: FontSize.Smaller,
+        marginRight: 0.1
     }
     const onClick = () => onClickHandler();
     return (

@@ -4,7 +4,7 @@ import { Uuid } from "../../../utils/Uuid";
 import { UiPalette } from "../../context/UiParams/type";
 import { getBlogComponentIcon } from "./components";
 import { getBlogComponentTypeName } from "./func";
-import { BlogComponent, BlogComponentType } from "./type";
+import { BlogComponent, BlogComponentKeyValues, BlogComponentType } from "./type";
 
 export class BlogComponentObj implements BlogComponent {
     BlogComponentId: string;
@@ -64,7 +64,7 @@ export class BlogComponentObj implements BlogComponent {
 
     public getTileColor = (palette: UiPalette) => {
         switch (this.ComponentType) {
-            case BlogComponentType.Article:
+            case BlogComponentKeyValues.Article:
                 return palette.Pastel.Blue1;
             default:
                 return "";
@@ -81,7 +81,7 @@ export class BlogComponentObj implements BlogComponent {
     }
 
     public static getEmpty = () => {
-        return new BlogComponentObj(BlogComponentType.Article, 0, 0, 0, 0);
+        return new BlogComponentObj(BlogComponentKeyValues.Article, 0, 0, 0, 0);
     }
 
     public static createObj = (component: BlogComponent): BlogComponentObj => {
@@ -130,15 +130,15 @@ export class BlogComponentObj implements BlogComponent {
 
     private  static getComponentDefaultRowSpan = (type: BlogComponentType): number => {
         switch(type) {
-            case BlogComponentType.Article:
+            case BlogComponentKeyValues.Article:
                 return 2;
-            case BlogComponentType.Line:
+            case BlogComponentKeyValues.Line:
                 return 1;
-            case BlogComponentType.Picture:
+            case BlogComponentKeyValues.Picture:
                 return 4;
-            case BlogComponentType.Headline:
+            case BlogComponentKeyValues.Headline:
                 return 1;
-            case BlogComponentType.Table:
+            case BlogComponentKeyValues.Table:
                 return 2;
             default:
                 throw new Error("getComponentDefaultRowSpan");
@@ -147,15 +147,15 @@ export class BlogComponentObj implements BlogComponent {
 
     private static getComponentDefaultColumnSpan = (type: BlogComponentType): number => {
         switch(type) {
-            case BlogComponentType.Article:
+            case BlogComponentKeyValues.Article:
                 return 12;
-            case BlogComponentType.Line:
+            case BlogComponentKeyValues.Line:
                 return 12;
-            case BlogComponentType.Picture:
+            case BlogComponentKeyValues.Picture:
                 return 6;
-            case BlogComponentType.Headline:
+            case BlogComponentKeyValues.Headline:
                 return 12;
-            case BlogComponentType.Table:
+            case BlogComponentKeyValues.Table:
                 return 12;
             default:
                 throw new Error("getComponentDefaultColumnSpan");

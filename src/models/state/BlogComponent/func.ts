@@ -1,16 +1,16 @@
-import { BlogComponentType } from "./type";
+import { BlogComponentKeyValues, BlogComponentType } from "./type";
 
 export const getBlogComponentTypeName = (type: BlogComponentType): string => {
     return type;
 }
 
 export const getBlogComponentTypeList = (): Array<BlogComponentType> => {
-    return Object.keys(BlogComponentType)
+    return Object.keys(BlogComponentKeyValues)
         .map((v) => v as BlogComponentType);
 }
 
 export const getBlogComponentTypeNameList = (): Array<string> => {
-    return Object.keys(BlogComponentType);
+    return Object.keys(BlogComponentKeyValues);
 }
 
 export const getBlogComponentType = (str: string): BlogComponentType => {

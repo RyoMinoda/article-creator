@@ -9,7 +9,7 @@ export type BlogComponent = {
     StrContent: string;
 }
 
-export const BlogComponentType = {
+export const BlogComponentKeyValues = {
     Article: "Article", 
     Picture: "Picture",
     Line: "Line",
@@ -17,4 +17,4 @@ export const BlogComponentType = {
     Headline: "Headline"
 } as const;
 
-export type BlogComponentType = typeof BlogComponentType[keyof typeof BlogComponentType];
+export type BlogComponentType = typeof BlogComponentKeyValues[keyof typeof BlogComponentKeyValues];

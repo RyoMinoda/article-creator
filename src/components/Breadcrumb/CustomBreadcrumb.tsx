@@ -13,13 +13,13 @@ export type CustomBreadcrumbItemProps = {
 
 export const CustomBreadcrumb = ({ props }: { props: CustomBreadcrumbProps }) => {
     const { items } = props;
-    const { Layout, Palette } = useContext(UiParamsContext);
+    const { Layout, Palette, FontSize } = useContext(UiParamsContext);
     return (
         <Grid sx={{ height: Layout.BreadcrumbHeight, background: Palette.Background.Main }}>
-            <Breadcrumbs aria-label="breadcrumb" sx={{ display: "flex", alignItems: "center", height: Layout.BreadcrumbHeight, paddingLeft: 2 }}>
+            <Breadcrumbs aria-label="breadcrumb" sx={{ display: "flex", alignItems: "center", height: Layout.BreadcrumbHeight, paddingLeft: 2, fontSize: FontSize.Small }}>
                 {items.map((item, i) => {
                     const key = "breadcrumb-key-" + i.toString();
-                    if (item.href == "") {
+                    if (item.href !== "") {
                         return (
                             <Link underline="hover" href={item.href} key={key}>
                                 {item.text}
@@ -27,7 +27,7 @@ export const CustomBreadcrumb = ({ props }: { props: CustomBreadcrumbProps }) =>
                         );
                     }
                     return (
-                        <Typography color="text.primary" key={key} sx={{ color: Palette.FontColor.Main }}>
+                        <Typography color="text.primary" key={key} sx={{ color: Palette.FontColor.Main, fontSize: FontSize.Small }}>
                             {item.text}
                         </Typography>
                     );
