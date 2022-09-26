@@ -1,7 +1,7 @@
 import { SxProps, TextField, Theme } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export type MultiRowInputProps = {
+export type MultiRowTextFieldProps = {
     key: string,
     text: string,
     row: number,
@@ -12,7 +12,7 @@ export type MultiRowInputProps = {
     onSelectText: () => void;
 }
 
-export const MultiRowInput = ({ props }: { props: MultiRowInputProps }) => {
+export const MultiRowTextField = ({ props }: { props: MultiRowTextFieldProps }) => {
     const { key, text, row, onChangeText, onSelectText, width, height, label } = props;
     const [ input, setInput ] = useState(text);
     useEffect(() => {

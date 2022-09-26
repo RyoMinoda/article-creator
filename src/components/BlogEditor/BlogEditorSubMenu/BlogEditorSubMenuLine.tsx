@@ -3,14 +3,14 @@ import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
 
-export type BlogEditorSubMenuLineProps = {
+export type BlogEditorSubmenuLineProps = {
     width: number,
     height: number,
     updateCanMove: () => void,
 }
 
 
-export const BlogEditorSubMenuLine = ({ props }: { props: BlogEditorSubMenuLineProps }) => {
+export const BlogEditorSubmenuLine = ({ props }: { props: BlogEditorSubmenuLineProps }) => {
     const { width, height, updateCanMove } = props;
     const { Palette } = useContext(UiParamsContext);
 
@@ -30,8 +30,8 @@ export const BlogEditorSubMenuLine = ({ props }: { props: BlogEditorSubMenuLineP
         },
     }
     return (
-        <div onMouseDown={onMouseDown} className="vertical-transfer"  id="blog-editor-submenu-line-div">
-            <Box sx={sx} id="blog-editor-submenu-line-box" className="vertical-transfer" >
+        <div onMouseDown={onMouseDown} className="vertical-transfer"  id="blog-editor-Submenu-line-div">
+            <Box sx={sx} id="blog-editor-Submenu-line-box" className="vertical-transfer" >
             </Box>
         </div>
     );

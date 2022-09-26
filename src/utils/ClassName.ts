@@ -11,6 +11,8 @@ export const CusorKeyValues = {
 }
 
 export const getIsDisplayForeGround = (className: string): boolean => {
+    console.log(className);
+    if (className == undefined || className == null) return false;
     return Object.values(ClassNameKeyValues)
         .filter(x => className.includes(x))
         .length > 0

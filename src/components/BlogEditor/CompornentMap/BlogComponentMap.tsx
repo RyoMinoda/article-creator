@@ -3,7 +3,7 @@ import { borderLeft } from "@mui/system";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
 import { BlogEditorMapperProps } from "../BlogEditorMenu/types";
 import { BlogComponentMapTiles, BlogComponentMapTileType } from "./BlogComponentMapTiles";
 
@@ -12,7 +12,7 @@ export type BlogComponentMapProps = {
     width: number,
     emptyRowCount: number,
     mapperProps: BlogEditorMapperProps,
-    components: Array<BlogComponentObj>,
+    components: Array<BlogComponentListItemObj>,
     updateSpan: (rowSpan: number, colSpan: number) => void;
     updatePosition: (row: number, col: number) => void;
 }

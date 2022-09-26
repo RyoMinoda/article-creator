@@ -1,31 +1,48 @@
 import { Box, Grid, SxProps, Theme } from "@mui/material";
 import { useContext, useState } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
+import { BlogObj } from "../../../models/state/Blog/obj";
+import { BlogListObj } from "../../../models/state/BlogList/obj";
+import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
+import { BlogEditorPopupType } from "../../../organizations/BlogEditor/type";
 import { BlogEditorModeKeyValues, BlogEditorModeType } from "../type";
-import { BlogEditorSubMenuFiles } from "./BlogEditorSubMenuFIles";
-import { BlogEditorSubMenuLine, BlogEditorSubMenuLineProps } from "./BlogEditorSubMenuLine";
+import { BlogEditorSubmenuLine, BlogEditorSubmenuLineProps } from "./BlogEditorSubmenuLine";
+import { BlogEditorSubmenuFiles } from "./Files/BlogEditorSubmenuFiles";
+import { BlogEditorSubmenuProperty } from "./Property/BlogEditorSubmenuProperty";
+import { BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuItemProps, BlogEditorSubmenuSearchGenreKeyValues, BlogEditorSubmenuSearchGenreType } from "./types";
 
-export type BlogEditorSubMenuProps = {
+
+export type BlogEditorSubmenuProps = {
+    Blog: BlogObj,
+    BlogList: BlogListObj,
+    BlogTagList: BlogTagListObj,
+    BlogEditHistoryList: BlogListObj,
     width: number,
     height: number,
     modeType: BlogEditorModeType,
     mousePosition: MousePosition,
-    
+    activeAccordions: Array<BlogEditorSubmenuFileAccordionType>,
     updateSubWindowWidth: () => void,
+    updateBlog: (blog: BlogObj) => void,
+    showPopup: (type: BlogEditorPopupType) => void,
 }
 
-export const BlogEditorSubMenu = ({ props }: { props: BlogEditorSubMenuProps }) => {
-    const { width, height, mousePosition, updateSubWindowWidth } = props;
+export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) => {
+    const { width, height, mousePosition, modeType, updateSubWindowWidth, updateBlog, showPopup } = props;
 
+    // States
     const { Palette } = useContext(UiParamsContext);
+    const [ activeSearchGenre, setActiveSearchGenre ] = useState<BlogEditorSubmenuSearchGenreType>(BlogEditorSubmenuSearchGenreKeyValues.Title);
+    const [ activeTagIdList, setActiveTagIdList ] = useState<Array<string>>([]);
+    const [ searchInput, setSearchInput ] = useState<string>("");
     const borderRight = 3;
 
     // Props
-    const borderProps: BlogEditorSubMenuLineProps = {
+    const borderProps: BlogEditorSubmenuLineProps = {
         width: borderRight,
         height, 
-        updateCanMove: updateSubWindowWidth
+        updateCanMove: updateSubWindowWidth,
     }
 
     // Styles
@@ -43,24 +60,44 @@ export const BlogEditorSubMenu = ({ props }: { props: BlogEditorSubMenuProps }) 
         width: borderRight,
         height
     }
+
+    const updateActiveTagIdList = (tags: Array<string>) => {
+        setActiveTagIdList(tags);
+    }
+    const updateSearchInput = (input: string) => {
+        setSearchInput(input);
+    }
+    const itemComponentProps: BlogEditorSubmenuItemProps = {
+        ...props, 
+        searchInput,
+        activeTagIdList,
+        width: width - borderRight,
+        updateActiveSearchGenre:  (genre: BlogEditorSubmenuSearchGenreType) => {
+            setActiveSearchGenre(genre);
+        },
+        activeSearchGenre,
+        updateActiveTagIdList,
+        updateSearchInput,
+        updateBlog,
+        showPopup,
+    }
+    var Component = <></>;
+    switch (modeType) {
+        case BlogEditorModeKeyValues.Files:
+            Component = <BlogEditorSubmenuFiles props={itemComponentProps} />;
+            break;
+        case BlogEditorModeKeyValues.Property:
+            Component = <BlogEditorSubmenuProperty props={itemComponentProps} />
+            break;
+    }
     return (
         <Grid container sx={containerSx}>
             <Grid item sx={mainItemSx}>
-                <SubMenuComponent props={props} />
+                {Component}
             </Grid>
             <Grid item sx={borderItemSx}>
-                <BlogEditorSubMenuLine props={borderProps} />
+                <BlogEditorSubmenuLine props={borderProps} />
             </Grid>
         </Grid>
     );
-}
-
-const SubMenuComponent = ({ props }: { props: BlogEditorSubMenuProps }) => {
-    const { modeType } = props;
-    switch (modeType) {
-        case BlogEditorModeKeyValues.Files:
-            return <BlogEditorSubMenuFiles props={props} />;
-        default:
-            return <></>
-    }
 }

@@ -5,16 +5,17 @@ import DoneIcon from '@mui/icons-material/Done';
 import DefaultButton, { DefaultButtonProps } from "../../Button/DefaultButton";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
+import { BlogEditorPopupKeyValues, BlogEditorPopupType } from "../../../organizations/BlogEditor/type";
 
 export type BlogEditorTopButtonGroupProps = {
     width: number,
     height: number,
-    preview: () => void,
+    showPopup: (type: BlogEditorPopupType) => void,
     save: () => void,
 }
 
 export const BlogEditorTopButtonGroup = ({ props }: { props: BlogEditorTopButtonGroupProps }) => {
-    const { height, width, preview, save } = props;
+    const { height, width, showPopup, save } = props;
     const { Palette } = useContext(UiParamsContext);
     const buttonCount = 3;
     const buttonWidth = width / buttonCount;
@@ -22,6 +23,7 @@ export const BlogEditorTopButtonGroup = ({ props }: { props: BlogEditorTopButton
     const buttonHeight = buttonHeightConst < buttonWidth ? buttonHeightConst : buttonWidth;
     const containerSx: SxProps<Theme> = {
         width: width,
+        height,
         display: "flex",
         justifyContent: "center",
         alignItems: "center"
@@ -51,7 +53,7 @@ export const BlogEditorTopButtonGroup = ({ props }: { props: BlogEditorTopButton
     return (
         <Grid container sx={containerSx}>
             <Grid item sx={itemSx}>
-                <DefaultButton props={{ ...viewButtonProps, onClick: () => preview() }}>
+                <DefaultButton props={{ ...viewButtonProps, onClick: () => showPopup(BlogEditorPopupKeyValues.Preview) }}>
                     <VisibilityIcon sx={iconSx} />
                 </DefaultButton>
             </Grid>

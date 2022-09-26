@@ -1,8 +1,8 @@
 export class ListObj<T extends ListItemObj> {
     Items: Array<T>;
 
-    constructor() {
-        this.Items = Array<T>();
+    constructor(Items: Array<T>) {
+        this.Items = Items;
     }
 
     add(item: T): void {

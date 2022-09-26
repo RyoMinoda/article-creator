@@ -2,7 +2,7 @@ import { Grid, Typography } from "@mui/material";
 import { Box, Stack, SxProps, Theme } from "@mui/system";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
 import DefaultButton, { DefaultButtonProps } from "../../Button/DefaultButton";
 
 export type BlogComponentMapTileType = {
@@ -10,7 +10,7 @@ export type BlogComponentMapTileType = {
     cellWidth: number,
     rowCount: number,
     colCount: number,
-    components: Array<BlogComponentObj>,
+    components: Array<BlogComponentListItemObj>,
 }
 
 export const BlogComponentMapTiles = ({ props }: { props: BlogComponentMapTileType }) => {

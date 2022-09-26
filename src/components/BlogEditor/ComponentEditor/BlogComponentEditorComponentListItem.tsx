@@ -1,12 +1,12 @@
 import { Button, Grid, SxProps, Theme, Typography } from "@mui/material"
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
 
 export type BlogComponentEditorComponentListItemProps = {
     width: number,
     height: number,
-    component: BlogComponentObj,
+    component: BlogComponentListItemObj,
     activeComponentIndex: number,
     onClickListItem: (index: number) => void,
 }

@@ -43,8 +43,8 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
     );
     const style: CSSProperties = {
         position: "relative",
-        userSelect: "none",
-        background: "transparent"
+        background: "transparent",
+        userSelect: mousePosition.id !== "" ? "none" :  "auto"
     }
     const updateMouse = (e: any, action: MouseActionType, id?: string) => {
         var targetId = "";
@@ -61,7 +61,7 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
         updatePosition(position);
     }
     
-    const onMouseMoveHandler: MouseEventHandler<HTMLDivElement> = (e) => {
+    const onMouseMoveHandler: MouseEventHandler<HTMLDivElement |  MouseEvent> = (e) => {
         if (mousePosition.action == MouseActionKeyValues.MouseDown && mousePosition.id !== "") {
             updateMouse(e, MouseActionKeyValues.DragStart, "");
             return;
@@ -120,7 +120,7 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
                 onMouseMove={onMouseMoveHandler}
                 onMouseDown={onMouseDownHandler}
                 onMouseUp={onMOuseUpHandler}
-                style={{ position: "absolute", zIndex: 100, top: 0, left: 0, height: screenHeight, width: screenWidth, display: dragBoxDisplay }}
+                style={{ position: "absolute", zIndex: 120, top: 0, left: 0, height: screenHeight, width: screenWidth, display: dragBoxDisplay }}
             >
             </div>
         </div>

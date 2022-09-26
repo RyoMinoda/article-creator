@@ -1,21 +1,13 @@
 import { Box, Grid, Stack, SxProps, Theme } from "@mui/material";
 import { useContext, useState } from "react";
-import { EditorPreviewHeader, EditorPreviewHeaderProps } from "../components/BlogEditor/EditorPreview/EditPreviewHeader";
-import { PreviewWidthValues } from "../components/BlogEditor/EditorPreview/type";
-import { UiParamsContext } from "../models/context/UiParams/lib";
-import { Blog } from "../models/state/Blog/type"
-import { BlogEditDetail } from "../models/state/BlogEditDetail/type";
-import { useScreenSize } from "../models/utils/ScreenSize/func";
+import { EditorPreviewHeader, EditorPreviewHeaderProps } from "../../components/BlogEditor/EditorPreview/EditPreviewHeader";
+import { UiParamsContext } from "../../models/context/UiParams/lib";
+import { useScreenSize } from "../../models/utils/ScreenSize/func";
+import { BlogViewer, BlogViewerProps } from "../BlogViewer"
+import { BlogEditorPopupProps } from "./type";
 
-import { BlogViewer, BlogViewerProps } from "./BlogViewer"
 
-export type BlogEditorPreviewProps = {
-    Blog: Blog,
-    windowWidth: number,
-    updateWindowWidth: (width: number) => void,
-}
-
-export const BlogEditorPreview = ({ props }: { props: BlogEditorPreviewProps }) => {
+export const BlogEditorPreview = ({ props }: { props: BlogEditorPopupProps }) => {
     const { Blog, windowWidth, updateWindowWidth } = props;
     const { Palette } = useContext(UiParamsContext);
     const { screenHeight, screenWidth } = useScreenSize();

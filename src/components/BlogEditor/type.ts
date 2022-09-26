@@ -1,3 +1,13 @@
+import { BlogObj } from "../../models/state/Blog/obj";
+import { BlogEditorPopupType } from "../../organizations/BlogEditor/type";
+
+export type BlogEditorMainComponentProps = {
+    width: number,
+    height: number,
+    Blog: BlogObj,
+    showPopup: (type: BlogEditorPopupType) => void,
+}
+
 export const BlogEditorModeKeyValues = {
     Files: "Files",
     Property: "Property",

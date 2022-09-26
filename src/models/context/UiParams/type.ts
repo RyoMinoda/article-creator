@@ -38,6 +38,7 @@ export type UiPalette = {
     },
     FontColor: {
         Darker: string,
+        Dark: string,
         Main: string,
         Light: string,
     },
@@ -61,5 +62,6 @@ export type UiFontSize = {
     Main: number,
     Small: number,
     Smaller: number,
+    MuchSmaller: number,
     Smallest: number,
 }

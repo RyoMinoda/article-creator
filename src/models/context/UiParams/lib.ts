@@ -36,6 +36,7 @@ const initialPalette: UiPalette = {
     },
     FontColor: {
         Darker: "#333333",
+        Dark: "#565656",
         Main: "#888888",
         Light: "#FFFFFF"
     },
@@ -52,13 +53,14 @@ const initialPalette: UiPalette = {
 }
 
 const initialFontSize: UiFontSize = {
-    Largest: 24,
-    MuchLarger: 22,
+    Largest: 22,
+    MuchLarger: 21,
     Larger: 20,
     Large: 18,
     Main: 16,
     Small: 14,
     Smaller: 12,
+    MuchSmaller: 11,
     Smallest: 10,
 }
 

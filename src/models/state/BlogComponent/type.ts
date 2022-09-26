@@ -1,4 +1,8 @@
-export type BlogComponent = {
+export type BlogComponentList = {
+    List: Array<BlogComponentListItem>
+}
+
+export type BlogComponentListItem = {
     BlogComponentId: string,
     X: number,
     Y: number,

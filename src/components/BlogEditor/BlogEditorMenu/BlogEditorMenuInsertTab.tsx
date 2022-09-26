@@ -2,7 +2,6 @@ import { Button, Grid, SxProps, Theme, Typography } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogComponentKeyValues, BlogComponentType } from "../../../models/state/BlogComponent/type";
-import { BlogEditorMenuTextInput, BlogEditorMenuTextInputProps } from "../../InputText/BlogEditorMenuTextInput";
 import { BlogEditorMenuSelector, BlogEditorMenuSelectorProps } from "../../Selector/BlogEditorMenuSelector";
 import { BlogEditorMenuItemLayout, BlogEditorMenuItemLayoutProps } from "./BlogEditorMenuItemLayout";
 import { BlogEditorMapperProps, BlogEditorMenuTabProps } from "./types"
@@ -131,14 +130,6 @@ export const BlogEditorMenuInsertTab = ({ props }: { props: BlogEditorMenuTabPro
             setValueChanged(valueChanged + 1);
         }, 
     }
-    const menuTitleTextInputProps: BlogEditorMenuTextInputProps = {
-        ...rowSelectorProps,
-        width: contentWidth * 0.9,
-        text: "",
-        onChangeHandler: () => {
-
-        },
-    }
     const createButtonSx: SxProps<Theme> = { 
         width: 100, 
         height: Layout.ButtonHeight, 
@@ -225,9 +216,6 @@ export const BlogEditorMenuInsertTab = ({ props }: { props: BlogEditorMenuTabPro
                                 </Grid>
                             </Grid>
                         </Grid>
-                    </BlogEditorMenuItemLayout>
-                    <BlogEditorMenuItemLayout props={{ ...itemLayoutProps, title: "Title" }}>
-                        <BlogEditorMenuTextInput props={menuTitleTextInputProps} />
                     </BlogEditorMenuItemLayout>
                 </Grid>
             </Grid>

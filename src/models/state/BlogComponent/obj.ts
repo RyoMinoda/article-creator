@@ -1,12 +1,11 @@
 import { SxProps, Theme } from "@mui/material";
-import { Component, ComponentType } from "react";
 import { Uuid } from "../../../utils/Uuid";
 import { UiPalette } from "../../context/UiParams/type";
 import { getBlogComponentIcon } from "./components";
 import { getBlogComponentTypeName } from "./func";
-import { BlogComponent, BlogComponentKeyValues, BlogComponentType } from "./type";
+import { BlogComponentListItem, BlogComponentKeyValues, BlogComponentType } from "./type";
 
-export class BlogComponentObj implements BlogComponent {
+export class BlogComponentListItemObj implements BlogComponentListItem {
     BlogComponentId: string;
     ComponentTitle: string;
     X: number;
@@ -16,7 +15,7 @@ export class BlogComponentObj implements BlogComponent {
     ColumnSpan: number;
     StrContent: string;
     
-    constructor(componentType: BlogComponentType, x: number, y: number, rowSpan: number, colSpan: number, components?: Array<BlogComponentObj>) {
+    constructor(componentType: BlogComponentType, x: number, y: number, rowSpan: number, colSpan: number, components?: Array<BlogComponentListItemObj>) {
         this.BlogComponentId = Uuid.NewUuid();
         this.ComponentTitle = "";
         if (components != undefined) {
@@ -30,12 +29,12 @@ export class BlogComponentObj implements BlogComponent {
         this.ColumnSpan = colSpan;
     }
 
-    private getComponentTitle = (componentType: BlogComponentType, components: Array<BlogComponentObj>): string => {
+    private getComponentTitle = (componentType: BlogComponentType, components: Array<BlogComponentListItemObj>): string => {
         const count = components.filter(x => x.ComponentType == componentType).length;
         return componentType + (count + 1).toString();
     }
 
-    private setComponentProps = (component: BlogComponent) => {
+    private setComponentProps = (component: BlogComponentListItem) => {
         this.BlogComponentId = component.BlogComponentId;
         this.ComponentTitle = component.ComponentTitle;
         this.ColumnSpan = component.ColumnSpan;
@@ -73,31 +72,31 @@ export class BlogComponentObj implements BlogComponent {
 
     public getIcon = (sx: SxProps<Theme>) => getBlogComponentIcon(this.ComponentType, sx);
 
-    public getComponent = (): BlogComponent => {
-        var component: BlogComponent = {
+    public getComponent = (): BlogComponentListItem => {
+        var component: BlogComponentListItem = {
             ...this,
         }
         return component;
     }
 
     public static getEmpty = () => {
-        return new BlogComponentObj(BlogComponentKeyValues.Article, 0, 0, 0, 0);
+        return new BlogComponentListItemObj(BlogComponentKeyValues.Article, 0, 0, 0, 0);
     }
 
-    public static createObj = (component: BlogComponent): BlogComponentObj => {
+    public static createObj = (component: BlogComponentListItem): BlogComponentListItemObj => {
         var target = this.getEmpty();
         target.setComponentProps(component);
         return target;
     }
 
-    public static create = (componentType: BlogComponentType, components: Array<BlogComponentObj>): BlogComponentObj => {
+    public static create = (componentType: BlogComponentType, components: Array<BlogComponentListItemObj>): BlogComponentListItemObj => {
         const { x, y } = this.getXY(componentType, components);
         const rowSpan = this.getComponentDefaultRowSpan(componentType);
         const columnSpan = this.getComponentDefaultColumnSpan(componentType);
-        return new BlogComponentObj(componentType, x, y, rowSpan - 1, columnSpan - 1, components);
+        return new BlogComponentListItemObj(componentType, x, y, rowSpan - 1, columnSpan - 1, components);
     }
     
-    private static getXY = (componentType: BlogComponentType, components: Array<BlogComponentObj>): { x: number, y: number } => {
+    private static getXY = (componentType: BlogComponentType, components: Array<BlogComponentListItemObj>): { x: number, y: number } => {
         if (components.length == 0) return { x: 0, y: 0 };
         const array = new Array(12).fill(0);
         const arrayLength = components.map(x => x.RowSpan).reduce((a, b) => a + b);

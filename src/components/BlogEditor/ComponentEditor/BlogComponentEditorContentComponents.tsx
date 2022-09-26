@@ -1,12 +1,12 @@
 import { Grid, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
-import { MultiRowInput, MultiRowInputProps } from "../../InputText/MultiRowInput";
+import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
+import { MultiRowTextField, MultiRowTextFieldProps } from "../../TextField/MultiRowTextField";
 
 export type BlogComponentEditorContentComponentProps = {
-    component: BlogComponentObj,
-    onChangeComponent: (obj: BlogComponentObj) => void,
+    component: BlogComponentListItemObj,
+    onChangeComponent: (obj: BlogComponentListItemObj) => void,
     onSelectComponent: (index: number) => void,
     marginTopBottom: number,
     marginSide: number,
@@ -20,7 +20,7 @@ export const BlogComponentEditorComponentHeadline = ({ props }: { props: BlogCom
 
 export const BlogComponentEditorComponentDocument = ({ props }: { props: BlogComponentEditorContentComponentProps }) => {
     const { component, marginTopBottom, marginSide, cellWidth, cellHeight, onChangeComponent, onSelectComponent } = props;
-    const inputProps: MultiRowInputProps = {
+    const inputProps: MultiRowTextFieldProps = {
         width: cellWidth * component.ColumnSpan,
         height: cellHeight * component.RowSpan,
         text: component.StrContent,
@@ -36,7 +36,7 @@ export const BlogComponentEditorComponentDocument = ({ props }: { props: BlogCom
             onSelectComponent(index);
         }
     }
-    return <MultiRowInput props={inputProps} />;
+    return <MultiRowTextField props={inputProps} />;
 }
 
 export const BlogComponentEditorComponentLine = ({ props }: { props: BlogComponentEditorContentComponentProps }) => {

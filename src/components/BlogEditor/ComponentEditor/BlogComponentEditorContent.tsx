@@ -2,14 +2,14 @@ import { Box, Grid, SxProps, Theme } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogComponentObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
 import { BlogComponentKeyValues, BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogComponentEditorBackground, BlogComponentEditorBackgroundProps } from "./BlogComponentEditorBackground";
 import { BlogComponentEditorComponentDocument, BlogComponentEditorComponentLine, BlogComponentEditorContentComponentProps } from "./BlogComponentEditorContentComponents";
 
 export type BlogComponentEditorContentProps = {
-    components: Array<BlogComponentObj>,
-    updateComponent: (obj: BlogComponentObj) => void,
+    components: Array<BlogComponentListItemObj>,
+    updateComponent: (obj: BlogComponentListItemObj) => void,
     updateActiveComponentIndex: (index: number) => void,
     rowCount: number,
     width: number,
