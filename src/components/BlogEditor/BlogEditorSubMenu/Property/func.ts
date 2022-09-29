@@ -8,6 +8,10 @@ export const getSubmenuPropertyItemHeight = (unit: number, type: BlogEditorSubme
             return unit * 3;
         case BlogEditorSubmenuPropertyItemKeyValues.Thumbnail:
             return unit * 3;
+        case BlogEditorSubmenuPropertyItemKeyValues.Tags:
+            return unit * 3;
+        case BlogEditorSubmenuPropertyItemKeyValues.Others:
+            return unit * 3;
         default:
             return unit;
     }

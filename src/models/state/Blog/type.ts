@@ -18,6 +18,16 @@ export type BlogThumbnail = {
     Src: string,
     FontColor: string,
     FontBackColor: string,
+    FontBackOpacity: number,
     ObjectFit: string,
     Background: string,
 }
+
+export const BlogPropertyKeyValues = {
+    None: "none",
+    FontColor: "font-color",
+    FontBackColor: "font-back-color",
+    Opacity: "opacity"
+} as const;
+
+export type BlogPropertyType = typeof BlogPropertyKeyValues[keyof typeof BlogPropertyKeyValues];

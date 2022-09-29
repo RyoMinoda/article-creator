@@ -27,6 +27,13 @@ export type UiPalette = {
     },
     Second: {
         Green: string,
+        YellowGreen: string,
+        Red: string,
+        Orange: string,
+        Yellow: string,
+        Purple: string,
+        Blue: string,
+        RedPurple: string,
     },
     Background: {
         Main: string,

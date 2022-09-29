@@ -2,8 +2,9 @@ import { Uuid } from "../../../utils/Uuid";
 import { BlogComponentListItemObj } from "../BlogComponent/obj";
 import { BlogComponentListItem } from "../BlogComponent/type";
 import { BlogTagListObj } from "../BlogTag/obj";
+import { BlogTagItem } from "../BlogTag/type";
 import { defaultBlogThumbnail } from "./lib";
-import { Blog, BlogThumbnail } from "./type";
+import { Blog, BlogPropertyKeyValues, BlogPropertyType, BlogThumbnail } from "./type";
 
 export class BlogObj implements Blog {
     BlogId: string;
@@ -46,8 +47,27 @@ export class BlogObj implements Blog {
         this.CreatedAt = blog.CreatedAt;
     }
 
+    public setProperty(type: BlogPropertyType, value: string): BlogObj {
+        switch (type) {
+            case BlogPropertyKeyValues.FontBackColor:
+                this.Thumbnail.FontBackColor = value;
+                break;
+            case BlogPropertyKeyValues.FontColor:
+                this.Thumbnail.FontColor = value;
+                break;
+            case BlogPropertyKeyValues.Opacity:
+                const opacity = Number.parseFloat(value);
+                this.Thumbnail.FontBackOpacity = opacity;
+        }
+        return this;
+    }
+
     public setTitle(title: string): void {
         this.Title = title
+    }
+
+    public setTags(tags: BlogTagItem[]) {
+        this.Tags = new BlogTagListObj(tags);
     }
 
     public static create(): BlogObj {

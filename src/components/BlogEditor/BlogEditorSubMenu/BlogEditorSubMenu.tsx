@@ -5,7 +5,7 @@ import { BlogObj } from "../../../models/state/Blog/obj";
 import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
-import { BlogEditorPopupType } from "../../../organizations/BlogEditor/type";
+import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
 import { BlogEditorModeKeyValues, BlogEditorModeType } from "../type";
 import { BlogEditorSubmenuLine, BlogEditorSubmenuLineProps } from "./BlogEditorSubmenuLine";
 import { BlogEditorSubmenuFiles } from "./Files/BlogEditorSubmenuFiles";
@@ -25,11 +25,11 @@ export type BlogEditorSubmenuProps = {
     activeAccordions: Array<BlogEditorSubmenuFileAccordionType>,
     updateSubWindowWidth: () => void,
     updateBlog: (blog: BlogObj) => void,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
 }
 
 export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) => {
-    const { width, height, mousePosition, modeType, updateSubWindowWidth, updateBlog, showPopup } = props;
+    const { width, height, mousePosition, modeType, updateSubWindowWidth, updateBlog, showDialog } = props;
 
     // States
     const { Palette } = useContext(UiParamsContext);
@@ -79,7 +79,7 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         updateActiveTagIdList,
         updateSearchInput,
         updateBlog,
-        showPopup,
+        showDialog,
     }
     var Component = <></>;
     switch (modeType) {

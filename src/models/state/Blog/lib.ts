@@ -10,7 +10,8 @@ export const defaultBlogThumbnail: BlogThumbnail = {
     FontColor: "transparent",
     FontBackColor: "",
     ObjectFit: "contain",
-    Background: "transparent"
+    Background: "transparent",
+    FontBackOpacity: 0
 }
 
 export const defaultBlog: Blog = {
@@ -35,10 +36,11 @@ export const No1Blog: Blog = {
     Tags: BlogTagListObj.create(),
     Thumbnail: {
         Src: "https://images.pexels.com/photos/13495232/pexels-photo-13495232.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
-        FontColor: "white",
+        FontColor: "black",
         ObjectFit: "contain",
         Background: "transparent",
-        FontBackColor: "white",
+        FontBackColor: "transparent",
+        FontBackOpacity: 0
     },
     UpdatedAt: new Date(),
     CreatedAt: new Date(),
@@ -56,6 +58,7 @@ export const No2Blog: Blog = {
         ObjectFit: "contain",
         Background: "white",
         FontBackColor: "transparent",
+        FontBackOpacity: 0
     },
     UpdatedAt: DateTime.Now().addDay(2).getDate(),
     CreatedAt: new Date(),

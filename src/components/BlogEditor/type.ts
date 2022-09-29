@@ -1,11 +1,11 @@
 import { BlogObj } from "../../models/state/Blog/obj";
-import { BlogEditorPopupType } from "../../organizations/BlogEditor/type";
+import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
 
 export type BlogEditorMainComponentProps = {
     width: number,
     height: number,
     Blog: BlogObj,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
 }
 
 export const BlogEditorModeKeyValues = {

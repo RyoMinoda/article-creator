@@ -2,7 +2,7 @@ import { BlogObj } from "../../../models/state/Blog/obj";
 import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
-import { BlogEditorPopupType } from "../../../organizations/BlogEditor/type";
+import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
 import { BlogEditorModeType } from "../type";
 
 export type BlogEditorSubmenuFileAccordionApperance = {
@@ -29,7 +29,7 @@ export type BlogEditorSubmenuItemProps = {
     updateActiveSearchGenre: (genre: BlogEditorSubmenuSearchGenreType) => void,
     updateSearchInput: (input: string) => void,
     updateBlog: (blog: BlogObj) => void,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
 }
 
 export const BlogEditorSubmenuFileAccordionKeyValues = {

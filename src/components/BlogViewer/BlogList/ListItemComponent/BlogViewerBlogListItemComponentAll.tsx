@@ -20,7 +20,9 @@ export const BlogViewerBlogListItemComponentAll = ({ props }: { props: BlogViewe
         background: "transparent"
     }
     const mainItemSx: SxProps<Theme> = {
-
+        width: width - height,
+        height,
+        bgcolor: "red"
     }
     return (
         <Grid container sx={containerSx}>

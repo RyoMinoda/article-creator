@@ -2,7 +2,7 @@ import { Box, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogObj } from "../../../models/state/Blog/obj";
-import { BlogEditorPopupType } from "../../../organizations/BlogEditor/type";
+import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
 import { getBlogViewerBlogListItemStyle } from "./func";
 import { BlogViewerBlogListItemComponentAll } from "./ListItemComponent/BlogViewerBlogListItemComponentAll";
 import { BlogViewerBlogListItemComponentThumbnailMain } from "./ListItemComponent/BlogViewerBlogListItemComponentThumbnailMain";
@@ -13,7 +13,7 @@ export type BlogViewerBlogListItemProps = {
     height: number,
     type: BlogViewerBlogListItemStyleType,
     Blog: BlogObj,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
 }
 
 export const BlogViewerBlogListItem = ({ props }: { props: BlogViewerBlogListItemProps }) => {

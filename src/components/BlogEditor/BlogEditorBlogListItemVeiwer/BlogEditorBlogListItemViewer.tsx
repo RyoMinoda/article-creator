@@ -7,7 +7,7 @@ import { BlogEditorBlogListItemViewerItemLayout, BlogEditorBlogListItemViewerIte
 import { getBlogEditorBlogListItemViewerItemPatterns } from "./func";
 
 export const BlogEditorBlogListItemViewer = ({ props }: { props: BlogEditorMainComponentProps }) => {
-    const { height, width, Blog, showPopup } = props;
+    const { height, width, Blog, showDialog } = props;
     const emptyHeight = 40;
     const titleHeight = 30;
     const patterns = BlogViewerBlogListItemStyles;
@@ -39,7 +39,7 @@ export const BlogEditorBlogListItemViewer = ({ props }: { props: BlogEditorMainC
                     height: item.height,
                     Blog,
                     type: item.type,
-                    showPopup
+                    showDialog
                 }
                 return (
                     <Grid item key={"size-" + item.type}>

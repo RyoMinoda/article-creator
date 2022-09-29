@@ -3,13 +3,15 @@ import { BlogObj } from "../../../../models/state/Blog/obj";
 import { BlogEditorSubmenuPropertyDetailTextField } from "../../../TextField/BlogEditorSubmenuPropertyDetailTextField";
 import { BlogEditorSubmenuPropertyTitleTextField } from "../../../TextField/BlogEditorSubmenuPropertyTitleTextField";
 import { BlogEditorSubmenuItemProps } from "../types";
-import { BlogEditorSubmenuThmubnailEditor } from "./BlogEditorSubmenuPropertyComponent";
+import { BlogEditorSubmenuThmubnailEditor } from "./BlogEditorSubmenuThmubnailEditor";
 import { BlogEditorSubmenuPropertyItemLayout, BlogEditorSubmenuPropertyItemLayoutProps } from "./BlogEditorSubmenuPropertyItemLayout";
 import { getSubmenuPropertyItemHeight } from "./func";
 import { BlogEditorMenuPropertyComponentProps, BlogEditorSubmenuPropertyItemKeyValues, BlogEditorSubmenuPropertyItemType } from "./type";
+import { BlogEditorSubmenuTagsEditor } from "./BlogEditorSubmenuTagsEditor";
+import { BlogEditorSubmenuOthersEditor } from "./BlogEditorSubmenuOthersEditor";
 
 export const BlogEditorSubmenuProperty = ({ props }: { props: BlogEditorSubmenuItemProps }) => {
-    const { width, height, Blog, updateBlog, showPopup } = props;
+    const { width, height, Blog, updateBlog, showDialog } = props;
     const entireSx: SxProps<Theme> = {
         width, height,
         overflow: "hidden",
@@ -27,7 +29,8 @@ export const BlogEditorSubmenuProperty = ({ props }: { props: BlogEditorSubmenuI
                     type: x,
                     width, titleHeight,
                     contentHeight,
-                    emptyHeight
+                    emptyHeight,
+                    showDialog
                 }
                 const itemProps: BlogEditorMenuPropertyComponentProps = {
                     width,
@@ -35,7 +38,7 @@ export const BlogEditorSubmenuProperty = ({ props }: { props: BlogEditorSubmenuI
                     sidePadding,
                     Blog,
                     updateBlog,
-                    showPopup
+                    showDialog
                 }
                 var Component = <></>;
                 switch (x) {
@@ -47,6 +50,13 @@ export const BlogEditorSubmenuProperty = ({ props }: { props: BlogEditorSubmenuI
                         break;
                     case BlogEditorSubmenuPropertyItemKeyValues.Thumbnail:
                         Component = <BlogEditorSubmenuThmubnailEditor props={itemProps} />
+                        break;
+                    case BlogEditorSubmenuPropertyItemKeyValues.Tags:
+                        Component = <BlogEditorSubmenuTagsEditor props={itemProps} />;
+                        break;
+                    case BlogEditorSubmenuPropertyItemKeyValues.Others:
+                        Component = <BlogEditorSubmenuOthersEditor props={itemProps} />;
+                        break;
                 }
                 return (
                     <BlogEditorSubmenuPropertyItemLayout props={layoutProps} key={x}>

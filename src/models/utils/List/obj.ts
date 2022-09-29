@@ -1,5 +1,8 @@
+import { SearchConditionKeyValues, SearchConditionType } from "./type";
+
 export class ListObj<T extends ListItemObj> {
-    Items: Array<T>;
+    Items: Array<T> = new Array<T>();
+    length: number = this.Items.length; 
 
     constructor(Items: Array<T>) {
         this.Items = Items;
@@ -9,6 +12,10 @@ export class ListObj<T extends ListItemObj> {
         this.Items = [ ...this.Items, item ];
     }
 
+    overlap(array: Array<string>): Array<T> {
+        return this.Items.filter(x => array.includes(x.Id));
+    }
+
     remove(id: string): void {
         this.Items = this.Items.filter(x => x.Id !== id);
     }
@@ -16,6 +23,7 @@ export class ListObj<T extends ListItemObj> {
     toList(): Array<T> {
         return this.Items;
     }
+
 }
 
 export class ListItemObj {

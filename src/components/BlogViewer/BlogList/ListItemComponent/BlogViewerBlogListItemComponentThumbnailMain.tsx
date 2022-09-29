@@ -27,16 +27,24 @@ export const BlogViewerBlogListItemComponentThumbnailMain = ({ props }: { props:
         position: "absolute"
     }
     const textHeight = height / 3;
-    const textSx: SxProps<Theme> = {
+    const textBackgroundSx: SxProps<Theme> = {
         position: "absolute",
         top: height - textHeight - 8,
         left: 0,
         width,
         height: textHeight + 8,
         bgcolor: Blog.Thumbnail.FontBackColor,
+        opacity: Blog.Thumbnail.FontBackOpacity,
+    }
+    const textSx: SxProps<Theme> = {
+        position: "absolute",
+        top: height - textHeight - 8,
+        left: 0,
+        width,
+        height: textHeight + 8,
+        bgcolor: "transparent",
         borderBottomLeftRadius: 1,
         borderBottomRightRadius: 1,
-        opacity: 0.6
     }
     const titleHeight = textHeight / 3;
     const detailHeight = textHeight - titleHeight;
@@ -61,18 +69,21 @@ export const BlogViewerBlogListItemComponentThumbnailMain = ({ props }: { props:
         height: detailHeight,
         paddingLeft: 1,
         paddingRight: 1,
+        color: Blog.Thumbnail.FontColor
     }
     const detailProps: BlogShortTextTypographyProps= {
         width: width - 16,
         height: detailHeight,
         blogId: Blog.BlogId,
         rowCount: 3,
+        color: Blog.Thumbnail.FontColor
     }
     return (
         <Box sx={outerSx}>
             <Box sx={imageSx}>
                 <BlogImageBox props={imageBoxProps} />
             </Box>
+            <Box sx={textBackgroundSx}></Box>
             <Box sx={textSx}>
                 <Grid container>
                     <Grid item sx={titleSx}>

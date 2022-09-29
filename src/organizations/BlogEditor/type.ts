@@ -1,19 +1,27 @@
 import { BlogObj } from "../../models/state/Blog/obj";
+import { BlogPropertyType } from "../../models/state/Blog/type";
+import { BlogTagListObj } from "../../models/state/BlogTag/obj";
 
-export type BlogEditorPopupProps = {
-    type: BlogEditorPopupType,
+export type BlogEditorDialogProps = {
+    type: BlogEditorDialogType,
     Blog: BlogObj,
+    BlogTagList: BlogTagListObj,
     windowWidth: number,
-    updateThumbnail: (src: string) => void,
+    color: string,
+    blogPropertyType: BlogPropertyType,
+    opacity?: number,
+    showDialog: boolean,
     updateWindowWidth: (width: number) => void,
-    updateThumbnailFontColor: (color: string) => void,
+    updateBlog: (blog: BlogObj) => void,
+    hideDialog: () => void
 }
 
-export const BlogEditorPopupKeyValues = {
+export const BlogEditorDialogKeyValues = {
     Preview: "Preview",
     Thumbnail: "Thumbnail",
     ThumbnailFontColorEdit: "ThumbnailFontColorEdit",
     ThumbnailBackColorEdit: "ThumbnailBackColorEdit",
+    Tags: "Tags",
 } as const;
 
-export type BlogEditorPopupType = typeof BlogEditorPopupKeyValues[keyof typeof BlogEditorPopupKeyValues];
+export type BlogEditorDialogType = typeof BlogEditorDialogKeyValues[keyof typeof BlogEditorDialogKeyValues];

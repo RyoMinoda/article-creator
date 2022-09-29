@@ -7,36 +7,36 @@ import { getIsDisplayForeGround } from "../../utils/ClassName";
 import TopMenu from "../TopMenu/TopMenu";
 
 export type LayoutProps = {
-    isShowPopup?: boolean,
-    hidePopup?: () => void,
-    Popup?: React.ReactElement,
+    isShowDialog?: boolean,
+    hideDialog?: () => void,
+    Dialog?: React.ReactElement,
     mousePosition: MousePosition,
     updatePosition: (position: MousePosition) => void
 }
 
 const MainLayout = ({ props, children }: { props: LayoutProps, children: React.ReactElement }) => {
-    const { isShowPopup, Popup, hidePopup, updatePosition, mousePosition } = props;
+    const { isShowDialog, Dialog, hideDialog, updatePosition, mousePosition } = props;
     const { screenHeight, screenWidth } = useScreenSize();
     const { Layout, Palette } = useContext(UiParamsContext);
     const mainHeight = screenHeight - Layout.TopMenuHeight;
     const backgroundId = "popup-background";
     const onMouseDownBackgroundHandler: React.MouseEventHandler<HTMLDivElement> = (e: any) => {
-        if (hidePopup != undefined && e.target.id === backgroundId) {
-            hidePopup();
+        if (hideDialog != undefined && e.target.id === backgroundId) {
+            hideDialog();
         }
     };
-    const isDisplayPopup = isShowPopup != undefined && Popup != undefined && isShowPopup;
+    const isDisplayPopup = isShowDialog != undefined && Dialog != undefined && isShowDialog;
     const popup = (
         <Grid container sx={{ position: "absolute", top: 0, left: 0, width: screenWidth, height: screenHeight, overflow: "hidden" }}>
             <Stack position="relative">
-                <Box  position="absolute" sx={{ top: 0, left: 0, width: screenWidth, height: screenHeight, bgcolor: "black", opacity: 0.3 }}>
+                <Box  position="absolute" sx={{ top: 0, left: 0, width: screenWidth, height: screenHeight, bgcolor: "black", opacity: 0.3, zIndex: 100 }}>
                 </Box>
                 <Box
                     position="absolute"
                     id={backgroundId}
                     onMouseDown={onMouseDownBackgroundHandler}
-                    sx={{ top: 0, left: 0, display: "flex", width: screenWidth, height: screenHeight, justifyContent: "center", alignItems: "center" }}>
-                    {Popup}
+                    sx={{ top: 0, left: 0, display: "flex", width: screenWidth, height: screenHeight, justifyContent: "center", alignItems: "center", zIndex: 101, opacity: 1.0 }}>
+                    {Dialog}
                 </Box>
             </Stack>
         </Grid>

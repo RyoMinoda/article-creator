@@ -24,6 +24,7 @@ export const BlogTitleTypography = ({ props, children }: { props: BlogTitleTypog
         overflow: "hidden",
         textOverflow: "ellipsis",
         whiteSpace: "nowrap",
+        color: Blog.Thumbnail.FontColor,
     }
     var Component = <Skeleton variant="text" width={width} height={height} />;
     if (id !== "") {

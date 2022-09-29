@@ -6,11 +6,12 @@ export type BlogShortTextTypographyProps = {
     width: number,
     height: number,
     blogId: string,
+    color: string,
     rowCount: number,
 }
 
 export const BlogShortTextTypography = ({ props, children }: { props: BlogShortTextTypographyProps, children: string }) => {
-    const { width, height, blogId, rowCount } = props;
+    const { width, height, blogId, rowCount, color } = props;
     const [ id, setId ] = useState("");
     const { FontSize } = useContext(UiParamsContext);
     useEffect(() => {
@@ -47,6 +48,8 @@ export const BlogShortTextTypography = ({ props, children }: { props: BlogShortT
             textOverflow: "ellipsis",
             WebkitBoxOrient: "vertical",
             WebkitLineClamp: rowCount,
+            color,
+            paddingBottom: 1
         }
         Component = (
             <Typography sx={typography} fontSize={FontSize.Small}>

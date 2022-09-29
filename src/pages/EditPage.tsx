@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { PreviewWidthValues } from "../components/BlogEditor/EditorPreview/type";
-import MainLayout, { LayoutProps } from "../components/MainLayout/MainLayout";
+import MainLayout, { LayoutProps } from "../components/Layout/MainLayout";
 import { No1Blog } from "../models/state/Blog/lib";
 import { BlogObj } from "../models/state/Blog/obj";
+import { BlogPropertyKeyValues } from "../models/state/Blog/type";
 import { BlogEditDetailObj } from "../models/state/BlogEditDetail/obj";
 import { sampleBlogListObj } from "../models/state/BlogList/lib";
 import { BlogListObj } from "../models/state/BlogList/obj";
@@ -11,13 +12,15 @@ import { BlogTagListObj } from "../models/state/BlogTag/obj";
 import { initialMousePosition } from "../models/utils/MousePosition/lib";
 import { MousePosition } from "../models/utils/MousePosition/type";
 import { BlogEditorProps, BlogEditor } from "../organizations/BlogEditor/BlogEditor";
-import { BlogEditorPreview } from "../organizations/BlogEditor/BlogEditorPreview";
-import { BlogEditorThumbnailViewer } from "../organizations/BlogEditor/BlogEditorThumbnailViewer";
-import { BlogEditorPopupKeyValues, BlogEditorPopupType, BlogEditorPopupProps } from "../organizations/BlogEditor/type";
+import { BlogEditorColorSelectDialog } from "../organizations/BlogEditor/BlogEditorColorSelectDialog";
+import { BlogEditorPreviewDialog } from "../organizations/BlogEditor/BlogEditorPreviewDialog";
+import { BlogEditorTagsDialog } from "../organizations/BlogEditor/BlogEditorTagsDialog";
+import { BlogEditorThumbnailSelectDialog } from "../organizations/BlogEditor/BlogEditorThumbnailSelectDialog";
+import { BlogEditorDialogKeyValues, BlogEditorDialogType, BlogEditorDialogProps } from "../organizations/BlogEditor/type";
 
 const EditPage = () => {
-    const [ isShowPopup, setIsShowPopup ] = useState(false);
-    const [ popupType, setPopupType ] = useState<BlogEditorPopupType>(BlogEditorPopupKeyValues.Preview);
+    const [ isShowDialog, setIsShowDialog ] = useState(false);
+    const [ dialogType, setDialogType ] = useState<BlogEditorDialogType>(BlogEditorDialogKeyValues.Preview);
     const [ blog, setBlog ] = useState(BlogObj.create());
     const [ blogEditDetail, setBlogEditDetail ] = useState(BlogEditDetailObj.create());
     const [ blogList, setBlogList ] = useState(BlogListObj.create());
@@ -37,6 +40,7 @@ const EditPage = () => {
         setBlogTagList(sampleBlogTagListObj);
         setBlogEditHistoryList(sampleBlogListObj);
         setBlogPreview(newBlog);
+        setBlogTagList(sampleBlogTagListObj);
     }, [])
 
     const contentProps: BlogEditorProps = {
@@ -50,31 +54,31 @@ const EditPage = () => {
             setBlogPreview(blog);
             setBlog(blog);
         },
-        showPopup: (type: BlogEditorPopupType) => {
-            setPopupType(type);
-            setIsShowPopup(!isShowPopup);
+        showDialog: (type: BlogEditorDialogType) => {
+            setDialogType(type);
+            setIsShowDialog(!isShowDialog);
             setBlogPreview(blog);
         },
         updateBlog: (blog: BlogObj) => setBlog(blog),
     }
-    const previewProps: BlogEditorPopupProps = {
-        type: popupType,
+    const previewProps: BlogEditorDialogProps = {
+        type: dialogType,
         Blog: blogPreview,
         windowWidth,
-        updateThumbnail: (src: string) => {
-
-        },
+        color: "transparent",
+        BlogTagList: blogTagList,
+        showDialog: isShowDialog,
         updateWindowWidth: (width: number) => {
             setWindowWidth(width);
         },
-        updateThumbnailFontColor: (color: string) => {
-
-        },
+        updateBlog: (blog: BlogObj) => setBlog(blog),
+        blogPropertyType: BlogPropertyKeyValues.None,
+        hideDialog: () => setIsShowDialog(false),
     }
     const layoutProps: LayoutProps = {
-        isShowPopup,
-        Popup: <Popup props={previewProps} />,
-        hidePopup: () => setIsShowPopup(false),
+        isShowDialog,
+        Dialog: <Dialog props={previewProps} />,
+        hideDialog: () => setIsShowDialog(false),
         mousePosition,
         updatePosition: (position: MousePosition) => setMousePosition(position),
     };
@@ -88,12 +92,32 @@ const EditPage = () => {
 export default EditPage;
 
 
-const Popup = ({ props }: { props: BlogEditorPopupProps }) => {
-    switch (props.type) {
-        case BlogEditorPopupKeyValues.Preview:
-            return <BlogEditorPreview props={props} />;
-        case BlogEditorPopupKeyValues.Thumbnail:
-            return <BlogEditorThumbnailViewer props={props} />
+const Dialog = ({ props }: { props: BlogEditorDialogProps }) => {
+    const { type, Blog } = props;
+    switch (type) {
+        case BlogEditorDialogKeyValues.Preview:
+            return <BlogEditorPreviewDialog props={props} />;
+        case BlogEditorDialogKeyValues.Thumbnail:
+            return <BlogEditorThumbnailSelectDialog props={props} />;
+        case BlogEditorDialogKeyValues.ThumbnailBackColorEdit: {
+            const targetProps: BlogEditorDialogProps = {
+                ...props,
+                color: Blog.Thumbnail.FontBackColor,
+                blogPropertyType: BlogPropertyKeyValues.FontBackColor,
+                opacity: Blog.Thumbnail.FontBackOpacity
+            }
+            return <BlogEditorColorSelectDialog props={targetProps} />;
+        }
+        case BlogEditorDialogKeyValues.ThumbnailFontColorEdit: {
+            const targetProps: BlogEditorDialogProps = {
+                ...props, 
+                color: Blog.Thumbnail.FontColor,
+                blogPropertyType: BlogPropertyKeyValues.FontColor
+            }
+            return <BlogEditorColorSelectDialog props={targetProps} />;
+        }
+        case BlogEditorDialogKeyValues.Tags:
+            return <BlogEditorTagsDialog props={props} />
         default:
             return <></>;
     }

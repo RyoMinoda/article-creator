@@ -21,10 +21,17 @@ const initialPalette: UiPalette = {
         Deep: "#425AB3",
         Vivid: "#658AE6",
         Bright: "#659BE6",
-        Light: "#6598f7"
+        Light: "#d0dbf7"
     },
     Second: {
         Green: "#4caf50",
+        Red: "#EC7272",
+        Orange: "#FEB139",
+        Yellow: "#FFF80A",
+        Purple: "#6F38C5",
+        Blue: "#3DB2FF",
+        YellowGreen: "#B7E778",
+        RedPurple: "#CA5FA6"
     },
     Background: {
         Main: "#d4dafc",

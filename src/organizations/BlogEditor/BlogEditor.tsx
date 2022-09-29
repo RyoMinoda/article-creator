@@ -20,7 +20,7 @@ import { BlogList } from "../../models/state/BlogList/type";
 import { BlogTagListObj } from "../../models/state/BlogTag/obj";
 import { BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuSearchGenreKeyValues } from "../../components/BlogEditor/BlogEditorSubmenu/types";
 import { defaultActiveSubmenus } from "../../components/BlogEditor/BlogEditorSubmenu/lib";
-import { BlogEditorPopupType } from "./type";
+import { BlogEditorDialogType } from "./type";
 
 export type BlogEditorProps = {
     Blog: BlogObj,
@@ -30,12 +30,12 @@ export type BlogEditorProps = {
     BlogEditHistoryList: BlogListObj,
     mousePosition: MousePosition,
     save: () => void,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
     updateBlog: (blog: BlogObj) => void,
 }
 
 export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
-    const { Blog, BlogEditDetail, save, showPopup, mousePosition, BlogList, BlogTagList, updateBlog } = props;
+    const { Blog, BlogEditDetail, save, showDialog, mousePosition, BlogList, BlogTagList, updateBlog } = props;
 
     // States
     const { screenWidth, screenHeight } = useScreenSize();
@@ -97,7 +97,7 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
     const blogButtonGroupProps:  BlogEditorTopButtonGroupProps = {
         width: mainButtonsWidth,
         height: Layout.BlogEditorTitleHeight,
-        showPopup,
+        showDialog,
         save
     }
     const editorProps: BlogEditorMapProps = {
@@ -120,7 +120,7 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         },
         updateTabType: (tabType: BlogEditorMenuTabType) => setTabType(tabType),
         updateModeType: (modeType: BlogEditorModeType) => setModeType(modeType),
-        showPopup,
+        showDialog,
     }
     const subWindowProps: BlogEditorSubmenuProps = {
         ...props,

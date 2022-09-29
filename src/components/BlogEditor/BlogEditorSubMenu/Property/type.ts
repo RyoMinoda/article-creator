@@ -1,5 +1,5 @@
 import { BlogObj } from "../../../../models/state/Blog/obj";
-import { BlogEditorPopupType } from "../../../../organizations/BlogEditor/type";
+import { BlogEditorDialogType } from "../../../../organizations/BlogEditor/type";
 
 export type BlogEditorMenuPropertyComponentProps = {
     width: number,
@@ -7,14 +7,15 @@ export type BlogEditorMenuPropertyComponentProps = {
     sidePadding: number,
     Blog: BlogObj,
     updateBlog: (blog: BlogObj) => void,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
 }
 
 export const BlogEditorSubmenuPropertyItemKeyValues = {
     Title: "Title",
     Detail: "Detail",
     Thumbnail: "Thumbnail",
-    Tags: "Tags"
+    Tags: "Tags",
+    Others: "Others"
 } as const;
 
 export type BlogEditorSubmenuPropertyItemType = typeof BlogEditorSubmenuPropertyItemKeyValues[keyof typeof BlogEditorSubmenuPropertyItemKeyValues];

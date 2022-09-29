@@ -8,7 +8,7 @@ import { BlogListItemObj } from "../../models/state/BlogList/obj";
 import { BlogEditorFlow } from "./BlogEditorFlow/BlogEditorFlow";
 import { BlogEditorBlogListItemViewer } from "./BlogEditorBlogListItemVeiwer/BlogEditorBlogListItemViewer";
 import { Box, SxProps, Theme } from "@mui/material";
-import { BlogEditorPopupType } from "../../organizations/BlogEditor/type";
+import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
 
 export type BlogEditorMapProps = {
     width: number,
@@ -22,7 +22,7 @@ export type BlogEditorMapProps = {
     updateComponent: (component: BlogComponentListItemObj) => void,
     updateTabType: (tabType: BlogEditorMenuTabType) => void,
     updateModeType: (modeType: BlogEditorModeType) => void,
-    showPopup: (type: BlogEditorPopupType) => void,
+    showDialog: (type: BlogEditorDialogType) => void,
     Blog: BlogObj
 }
 

@@ -1,5 +1,6 @@
 import { Uuid } from "../../../utils/Uuid";
 import { ListItemObj, ListObj } from "../../utils/List/obj";
+import { SearchConditionKeyValues, SearchConditionType } from "../../utils/List/type";
 import { BlogTagItem, BlogTagList } from "./type";
 
 export class BlogTagListObj extends ListObj<BlogTagItemObj> implements BlogTagList {
@@ -22,6 +23,18 @@ export class BlogTagListObj extends ListObj<BlogTagItemObj> implements BlogTagLi
 
     public getActiveTags(activeTagIds: Array<string>) {
         return this.Items.filter(x => activeTagIds.includes(x.Id))
+    }
+
+    public search(value: string, condition: SearchConditionType): Array<BlogTagItem> {
+        if (value !== "") {
+            switch (condition) {
+                case SearchConditionKeyValues.PerfectMatching:
+                    return this.Items.filter(x => x.Tag === value);
+                case SearchConditionKeyValues.PrefixMatching:
+                    return this.Items.filter(x => x.Tag.toLocaleUpperCase().startsWith(value.toLocaleUpperCase()));
+            }
+        }
+        return this.Items;
     }
 
     public getActiveTagsText(activeTagIds: Array<string>) {
