@@ -10,7 +10,7 @@ import { BlogListObj } from "../models/state/BlogList/obj";
 import { sampleBlogTagListObj } from "../models/state/BlogTag/lib";
 import { BlogTagListObj } from "../models/state/BlogTag/obj";
 import { initialMousePosition } from "../models/utils/MousePosition/lib";
-import { MousePosition } from "../models/utils/MousePosition/type";
+import { MousePosition, MouseActionKeyValues } from "../models/utils/MousePosition/type";
 import { BlogEditorProps, BlogEditor } from "../organizations/BlogEditor/BlogEditor";
 import { BlogEditorColorSelectDialog } from "../organizations/BlogEditor/BlogEditorColorSelectDialog";
 import { BlogEditorPreviewDialog } from "../organizations/BlogEditor/BlogEditorPreviewDialog";
@@ -80,7 +80,15 @@ const EditPage = () => {
         Dialog: <Dialog props={previewProps} />,
         hideDialog: () => setIsShowDialog(false),
         mousePosition,
-        updatePosition: (position: MousePosition) => setMousePosition(position),
+        updatePosition: (position: MousePosition) => {
+            if (position.action !== MouseActionKeyValues.MouseMove) {
+                setMousePosition(position);
+                return;
+            }
+            if (position.x % 5 === 0) {
+                setMousePosition(position);
+            }
+        },
     };
     return (
         <MainLayout props={layoutProps}>
@@ -117,7 +125,16 @@ const Dialog = ({ props }: { props: BlogEditorDialogProps }) => {
             return <BlogEditorColorSelectDialog props={targetProps} />;
         }
         case BlogEditorDialogKeyValues.Tags:
-            return <BlogEditorTagsDialog props={props} />
+            return <BlogEditorTagsDialog props={props} />;
+        case BlogEditorDialogKeyValues.BlogTheme: {
+            const targetProps: BlogEditorDialogProps = {
+                ...props,
+                color: Blog.Setting.Theme,
+                blogPropertyType: BlogPropertyKeyValues.BlogTheme,
+                opacity: Blog.Setting.ThemeOpacity
+            }
+            return <BlogEditorColorSelectDialog props={targetProps} />;
+        }
         default:
             return <></>;
     }

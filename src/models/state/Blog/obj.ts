@@ -1,6 +1,9 @@
 import { Uuid } from "../../../utils/Uuid";
+import { DateTime } from "../../utils/DateTime/obj";
 import { BlogComponentListItemObj } from "../BlogComponent/obj";
 import { BlogComponentListItem } from "../BlogComponent/type";
+import { defaultSetting } from "../BlogSetting/lib";
+import { BlogSetting } from "../BlogSetting/type";
 import { BlogTagListObj } from "../BlogTag/obj";
 import { BlogTagItem } from "../BlogTag/type";
 import { defaultBlogThumbnail } from "./lib";
@@ -15,6 +18,7 @@ export class BlogObj implements Blog {
     UpdatedAt: Date;
     CreatedAt: Date;
     Detail: string;
+    Setting: BlogSetting;
 
     constructor(
         id: string, 
@@ -24,7 +28,8 @@ export class BlogObj implements Blog {
         components: Array<BlogComponentListItemObj>, 
         thumbnail: BlogThumbnail,
         updatedAt: Date,
-        createdAt: Date
+        createdAt: Date,
+        setting: BlogSetting,
     ) {
         this.BlogId = id;
         this.Title = title;
@@ -34,6 +39,7 @@ export class BlogObj implements Blog {
         this.Thumbnail = thumbnail;
         this.UpdatedAt = updatedAt;
         this.CreatedAt = createdAt;
+        this.Setting = setting;
     }
 
     public setObj(blog: Blog) {
@@ -55,13 +61,24 @@ export class BlogObj implements Blog {
             case BlogPropertyKeyValues.FontColor:
                 this.Thumbnail.FontColor = value;
                 break;
-            case BlogPropertyKeyValues.Opacity:
-                const opacity = Number.parseFloat(value);
-                this.Thumbnail.FontBackOpacity = opacity;
+            case BlogPropertyKeyValues.BlogTheme:
+                this.Setting.Theme = value;
         }
         return this;
     }
 
+    public setOpacity(type: BlogPropertyType, value: number): BlogObj {
+        switch (type) {
+            case BlogPropertyKeyValues.FontBackColor:
+                this.Thumbnail.FontBackOpacity = value;
+                break;
+            case BlogPropertyKeyValues.BlogTheme:
+                this.Setting.ThemeOpacity = value;
+                break;
+        }
+        return this;
+    }
+ 
     public setTitle(title: string): void {
         this.Title = title
     }
@@ -73,7 +90,7 @@ export class BlogObj implements Blog {
     public static create(): BlogObj {
         const uuid = Uuid.NewUuid();
         return new BlogObj(
-            uuid, "", "", BlogTagListObj.create(), [], defaultBlogThumbnail, new Date(), new Date(), 
+            uuid, "", "", BlogTagListObj.create(), [], defaultBlogThumbnail, new Date(), new Date(), defaultSetting 
         );
     }
 

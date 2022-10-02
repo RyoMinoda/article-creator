@@ -21,6 +21,7 @@ export const BlogEditorDialogKeyValues = {
     Thumbnail: "Thumbnail",
     ThumbnailFontColorEdit: "ThumbnailFontColorEdit",
     ThumbnailBackColorEdit: "ThumbnailBackColorEdit",
+    BlogTheme: "BlogTheme",
     Tags: "Tags",
 } as const;
 

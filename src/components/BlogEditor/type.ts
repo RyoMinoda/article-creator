@@ -11,7 +11,7 @@ export type BlogEditorMainComponentProps = {
 export const BlogEditorModeKeyValues = {
     Files: "Files",
     Property: "Property",
-    Map: "Map",
+    Component: "Component",
     Flow: "Flow",
 } as const;
 

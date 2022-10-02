@@ -2,17 +2,17 @@ import { BlogViewerBlogListItemStyleKeyValues, BlogViewerBlogListItemStyleSet } 
 
 
 const BlogViewerBlogListItemTitleOnly: BlogViewerBlogListItemStyleSet = {
-    type: BlogViewerBlogListItemStyleKeyValues.TitleOnly,
+    type: BlogViewerBlogListItemStyleKeyValues.Short,
     minWidth: 240,
     maxWidth: 720,
-    height: 80,
+    height: 100,
 }
 
 const BlogViewerBlogListItemNoThumbnail: BlogViewerBlogListItemStyleSet = {
     type: BlogViewerBlogListItemStyleKeyValues.NoThumbnail,
     minWidth: 360,
     maxWidth: 720,
-    height: 120,
+    height: 140,
 }
 
 const BlogViewerBlogListItemThumbnailMain: BlogViewerBlogListItemStyleSet = {

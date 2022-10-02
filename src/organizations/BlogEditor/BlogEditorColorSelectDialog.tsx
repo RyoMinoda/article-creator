@@ -18,7 +18,7 @@ export const BlogEditorColorSelectDialog = ({ props }: { props: BlogEditorDialog
 
     useEffect(() => {
         if (paletteOpacity !== undefined) {
-            const newBlog = Blog.setProperty(BlogPropertyKeyValues.Opacity, paletteOpacity.toString());
+            const newBlog = Blog.setOpacity(blogPropertyType, paletteOpacity);
             updateBlog(newBlog);
         }
     }, [paletteOpacity])

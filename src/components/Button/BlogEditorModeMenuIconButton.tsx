@@ -52,7 +52,7 @@ export const BlogEditorModeMenuIconButton = ({ props }: { props: BlogEditorModeM
         case BlogEditorModeKeyValues.Files:
             icon = <ReorderIcon sx={iconSx} />;
             break;
-        case BlogEditorModeKeyValues.Map:
+        case BlogEditorModeKeyValues.Component:
             icon = <ViewComfyIcon sx={iconSx} />;
             break;
         case BlogEditorModeKeyValues.Property:

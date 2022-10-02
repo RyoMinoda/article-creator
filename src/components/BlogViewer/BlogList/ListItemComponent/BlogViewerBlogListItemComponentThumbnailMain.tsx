@@ -14,19 +14,22 @@ export const BlogViewerBlogListItemComponentThumbnailMain = ({ props }: { props:
         Blog,
         width, 
         height,
-        background: "transparent"
+        bgcolor: Blog.Setting.Theme,
+        opacity: Blog.Setting.ThemeOpacity,
+        borderRadiusRight: 0,
     }
     const outerSx: SxProps<Theme> = {
         width,
         height,
         position: "relative",
+        overflow: "hidden",
     }
     const imageSx: SxProps<Theme> = {
         width,
         height,
         position: "absolute"
     }
-    const textHeight = height / 3;
+    const textHeight = height / 2.5;
     const textBackgroundSx: SxProps<Theme> = {
         position: "absolute",
         top: height - textHeight - 8,
@@ -54,9 +57,8 @@ export const BlogViewerBlogListItemComponentThumbnailMain = ({ props }: { props:
         display: "flex",
         justifyContent: "start",
         alignItems: "center",
-        paddingTop: 1 / 2,
+        paddingTop: 1,
         paddingLeft: 1,
-        paddingRight: 1,
     }
     const titleProps: BlogTitleTypographyProps = {
         width: width - 16,

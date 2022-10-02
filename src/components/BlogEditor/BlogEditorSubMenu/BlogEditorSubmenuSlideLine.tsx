@@ -3,14 +3,14 @@ import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
 
-export type BlogEditorSubmenuLineProps = {
+export type BlogEditorSubmenuSlideLineProps = {
     width: number,
     height: number,
     updateCanMove: () => void,
 }
 
 
-export const BlogEditorSubmenuLine = ({ props }: { props: BlogEditorSubmenuLineProps }) => {
+export const BlogEditorSubmenuSlideLine = ({ props }: { props: BlogEditorSubmenuSlideLineProps }) => {
     const { width, height, updateCanMove } = props;
     const { Palette } = useContext(UiParamsContext);
 

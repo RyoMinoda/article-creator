@@ -8,7 +8,7 @@ export type BlogViewerBlogListItemStyleSet = {
 export const BlogViewerBlogListItemStyleKeyValues = {
     NoThumbnail: "No Thumbnail",
     ThumbnailMain: "Thumbnail Main",
-    TitleOnly: "Title Only",
+    Short: "Short",
     All: "All",
 } as const;
 

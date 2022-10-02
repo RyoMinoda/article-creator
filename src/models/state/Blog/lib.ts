@@ -1,6 +1,7 @@
 
 import { Uuid } from "../../../utils/Uuid";
 import { DateTime } from "../../utils/DateTime/obj";
+import { defaultSetting } from "../BlogSetting/lib";
 import { BlogTagListObj } from "../BlogTag/obj";
 import { Blog, BlogThumbnail } from "./type";
 
@@ -23,6 +24,7 @@ export const defaultBlog: Blog = {
     Thumbnail: defaultBlogThumbnail,
     UpdatedAt: new Date(),
     CreatedAt: new Date(),
+    Setting: defaultSetting
 }
 
 
@@ -37,13 +39,14 @@ export const No1Blog: Blog = {
     Thumbnail: {
         Src: "https://images.pexels.com/photos/13495232/pexels-photo-13495232.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
         FontColor: "black",
-        ObjectFit: "contain",
+        ObjectFit: "fill",
         Background: "transparent",
         FontBackColor: "transparent",
-        FontBackOpacity: 0
+        FontBackOpacity: 1
     },
     UpdatedAt: new Date(),
     CreatedAt: new Date(),
+    Setting: defaultSetting
 }
 
 export const No2Blog: Blog = {
@@ -60,6 +63,7 @@ export const No2Blog: Blog = {
         FontBackColor: "transparent",
         FontBackOpacity: 0
     },
-    UpdatedAt: DateTime.Now().addDay(2).getDate(),
+    UpdatedAt: DateTime.Now().addDay(2).toDate(),
     CreatedAt: new Date(),
+    Setting: defaultSetting
 }

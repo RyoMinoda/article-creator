@@ -1,22 +1,17 @@
-import { Box, Grid, SxProps, Theme } from "@mui/material";
-import { useContext, useEffect, useState } from "react";
-import { UiParamsContext } from "../../../../models/context/UiParams/lib";
-import { BlogObj } from "../../../../models/state/Blog/obj";
-import { BlogListObj } from "../../../../models/state/BlogList/obj";
-import { BlogTagListObj } from "../../../../models/state/BlogTag/obj";
-import { BlogEditorSubmenuFilesAccordionLayout } from "./BlogEditorSubmenuFilesAccordionLayout";
-import { BlogEditorSubmenuFilesBlogList, BlogEditorSubmenuFilesComponentProps, BlogEditorSubmenuFilesHistoryList, BlogEditorSubmenuFilesSearchComponent, BlogEditorSubmenuFilesTagList } from "./BlogEditorSubmenuFilesComponent";
+import { Box, SxProps, Theme } from "@mui/material";
+import { useEffect, useState } from "react";
 import { GetSubmenuAccordionBlogsHeight, GetSubmenuAccordionBlogsHeightProps, GetSubmenuFileAccordionContentHeightProps, GetSubmenuFileDefaultAccordions } from "../func";
-import { BlogEditorSubmenuFileAccordionKeyValues, BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuItemProps, BlogEditorSubmenuSearchGenreType } from "../types";
-
+import { BlogEditorSubmenuFileAccordionKeyValues, BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuItemProps } from "../types";
+import { BlogEditorSubmenuFilesMap, BlogEditorSubmenuFilesMapProps } from "./BlogEditorSubmenuFilesMap";
 
 export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItemProps }) => {
     const { width, height, BlogList, BlogTagList, activeSearchGenre, updateActiveSearchGenre, updateSearchInput } = props;
     const [ isShowns, setIsShowns ] = useState<Array<boolean>>([]);
     const [ accordionHeights, setAccordionHeights ] = useState<Array<number>>([]);
     const [ accordionTypes, setAccordionTypes ] = useState<Array<BlogEditorSubmenuFileAccordionType>>([]);
-    const itemHeight = 35;
-    const blogItemHeight = 30;
+    const itemHeight = 37;
+    const blogItemHeight = 35;
+    
     useEffect(() => {
         const accordionProps: GetSubmenuFileAccordionContentHeightProps = {
             itemHeight, heights: accordionHeights, entireHeight: height
@@ -57,8 +52,8 @@ export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItem
     }
     return (
         <Box sx={entireSx}>
-            {Object.values(BlogEditorSubmenuFileAccordionKeyValues).map((x, i) => {
-                const buttonProps: BlogEditorSubmenuFileProps = {
+            {accordionTypes.map((x, i) => {
+                const nextProps: BlogEditorSubmenuFilesMapProps = {
                     ...props,
                     index: i,
                     title: x,
@@ -69,72 +64,8 @@ export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItem
                     blogItemHeight,
                     updateIsShown: () => updateIsShownByIndex(i)
                 }
-                return <BlogEditorSubmenuFile props={buttonProps}  key={x} />
+                return <BlogEditorSubmenuFilesMap props={nextProps}  key={x} />
             })}
         </Box>
     );
 }
-
-type BlogEditorSubmenuFileProps = {
-    index: number,
-    title: string,
-    titleHeight: number,
-    detailHeight: number,
-    blogItemHeight: number,
-    width: number,
-    isShown: boolean,
-    searchInput: string,
-    accordion: BlogEditorSubmenuFileAccordionType,
-    activeSearchGenre: BlogEditorSubmenuSearchGenreType,
-    activeTagIdList: Array<string>,
-    Blog: BlogObj,
-    BlogList: BlogListObj,
-    BlogTagList: BlogTagListObj,
-    BlogEditHistoryList: BlogListObj,
-    updateIsShown: () => void,
-    updateActiveTagIdList: (tags: Array<string>) => void,
-    updateActiveSearchGenre: (genre: BlogEditorSubmenuSearchGenreType) => void,
-    updateSearchInput: (input: string) => void
-}
-
-const BlogEditorSubmenuFile = ({ props }: { props: BlogEditorSubmenuFileProps }) => {
-    const { isShown, detailHeight, width, accordion, updateActiveSearchGenre, searchInput } = props;
-    const { Palette } = useContext(UiParamsContext);
-    const containerHeight = isShown ? detailHeight : 0;
-    const containerSx: SxProps<Theme> = {
-        display: isShown ? "inherit" : "none",
-        height: containerHeight,
-        width,
-        bgcolor: Palette.Background.Main
-    }
-    const componentProps: BlogEditorSubmenuFilesComponentProps = {
-        ...props,
-        height: containerHeight,
-        searchInput,
-        updateActiveSearchGenre,
-        sidePadding: 5,
-    }
-    var Component = <></>;
-    switch (accordion) {
-        case BlogEditorSubmenuFileAccordionKeyValues.Search:
-            Component = <BlogEditorSubmenuFilesSearchComponent props={componentProps} />;
-            break;
-        case BlogEditorSubmenuFileAccordionKeyValues.Tags:
-            Component = <BlogEditorSubmenuFilesTagList props={componentProps} />
-            break;
-        case BlogEditorSubmenuFileAccordionKeyValues.History:
-            Component = <BlogEditorSubmenuFilesHistoryList props={componentProps} />
-            break;
-        case BlogEditorSubmenuFileAccordionKeyValues.Blogs:
-            Component = <BlogEditorSubmenuFilesBlogList props={componentProps} />
-            break;
-    }
-    return (
-        <BlogEditorSubmenuFilesAccordionLayout props={props}>
-            <Box sx={containerSx}>
-                {Component}
-            </Box>
-        </BlogEditorSubmenuFilesAccordionLayout>
-    )
-}
-

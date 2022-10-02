@@ -5,6 +5,8 @@ import { BlogObj } from "../../../models/state/Blog/obj";
 import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
 import { getBlogViewerBlogListItemStyle } from "./func";
 import { BlogViewerBlogListItemComponentAll } from "./ListItemComponent/BlogViewerBlogListItemComponentAll";
+import { BlogViewerBlogListItemComponentNoThumbnail } from "./ListItemComponent/BlogViewerBlogListItemComponentNoThumbnail";
+import { BlogViewerBlogListItemComponentShort } from "./ListItemComponent/BlogViewerBlogListItemComponentShort";
 import { BlogViewerBlogListItemComponentThumbnailMain } from "./ListItemComponent/BlogViewerBlogListItemComponentThumbnailMain";
 import { BlogViewerBlogListItemStyleKeyValues, BlogViewerBlogListItemStyleType } from "./type";
 
@@ -30,6 +32,12 @@ export const BlogViewerBlogListItem = ({ props }: { props: BlogViewerBlogListIte
             break;
         case BlogViewerBlogListItemStyleKeyValues.All:
             Component = <BlogViewerBlogListItemComponentAll props={props} />
+            break;
+        case BlogViewerBlogListItemStyleKeyValues.NoThumbnail:
+            Component = <BlogViewerBlogListItemComponentNoThumbnail props={props} />
+            break;
+        case BlogViewerBlogListItemStyleKeyValues.Short:
+            Component = <BlogViewerBlogListItemComponentShort props={props} />
             break;
     }
     return (

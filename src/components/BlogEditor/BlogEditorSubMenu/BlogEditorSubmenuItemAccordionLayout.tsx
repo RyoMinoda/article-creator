@@ -1,22 +1,22 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, SxProps, Theme, Typography } from "@mui/material";
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-import { BlogEditorSubmenuFileAccordionKeyValues, BlogEditorSubmenuFileAccordionType } from "../types";
-import { useContext } from "react";
-import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 
-export type BlogEditorSubmenuFilesAccordionLayoutProps = {
+import { useContext } from "react";
+import { UiParamsContext } from "../../../models/context/UiParams/lib";
+import { BlogEditorSubmenuFileAccordionKeyValues } from "./types";
+
+export type BlogEditorSubmenuItemAccordionLayoutProps = {
     index: number,
     title: string,
     titleHeight: number,
     detailHeight: number,
     width: number,
     isShown: boolean,
-    accordion: BlogEditorSubmenuFileAccordionType,
     updateIsShown: () => void,
 }
 
-export const BlogEditorSubmenuFilesAccordionLayout = ({ props, children }: { props: BlogEditorSubmenuFilesAccordionLayoutProps, children: React.ReactNode }) => {
-    const { title, titleHeight, detailHeight, width, isShown, updateIsShown, accordion } = props;
+export const BlogEditorSubmenuItemAccordionLayout = ({ props, children }: { props: BlogEditorSubmenuItemAccordionLayoutProps, children: React.ReactNode }) => {
+    const { title, titleHeight, detailHeight, width, isShown, updateIsShown } = props;
     const { FontSize, Palette } = useContext(UiParamsContext);
     const accordionSx: SxProps<Theme> = {
         padding: 0,
@@ -36,7 +36,7 @@ export const BlogEditorSubmenuFilesAccordionLayout = ({ props, children }: { pro
     const summarySx: SxProps<Theme> = {
         width, 
         height: titleHeight, 
-        bgcolor: Palette.Background.Main,
+        bgcolor: Palette.Background.Dark,
         margin: 0,
         padding: 0,
         paddingLeft: 2,
@@ -48,13 +48,17 @@ export const BlogEditorSubmenuFilesAccordionLayout = ({ props, children }: { pro
         height: detailHeight,
         padding: 0,
         margin: 0,
-        overflow: "scroll"
+        overflow: "scroll",
     }
     const onChangeHandler = () => updateIsShown();
-    if (accordion == BlogEditorSubmenuFileAccordionKeyValues.Blogs) {
+    if (title == BlogEditorSubmenuFileAccordionKeyValues.Blogs) {
+        const fixSummarySx: SxProps<Theme> = {
+            ...summarySx,
+            bgcolor: Palette.Background.Darker
+        }
         return (
             <Accordion sx={accordionSx} expanded={true} disableGutters elevation={0}>
-                <AccordionSummary aria-controls="panel-content" sx={summarySx}>
+                <AccordionSummary aria-controls="panel-content" sx={fixSummarySx}>
                     <Typography fontSize={FontSize.Small} fontWeight="bold">
                         {title}
                     </Typography>

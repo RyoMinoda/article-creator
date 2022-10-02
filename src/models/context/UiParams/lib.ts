@@ -1,6 +1,6 @@
+import React from "react";
 import { createContext } from "react"
-import { UiFontSize, UiLayout, UiPalette, UiParams } from "./type";
-
+import { DateTimeExpressionKeyValues, UiFontSize, UiLayout, UiLocalSetting, UiPalette, UiParams } from "./type";
 
 const initialLayout: UiLayout = {
     BreadcrumbHeight: 35,
@@ -38,8 +38,8 @@ const initialPalette: UiPalette = {
         Light: "#EAEDFE",
         Lighter: "#f5f6ff",
         Lightest: "#FFFFFF",
-        Dark: "#BBBBBB",
-        Darker: "#000000",
+        Dark: "#C7CFF9",
+        Darker: "#BBC4F9",
     },
     FontColor: {
         Darker: "#333333",
@@ -71,10 +71,17 @@ const initialFontSize: UiFontSize = {
     Smallest: 10,
 }
 
-const initialUiParams: UiParams = {
+const initialLocalSetting: UiLocalSetting = {
+    TimeZone: 0.0,
+    DateTimeExpression: DateTimeExpressionKeyValues.yyyyMMdd,
+    UpdateTimeZone: (timeZone: number) => {}
+}
+
+export const initialUiParams: UiParams = {
     Layout: initialLayout,
     Palette: initialPalette,
-    FontSize: initialFontSize
+    FontSize: initialFontSize,
+    LocalSetting: initialLocalSetting
 }
 
 export const UiParamsContext = createContext<UiParams>(initialUiParams);

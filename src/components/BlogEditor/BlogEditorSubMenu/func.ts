@@ -9,9 +9,9 @@ export type GetSubmenuFileAccordionContentHeightProps = {
 export const GetSubmenuFileDefaultAccordions = (props: GetSubmenuFileAccordionContentHeightProps) => {
     const { itemHeight, heights, entireHeight } = props;
     const defaultSettings: Array<BlogEditorSubmenuFileAccordionApperance> = [
-        GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.History, itemHeight * 2, false),
-        GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.Search, itemHeight * 3, false),
-        GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.Tags, itemHeight * 3, false),
+        GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.Search, itemHeight * 2, false),
+        GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.History, itemHeight * 3, false),
+        GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.Tags, itemHeight * 4, false),
         GetDefaultAccordion(BlogEditorSubmenuFileAccordionKeyValues.Blogs, 0, true),
     ];
     const indexOfFiles = defaultSettings.map(x => x.type).indexOf(BlogEditorSubmenuFileAccordionKeyValues.Blogs);
@@ -22,7 +22,7 @@ export const GetSubmenuFileDefaultAccordions = (props: GetSubmenuFileAccordionCo
             .map(x => x.height)
             .filter((x, i) => i !== indexOfFiles).reduce((a, b) => a + b);
     const tabHeights = itemHeight * defaultSettings.length;
-    defaultSettings[indexOfFiles].height = entireHeight - otherHeight - tabHeights - 10;
+    defaultSettings[indexOfFiles].height = entireHeight - otherHeight - tabHeights;
     return defaultSettings;
 }
 

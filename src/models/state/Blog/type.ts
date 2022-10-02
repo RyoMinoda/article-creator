@@ -1,5 +1,6 @@
 import { BlogComponentListItemObj } from "../BlogComponent/obj";
 import { BlogComponentListItem } from "../BlogComponent/type"
+import { BlogSetting } from "../BlogSetting/type";
 import { BlogTagListObj } from "../BlogTag/obj";
 import { BlogTagList } from "../BlogTag/type";
 
@@ -12,6 +13,7 @@ export type Blog = {
     Thumbnail: BlogThumbnail;
     UpdatedAt: Date,
     CreatedAt: Date,
+    Setting: BlogSetting
 }
 
 export type BlogThumbnail = {
@@ -27,7 +29,8 @@ export const BlogPropertyKeyValues = {
     None: "none",
     FontColor: "font-color",
     FontBackColor: "font-back-color",
-    Opacity: "opacity"
+    Opacity: "opacity",
+    BlogTheme: "blog-theme"
 } as const;
 
 export type BlogPropertyType = typeof BlogPropertyKeyValues[keyof typeof BlogPropertyKeyValues];

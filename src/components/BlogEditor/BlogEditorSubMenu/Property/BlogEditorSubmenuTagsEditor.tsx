@@ -23,9 +23,7 @@ export const BlogEditorSubmenuTagsEditor = ({ props } : { props: BlogEditorMenuP
         justifyContent: "center",
         overflow: "hidden",
         overflowY: "scroll",
-        paddingTop: 1,
     }
-
     if (tags.length === 0) {
         const typoButtonSx: SxProps<Theme> = {
             ...outerSx,
@@ -35,7 +33,6 @@ export const BlogEditorSubmenuTagsEditor = ({ props } : { props: BlogEditorMenuP
             borderRadius: 1,
             marginLeft: 1,
             marginRight: 1,
-            marginTop: 1,
             bgcolor: Palette.Background.Main,
             overflow: "hidden"
         }
@@ -53,48 +50,51 @@ export const BlogEditorSubmenuTagsEditor = ({ props } : { props: BlogEditorMenuP
     }
     const padding = 1;
     const innerWidth = width - 2 * 8 * padding;
-    const columnCount = Math.ceil(innerWidth / 200);
-    const rowCount = Math.ceil(tags.length / columnCount);
     const tagHeight = 28;
-    const tagWidth = innerWidth / columnCount;
     const containerSx: SxProps<Theme> = {
         width: innerWidth,
-        height: rowCount * tagHeight,
+        height: "auto",
+    }
+    const tagsDefaultButtonProps: DefaultButtonProps = {
+        sx: containerSx,
+        onClick: () => showDialog(BlogEditorDialogKeyValues.Tags),
     }
     return (
-        <Box sx={outerSx}>
-            <Grid container sx={containerSx}>
-                {tags.map((x) => {
-                    const tagProps: BlogEditorSubmenuTagProps = {
-                        width: tagWidth, BlogTagItem: x,
-                        height: tagHeight
-                    }
-                    return (
-                        <Grid item key={x.Id}>
-                            <BlogEditorSubmenuTag props={tagProps} />
-                        </Grid>
-                    )
-                })}
-            </Grid>
-        </Box>
+        <DefaultButton props={tagsDefaultButtonProps}>
+            <Box sx={outerSx}>
+                <Grid container sx={containerSx}>
+                    {tags.map((x) => {
+                        const tagProps: BlogEditorSubmenuTagProps = { 
+                            BlogTagItem: x,
+                            height: tagHeight
+                        }
+                        return (
+                            <Box key={x.Id}>
+                                <BlogEditorSubmenuTag props={tagProps} />
+                            </Box>
+                        )
+                    })}
+                </Grid>
+            </Box>
+        </DefaultButton>
     );
 }
 
 type BlogEditorSubmenuTagProps = {
-    width: number,
     height: number,
     BlogTagItem: BlogTagItem
 }
 
 const BlogEditorSubmenuTag = ({ props }: { props: BlogEditorSubmenuTagProps }) => {
-    const { width, BlogTagItem, height } = props;
+    const { BlogTagItem, height } = props;
     const { FontSize, Palette } = useContext(UiParamsContext);
     const boxSx: SxProps<Theme> = {
-        width,
         height,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        marginLeft: 1,
+        marginRight: 1
     }
     const typoSx: SxProps<Theme> = {
         overflow: "hidden",

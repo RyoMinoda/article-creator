@@ -7,9 +7,11 @@ import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
 import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
 import { BlogEditorModeKeyValues, BlogEditorModeType } from "../type";
-import { BlogEditorSubmenuLine, BlogEditorSubmenuLineProps } from "./BlogEditorSubmenuLine";
+import { BlogEditorSubmenuSlideLine, BlogEditorSubmenuSlideLineProps } from "./BlogEditorSubmenuSlideLine";
+import { BlogEditorSubmenuComponents } from "./Components/BlogEditorSubmenuComponents";
 import { BlogEditorSubmenuFiles } from "./Files/BlogEditorSubmenuFiles";
 import { BlogEditorSubmenuProperty } from "./Property/BlogEditorSubmenuProperty";
+import { BlogEditorSubmenuPropertyMap } from "./Property/BlogEditorSubmenuPropertyMap";
 import { BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuItemProps, BlogEditorSubmenuSearchGenreKeyValues, BlogEditorSubmenuSearchGenreType } from "./types";
 
 
@@ -39,7 +41,7 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
     const borderRight = 3;
 
     // Props
-    const borderProps: BlogEditorSubmenuLineProps = {
+    const borderProps: BlogEditorSubmenuSlideLineProps = {
         width: borderRight,
         height, 
         updateCanMove: updateSubWindowWidth,
@@ -51,6 +53,7 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         height,
         bgcolor: Palette.Background.Main,
         overflow: "hidden",
+
     }
     const mainItemSx: SxProps<Theme> = {
         width: width - borderRight * 2,
@@ -72,6 +75,7 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         searchInput,
         activeTagIdList,
         width: width - borderRight,
+        accordionTitleHeight: 35,
         updateActiveSearchGenre:  (genre: BlogEditorSubmenuSearchGenreType) => {
             setActiveSearchGenre(genre);
         },
@@ -89,6 +93,9 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         case BlogEditorModeKeyValues.Property:
             Component = <BlogEditorSubmenuProperty props={itemComponentProps} />
             break;
+        case BlogEditorModeKeyValues.Component:
+            Component = <BlogEditorSubmenuComponents props={itemComponentProps} />;
+            break;
     }
     return (
         <Grid container sx={containerSx}>
@@ -96,7 +103,7 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
                 {Component}
             </Grid>
             <Grid item sx={borderItemSx}>
-                <BlogEditorSubmenuLine props={borderProps} />
+                <BlogEditorSubmenuSlideLine props={borderProps} />
             </Grid>
         </Grid>
     );

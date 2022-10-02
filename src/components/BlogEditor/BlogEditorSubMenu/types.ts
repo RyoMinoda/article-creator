@@ -24,12 +24,14 @@ export type BlogEditorSubmenuItemProps = {
     activeSearchGenre: BlogEditorSubmenuSearchGenreType,
     activeAccordions: Array<BlogEditorSubmenuFileAccordionType>,
     activeTagIdList: Array<string>,
+    accordionTitleHeight: number,
     updateSubWindowWidth: () => void,
     updateActiveTagIdList: (tags: Array<string>) => void,
     updateActiveSearchGenre: (genre: BlogEditorSubmenuSearchGenreType) => void,
     updateSearchInput: (input: string) => void,
     updateBlog: (blog: BlogObj) => void,
     showDialog: (type: BlogEditorDialogType) => void,
+
 }
 
 export const BlogEditorSubmenuFileAccordionKeyValues = {

@@ -35,6 +35,7 @@ export const BlogEditorSubmenuFilesSearchComponent = ({ props }: { props: BlogEd
     const { width, height, searchInput, BlogTagList, activeSearchGenre, updateActiveSearchGenre, updateSearchInput } = props;
     const entireSx: SxProps<Theme> = {
         width, height,
+        paddingTop: 0.5,
         display: "flex",
         justifyContent: "center",
         alignItems: "start"
@@ -140,7 +141,7 @@ export const BlogEditorSubmenuFilesBlogList = ({ props }: { props: BlogEditorSub
     const containerSx: SxProps<Theme> = {
         width, height: innerHeight, 
         overflow: "hidden",
-        overflowY: "scroll"
+        overflowY: "scroll",
     }
     const iconProps: SxProps<Theme> = {
         color: Palette.Background.Darker

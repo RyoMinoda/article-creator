@@ -61,7 +61,7 @@ export const BlogEditorMap = ({ props }: { props: BlogEditorMapProps }) => {
         case BlogEditorModeKeyValues.Property:
             Component = <BlogEditorBlogListItemViewer props={componentProps} />;
             break;
-        case BlogEditorModeKeyValues.Map:
+        case BlogEditorModeKeyValues.Component:
             Component = <BlogComponentMap props={componentMapperProps} />;
             break;
     }

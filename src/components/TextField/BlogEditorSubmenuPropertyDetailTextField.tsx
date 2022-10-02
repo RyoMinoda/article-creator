@@ -43,6 +43,7 @@ export const BlogEditorSubmenuPropertyDetailTextField = ({ props } : { props: Bl
     return (
         <Box sx={boxSx}>
             <InputBase 
+
                 value={detail}
                 onChange={handleChangeTitle}
                 multiline={true}

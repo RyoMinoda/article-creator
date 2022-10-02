@@ -1,5 +1,4 @@
-import { Box, Button, Grid, Stack, SxProps, Theme } from "@mui/material"
-import { borderLeft } from "@mui/system";
+import { Box, Button, Grid, Stack, SxProps, Theme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
@@ -217,7 +216,7 @@ export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) =>
                 <Stack>
                     {Component}
                 </Stack>
-                <BlogComponentMapTiles props={tilesProps} />
+                
             </Box>
         </Box>
     );

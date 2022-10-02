@@ -2,6 +2,7 @@ export type UiParams = {
     Layout: UiLayout,
     Palette: UiPalette,
     FontSize: UiFontSize,
+    LocalSetting: UiLocalSetting
 }
 
 export type UiLayout = {
@@ -71,4 +72,16 @@ export type UiFontSize = {
     Smaller: number,
     MuchSmaller: number,
     Smallest: number,
+}
+
+export const DateTimeExpressionKeyValues = {
+    yyyyMMdd: "yyyy-MM-dd",
+} as const;
+
+export type DateTimeExpressionType = typeof DateTimeExpressionKeyValues[keyof typeof DateTimeExpressionKeyValues];
+
+export type UiLocalSetting = {
+    TimeZone: number,
+    DateTimeExpression: DateTimeExpressionType,
+    UpdateTimeZone: (timeZone: number) => void
 }

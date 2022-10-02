@@ -3,7 +3,7 @@ import { BlogEditorSubmenuPropertyItemKeyValues, BlogEditorSubmenuPropertyItemTy
 export const getSubmenuPropertyItemHeight = (unit: number, type: BlogEditorSubmenuPropertyItemType) => {
     switch (type) {
         case BlogEditorSubmenuPropertyItemKeyValues.Title:
-            return unit;
+            return unit * 2;
         case BlogEditorSubmenuPropertyItemKeyValues.Detail:
             return unit * 3;
         case BlogEditorSubmenuPropertyItemKeyValues.Thumbnail:

@@ -7,7 +7,7 @@ export const getSubWindowDefaultWidth = (mode: BlogEditorModeType, subWindowWidt
             break;
         case BlogEditorModeKeyValues.Flow:
             break;
-        case BlogEditorModeKeyValues.Map:
+        case BlogEditorModeKeyValues.Component:
             break;
         case BlogEditorModeKeyValues.Property:
             break;

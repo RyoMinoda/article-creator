@@ -1,8 +1,10 @@
+import { DateTimeExpressionKeyValues, DateTimeExpressionType } from "../../context/UiParams/type";
+
 export class DateTime {
     private date: Date;
 
-    constructor() {
-        this.date = new Date();
+    constructor(date: Date) {
+        this.date = date;
     }
 
     public addDay(day: number): DateTime {
@@ -11,11 +13,30 @@ export class DateTime {
         return this;
     }
 
-    public getDate(): Date {
-        return this.date;
+    public toDateString(expressionType: DateTimeExpressionType): string {
+        switch (expressionType) {
+            case DateTimeExpressionKeyValues.yyyyMMdd:
+                return this.date.getFullYear() + "-" + (this.date.getMonth() + 1) + "-" + this.date.getDate();
+            default:
+                return "";
+        }
     }
 
     public static Now() {
-        return new DateTime();
+        return new DateTime(new Date());
+    }
+
+    public toDate(): Date {
+        return this.date;
+    }
+
+    public toUTC() {
+
+    }
+
+    public setLocalTimeZone(timeZone: number): DateTime {
+        const hour = Math.floor(timeZone);
+        const minutes = timeZone - hour
+        return this;
     }
 }
