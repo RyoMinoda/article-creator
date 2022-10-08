@@ -1,5 +1,5 @@
-import { BlogEditorSubmenuFileAccordionKeyValues, BlogEditorSubmenuFileAccordionType } from "./types";
+import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "./types";
 
-export const defaultActiveSubmenus: Array<BlogEditorSubmenuFileAccordionType> = [
-    BlogEditorSubmenuFileAccordionKeyValues.Blogs,
+export const defaultActiveSubmenus: Array<BlogEditorSubmenuAccordionType> = [
+    
 ]

@@ -133,7 +133,7 @@ export class BlogComponentListItemObj implements BlogComponentListItem {
                 return 2;
             case BlogComponentKeyValues.Line:
                 return 1;
-            case BlogComponentKeyValues.Picture:
+            case BlogComponentKeyValues.Image:
                 return 4;
             case BlogComponentKeyValues.Headline:
                 return 1;
@@ -150,7 +150,7 @@ export class BlogComponentListItemObj implements BlogComponentListItem {
                 return 12;
             case BlogComponentKeyValues.Line:
                 return 12;
-            case BlogComponentKeyValues.Picture:
+            case BlogComponentKeyValues.Image:
                 return 6;
             case BlogComponentKeyValues.Headline:
                 return 12;

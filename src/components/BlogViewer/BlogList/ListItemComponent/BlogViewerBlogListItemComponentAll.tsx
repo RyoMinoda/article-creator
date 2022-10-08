@@ -74,7 +74,7 @@ export const BlogViewerBlogListItemComponentAll = ({ props }: { props: BlogViewe
             <Grid container sx={tagSx}>
                 {Blog.Tags.Items.map((x) => {
                     return (
-                        <BlogListItemComponentTag>
+                        <BlogListItemComponentTag key={x.Id}>
                             {x.Tag}
                         </BlogListItemComponentTag>
                     )

@@ -1,10 +1,8 @@
 import { Grid, SxProps, Theme } from "@mui/material";
 import { BlogViewerBlogListItem, BlogViewerBlogListItemProps } from "../../BlogViewer/BlogList/BlogViewerBlogListItem";
 import { BlogViewerBlogListItemStyles } from "../../BlogViewer/BlogList/lib";
-import { BlogViewerBlogListItemStyleKeyValues } from "../../BlogViewer/BlogList/type";
 import { BlogEditorMainComponentProps } from "../type";
 import { BlogEditorBlogListItemViewerItemLayout, BlogEditorBlogListItemViewerItemLayoutProps } from "./BlogEditorBlogListItemViewerItemLayout";
-import { getBlogEditorBlogListItemViewerItemPatterns } from "./func";
 
 export const BlogEditorBlogListItemViewer = ({ props }: { props: BlogEditorMainComponentProps }) => {
     const { height, width, Blog, showDialog } = props;

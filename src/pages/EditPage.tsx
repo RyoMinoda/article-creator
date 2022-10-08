@@ -85,7 +85,7 @@ const EditPage = () => {
                 setMousePosition(position);
                 return;
             }
-            if (position.x % 5 === 0) {
+            if (position.x % 50 === 0) {
                 setMousePosition(position);
             }
         },

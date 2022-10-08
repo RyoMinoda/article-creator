@@ -41,7 +41,7 @@ export const BlogViewerBlogListItemComponentNoThumbnail = ({ props }: { props: B
             <Grid container sx={tagSx}>
                 {Blog.Tags.Items.map((x) => {
                     return (
-                        <BlogListItemComponentTag>
+                        <BlogListItemComponentTag key={x.Id}>
                             {x.Tag}
                         </BlogListItemComponentTag>
                     )

@@ -1,9 +1,8 @@
 import { Accordion, AccordionDetails, AccordionSummary, Box, Grid, SxProps, Theme, Typography } from "@mui/material";
 import ArrowForwardIosSharpIcon from '@mui/icons-material/ArrowForwardIosSharp';
-
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
-import { BlogEditorSubmenuFileAccordionKeyValues } from "./types";
+import { BlogEditorSubmenuAccordionKeyValues } from "./types";
 
 export type BlogEditorSubmenuItemAccordionLayoutProps = {
     index: number,
@@ -51,17 +50,31 @@ export const BlogEditorSubmenuItemAccordionLayout = ({ props, children }: { prop
         overflow: "scroll",
     }
     const onChangeHandler = () => updateIsShown();
-    if (title == BlogEditorSubmenuFileAccordionKeyValues.Blogs) {
+    const fixAccordions: Array<string> = [
+        BlogEditorSubmenuAccordionKeyValues.FilesBlogs,
+        BlogEditorSubmenuAccordionKeyValues.ComponentCreate,
+        BlogEditorSubmenuAccordionKeyValues.ComponentEdit
+    ];
+    if (fixAccordions.includes(title)) {
         const fixSummarySx: SxProps<Theme> = {
             ...summarySx,
-            bgcolor: Palette.Background.Darker
+            width: width - 2 * 8,
+            paddingLeft: 2,
+            paddingRight: 0,
+            bgcolor: Palette.Background.Darker,
+            display: "flex",
+            justifyContent: "start",
+            alignItems: "center",
+            cursor: "default"
         }
         return (
             <Accordion sx={accordionSx} expanded={true} disableGutters elevation={0}>
-                <AccordionSummary aria-controls="panel-content" sx={fixSummarySx}>
-                    <Typography fontSize={FontSize.Small} fontWeight="bold">
-                        {title}
-                    </Typography>
+                <AccordionSummary sx={summarySx}>
+                    <Box sx={fixSummarySx}>
+                        <Typography fontSize={FontSize.Small} fontWeight="bold">
+                            {title}
+                        </Typography>
+                    </Box>
                 </AccordionSummary>
                 <AccordionDetails sx={contentSx}>
                     {children}

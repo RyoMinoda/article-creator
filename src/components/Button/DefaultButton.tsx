@@ -1,4 +1,4 @@
-import { Button, SxProps, Theme } from "@mui/material";
+import { Button, createTheme, makeStyles, SxProps, Theme, ThemeProvider } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 
@@ -13,16 +13,20 @@ const DefaultButton = ({ props, children }: { props: DefaultButtonProps, childre
     const { Palette } = useContext(UiParamsContext);
     const onClickHandler = () => onClick();
     const tHoverBackgroundColor = hoverBackgroundColor === undefined ? "transparent" : hoverBackgroundColor;
+
     const style: SxProps<Theme> = {
         ...sx,
         textTransform: "none",
         minWidth: 0,
+        border: "none",
+        boxShadow: "none",
         "&:hover": {
             backgroundColor: tHoverBackgroundColor,
-            color: Palette.FontColor.Dark
+            color: Palette.FontColor.Dark,
         },
         "&:active": {
-            backgroundColor: Palette.Background.Lighter
+            bgColor: Palette.Background.Lighter,
+            border: "none"
         },
     }
     return (

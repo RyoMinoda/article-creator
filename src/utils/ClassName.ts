@@ -1,7 +1,5 @@
-import { ClassNames } from "@emotion/react";
-
 export const ClassNameKeyValues = {
-    verticalTransfer: "vertical-transfer"
+    verticalTransfer: "vertical-transfer",
 } as const;
 
 export type ClassNameType = typeof ClassNameKeyValues[keyof typeof ClassNameKeyValues];

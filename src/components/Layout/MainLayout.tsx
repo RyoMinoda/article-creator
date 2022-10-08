@@ -1,7 +1,7 @@
 import { Box, Grid, Stack } from "@mui/material";
 import { CSSProperties, MouseEventHandler, useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
-import { MouseActionKeyValues, MouseActionType, MousePosition } from "../../models/utils/MousePosition/type";
+import { MouseActionKeyValues, MouseActionType, MouseModeKeyValues, MousePosition } from "../../models/utils/MousePosition/type";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
 import { getIsDisplayForeGround } from "../../utils/ClassName";
 import TopMenu from "../TopMenu/TopMenu";
@@ -56,11 +56,11 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
             y: e.clientY,
             id: targetId,
             className: e.target.className,
-            action
+            action,
+            mode: mousePosition.mode
         }
         updatePosition(position);
     }
-    
     const onMouseMoveHandler: MouseEventHandler<HTMLDivElement |  MouseEvent> = (e) => {
         if (mousePosition.action == MouseActionKeyValues.MouseDown && mousePosition.id !== "") {
             updateMouse(e, MouseActionKeyValues.DragStart, "");
@@ -94,11 +94,11 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
         }
         updateMouse(e, MouseActionKeyValues.MouseUp);
     }
-    const dragBoxDisplay = 
+    const isDragMode = 
         (mousePosition.action === MouseActionKeyValues.DragStart ||  mousePosition.action === MouseActionKeyValues.DragMove) 
         && getIsDisplayForeGround(mousePosition.className) 
-        && mousePosition.id !== "" ? "inherit" : "none";
-
+        && mousePosition.id !== "";
+    const dragBoxDisplay = isDragMode ? "inherit" : "none";
     return (
         <div 
             style={style} 

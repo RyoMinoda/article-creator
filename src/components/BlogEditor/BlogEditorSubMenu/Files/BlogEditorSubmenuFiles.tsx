@@ -1,14 +1,16 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { useEffect, useState } from "react";
-import { GetSubmenuAccordionBlogsHeight, GetSubmenuAccordionBlogsHeightProps, GetSubmenuFileAccordionContentHeightProps, GetSubmenuFileDefaultAccordions } from "../func";
-import { BlogEditorSubmenuFileAccordionKeyValues, BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuItemProps } from "../types";
+import { getNextActiveAccordions } from "../func";
+import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "../types";
 import { BlogEditorSubmenuFilesMap, BlogEditorSubmenuFilesMapProps } from "./BlogEditorSubmenuFilesMap";
+import { GetSubmenuAccordionBlogsHeight, GetSubmenuAccordionBlogsHeightProps, GetSubmenuFileAccordionContentHeightProps, GetSubmenuFileDefaultAccordions } from "./func";
+import { BlogEditorSubmenuItemProps } from "./type";
 
 export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItemProps }) => {
-    const { width, height, BlogList, BlogTagList, activeSearchGenre, updateActiveSearchGenre, updateSearchInput } = props;
+    const { width, height, activeAccordions, updateActiveAccordions } = props;
     const [ isShowns, setIsShowns ] = useState<Array<boolean>>([]);
     const [ accordionHeights, setAccordionHeights ] = useState<Array<number>>([]);
-    const [ accordionTypes, setAccordionTypes ] = useState<Array<BlogEditorSubmenuFileAccordionType>>([]);
+    const [ accordionTypes, setAccordionTypes ] = useState<Array<BlogEditorSubmenuAccordionType>>([]);
     const itemHeight = 37;
     const blogItemHeight = 35;
     
@@ -25,6 +27,11 @@ export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItem
         setAccordionTypes(currentTypes);
     }, []);
 
+    useEffect(() => {
+        const nextAccordions = getNextActiveAccordions(isShowns, accordionTypes, activeAccordions);
+        updateActiveAccordions(nextAccordions);
+    }, [isShowns])
+
     const entireSx: SxProps<Theme> = {
         width, height,
         margin: 0,
@@ -32,14 +39,14 @@ export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItem
         overflow: "hidden",
         overflowY: "scroll"
     }
-    if (accordionHeights.length !== Object.values(BlogEditorSubmenuFileAccordionKeyValues).length) {
+    if (accordionHeights.length === 0) {
         return <Box></Box>
     }
     const updateIsShownByIndex = (i: number) => {
         const newShowns = [ ...isShowns ];
         newShowns[i] = !isShowns[i];
         setIsShowns(newShowns);
-        const index = accordionTypes.indexOf(BlogEditorSubmenuFileAccordionKeyValues.Blogs);
+        const index = accordionTypes.indexOf(BlogEditorSubmenuAccordionKeyValues.FilesBlogs);
         const heightProps: GetSubmenuAccordionBlogsHeightProps = { 
             isShowns: newShowns, 
             types: accordionTypes, 

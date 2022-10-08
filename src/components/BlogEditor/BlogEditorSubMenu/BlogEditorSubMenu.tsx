@@ -2,6 +2,7 @@ import { Box, Grid, SxProps, Theme } from "@mui/material";
 import { useContext, useState } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogObj } from "../../../models/state/Blog/obj";
+import { BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
@@ -10,10 +11,9 @@ import { BlogEditorModeKeyValues, BlogEditorModeType } from "../type";
 import { BlogEditorSubmenuSlideLine, BlogEditorSubmenuSlideLineProps } from "./BlogEditorSubmenuSlideLine";
 import { BlogEditorSubmenuComponents } from "./Components/BlogEditorSubmenuComponents";
 import { BlogEditorSubmenuFiles } from "./Files/BlogEditorSubmenuFiles";
+import { BlogEditorSubmenuItemProps } from "./Files/type";
 import { BlogEditorSubmenuProperty } from "./Property/BlogEditorSubmenuProperty";
-import { BlogEditorSubmenuPropertyMap } from "./Property/BlogEditorSubmenuPropertyMap";
-import { BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuItemProps, BlogEditorSubmenuSearchGenreKeyValues, BlogEditorSubmenuSearchGenreType } from "./types";
-
+import { BlogEditorSubmenuAccordionType, BlogEditorSubmenuSearchGenreKeyValues, BlogEditorSubmenuSearchGenreType } from "./types";
 
 export type BlogEditorSubmenuProps = {
     Blog: BlogObj,
@@ -24,14 +24,17 @@ export type BlogEditorSubmenuProps = {
     height: number,
     modeType: BlogEditorModeType,
     mousePosition: MousePosition,
-    activeAccordions: Array<BlogEditorSubmenuFileAccordionType>,
+    activeAccordions: Array<BlogEditorSubmenuAccordionType>,
+    activeComponentType: BlogComponentType | null,
+    updateActiveAccordions: (accordions: Array<BlogEditorSubmenuAccordionType>) => void,
     updateSubWindowWidth: () => void,
     updateBlog: (blog: BlogObj) => void,
     showDialog: (type: BlogEditorDialogType) => void,
+    updateActiveComponentType: (componentType: BlogComponentType | null) => void,
 }
 
 export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) => {
-    const { width, height, mousePosition, modeType, updateSubWindowWidth, updateBlog, showDialog } = props;
+    const { width, height, mousePosition, modeType, updateSubWindowWidth, updateBlog, showDialog, updateActiveAccordions } = props;
 
     // States
     const { Palette } = useContext(UiParamsContext);
@@ -63,7 +66,6 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         width: borderRight,
         height
     }
-
     const updateActiveTagIdList = (tags: Array<string>) => {
         setActiveTagIdList(tags);
     }
@@ -79,6 +81,7 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         updateActiveSearchGenre:  (genre: BlogEditorSubmenuSearchGenreType) => {
             setActiveSearchGenre(genre);
         },
+        updateActiveAccordions,
         activeSearchGenre,
         updateActiveTagIdList,
         updateSearchInput,

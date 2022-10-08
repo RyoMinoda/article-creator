@@ -5,7 +5,7 @@ import { BlogObj } from "../../../../models/state/Blog/obj";
 import { BlogListObj } from "../../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../../models/state/BlogTag/obj";
 import { BlogEditorSubmenuItemAccordionLayout, BlogEditorSubmenuItemAccordionLayoutProps } from "../BlogEditorSubmenuItemAccordionLayout";
-import { BlogEditorSubmenuFileAccordionKeyValues, BlogEditorSubmenuFileAccordionType, BlogEditorSubmenuSearchGenreType } from "../types";
+import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType, BlogEditorSubmenuSearchGenreType } from "../types";
 import { BlogEditorSubmenuFilesBlogList, BlogEditorSubmenuFilesComponentProps, BlogEditorSubmenuFilesHistoryList, BlogEditorSubmenuFilesSearchComponent, BlogEditorSubmenuFilesTagList } from "./BlogEditorSubmenuFilesComponent";
 
 export type BlogEditorSubmenuFilesMapProps = {
@@ -17,7 +17,7 @@ export type BlogEditorSubmenuFilesMapProps = {
     width: number,
     isShown: boolean,
     searchInput: string,
-    accordion: BlogEditorSubmenuFileAccordionType,
+    accordion: BlogEditorSubmenuAccordionType,
     activeSearchGenre: BlogEditorSubmenuSearchGenreType,
     activeTagIdList: Array<string>,
     Blog: BlogObj,
@@ -49,24 +49,21 @@ export const BlogEditorSubmenuFilesMap = ({ props }: { props: BlogEditorSubmenuF
     }
     var Component = <></>;
     switch (accordion) {
-        case BlogEditorSubmenuFileAccordionKeyValues.Search:
+        case BlogEditorSubmenuAccordionKeyValues.FilesSearch:
             Component = <BlogEditorSubmenuFilesSearchComponent props={componentProps} />;
             break;
-        case BlogEditorSubmenuFileAccordionKeyValues.Tags:
+        case BlogEditorSubmenuAccordionKeyValues.FilesTags:
             Component = <BlogEditorSubmenuFilesTagList props={componentProps} />
             break;
-        case BlogEditorSubmenuFileAccordionKeyValues.History:
+        case BlogEditorSubmenuAccordionKeyValues.FilesHistory:
             Component = <BlogEditorSubmenuFilesHistoryList props={componentProps} />
             break;
-        case BlogEditorSubmenuFileAccordionKeyValues.Blogs:
+        case BlogEditorSubmenuAccordionKeyValues.FilesBlogs:
             Component = <BlogEditorSubmenuFilesBlogList props={componentProps} />
             break;
     }
-    const layoutProps: BlogEditorSubmenuItemAccordionLayoutProps = {
-        ...props
-    }
     return (
-        <BlogEditorSubmenuItemAccordionLayout props={layoutProps}>
+        <BlogEditorSubmenuItemAccordionLayout props={props}>
             <Box sx={containerSx}>
                 {Component}
             </Box>

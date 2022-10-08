@@ -213,9 +213,7 @@ export const BlogComponentMap = ({ props }: { props: BlogComponentMapProps }) =>
     return (
         <Box sx={{ height: rowCount * Layout.BlogComponentRowHeight, width }}>
             <Box sx={innerStyle}>
-                <Stack>
-                    {Component}
-                </Stack>
+
                 
             </Box>
         </Box>

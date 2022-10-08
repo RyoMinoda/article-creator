@@ -3,7 +3,8 @@ export type MousePosition = {
     y: number,
     className: string,
     id: string,
-    action: MouseActionType
+    action: MouseActionType,
+    mode: MouseModeType
 }
 
 export const MouseActionKeyValues = {
@@ -16,3 +17,10 @@ export const MouseActionKeyValues = {
 } as const;
 
 export type MouseActionType = typeof MouseActionKeyValues[keyof typeof MouseActionKeyValues];
+
+export const MouseModeKeyValues = {
+    Normal: 1,
+    Slide: 2,
+} as const;
+
+export type MouseModeType = typeof MouseModeKeyValues[keyof typeof MouseModeKeyValues];

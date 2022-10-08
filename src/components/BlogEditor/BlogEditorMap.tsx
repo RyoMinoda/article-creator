@@ -9,6 +9,9 @@ import { BlogEditorFlow } from "./BlogEditorFlow/BlogEditorFlow";
 import { BlogEditorBlogListItemViewer } from "./BlogEditorBlogListItemVeiwer/BlogEditorBlogListItemViewer";
 import { Box, SxProps, Theme } from "@mui/material";
 import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
+import { BlogEditorComponent } from "./BlogEditorComponent/BlogEditorComponent";
+import { MousePosition } from "../../models/utils/MousePosition/type";
+import { BlogComponentType } from "../../models/state/BlogComponent/type";
 
 export type BlogEditorMapProps = {
     width: number,
@@ -18,6 +21,8 @@ export type BlogEditorMapProps = {
     emptyRowCount: number,
     tabType: string,
     modeType: string,
+    mousePosition: MousePosition,
+    activeComponentType: BlogComponentType | null,
     addComponent: (component: BlogComponentListItemObj) => void,
     updateComponent: (component: BlogComponentListItemObj) => void,
     updateTabType: (tabType: BlogEditorMenuTabType) => void,
@@ -62,7 +67,7 @@ export const BlogEditorMap = ({ props }: { props: BlogEditorMapProps }) => {
             Component = <BlogEditorBlogListItemViewer props={componentProps} />;
             break;
         case BlogEditorModeKeyValues.Component:
-            Component = <BlogComponentMap props={componentMapperProps} />;
+            Component = <BlogEditorComponent props={componentProps} />;
             break;
     }
     const boxSx: SxProps<Theme> = {

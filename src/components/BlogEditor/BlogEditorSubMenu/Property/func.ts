@@ -1,18 +1,28 @@
-import { BlogEditorSubmenuPropertyItemKeyValues, BlogEditorSubmenuPropertyItemType } from "./type";
+import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "../types";
 
-export const getSubmenuPropertyItemHeight = (unit: number, type: BlogEditorSubmenuPropertyItemType) => {
+export const GetSubmenuPropertyItemHeight = (unit: number, type: BlogEditorSubmenuAccordionType) => {
     switch (type) {
-        case BlogEditorSubmenuPropertyItemKeyValues.Title:
+        case BlogEditorSubmenuAccordionKeyValues.PropertyTitle:
             return unit * 2;
-        case BlogEditorSubmenuPropertyItemKeyValues.Detail:
-            return unit * 3;
-        case BlogEditorSubmenuPropertyItemKeyValues.Thumbnail:
-            return unit * 3;
-        case BlogEditorSubmenuPropertyItemKeyValues.Tags:
-            return unit * 3;
-        case BlogEditorSubmenuPropertyItemKeyValues.Others:
+        case BlogEditorSubmenuAccordionKeyValues.PropertyDetail:
+            return unit * 3.5;
+        case BlogEditorSubmenuAccordionKeyValues.PropertyThumbnail:
+            return unit * 3.5;
+        case BlogEditorSubmenuAccordionKeyValues.PropertyTags:
+            return unit * 3.5;
+        case BlogEditorSubmenuAccordionKeyValues.PropertyOthers:
             return unit * 3;
         default:
             return unit;
     }
+}
+
+export const GetSubmenuPropertyTypes = () => {
+    return [
+        BlogEditorSubmenuAccordionKeyValues.PropertyTitle,
+        BlogEditorSubmenuAccordionKeyValues.PropertyDetail,
+        BlogEditorSubmenuAccordionKeyValues.PropertyThumbnail,
+        BlogEditorSubmenuAccordionKeyValues.PropertyTags,
+        BlogEditorSubmenuAccordionKeyValues.PropertyOthers
+    ];
 }

@@ -14,11 +14,11 @@ export type BlogComponentListItem = {
 }
 
 export const BlogComponentKeyValues = {
+    Headline: "Headline",
     Article: "Article", 
-    Picture: "Picture",
+    Image: "Image",
     Line: "Line",
     Table: "Table",
-    Headline: "Headline"
 } as const;
 
 export type BlogComponentType = typeof BlogComponentKeyValues[keyof typeof BlogComponentKeyValues];

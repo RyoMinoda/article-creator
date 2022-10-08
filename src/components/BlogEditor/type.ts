@@ -1,10 +1,14 @@
 import { BlogObj } from "../../models/state/Blog/obj";
+import { BlogComponentType } from "../../models/state/BlogComponent/type";
+import { MousePosition } from "../../models/utils/MousePosition/type";
 import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
 
 export type BlogEditorMainComponentProps = {
     width: number,
     height: number,
+    mousePosition: MousePosition,
     Blog: BlogObj,
+    activeComponentType: BlogComponentType | null,
     showDialog: (type: BlogEditorDialogType) => void,
 }
 

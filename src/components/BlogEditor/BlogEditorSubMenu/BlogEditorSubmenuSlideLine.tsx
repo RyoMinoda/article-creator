@@ -2,6 +2,7 @@ import { Box, SxProps, Theme } from "@mui/material"
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
+import { ClassNameKeyValues } from "../../../utils/ClassName";
 
 export type BlogEditorSubmenuSlideLineProps = {
     width: number,
@@ -30,8 +31,8 @@ export const BlogEditorSubmenuSlideLine = ({ props }: { props: BlogEditorSubmenu
         },
     }
     return (
-        <div onMouseDown={onMouseDown} className="vertical-transfer"  id="blog-editor-Submenu-line-div">
-            <Box sx={sx} id="blog-editor-Submenu-line-box" className="vertical-transfer" >
+        <div onMouseDown={onMouseDown} className={ClassNameKeyValues.verticalTransfer}  id="blog-editor-submenu-line-div">
+            <Box sx={sx} id="blog-editor-submenu-line-box" className={ClassNameKeyValues.verticalTransfer} >
             </Box>
         </div>
     );
