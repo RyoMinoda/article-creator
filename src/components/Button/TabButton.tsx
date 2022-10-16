@@ -23,10 +23,10 @@ export const TabButton = ({ props }: { props: TabButtonProps }) => {
         color,
         textTransform: "none",
         "&:hover": {
-            backgroundColor: hoverBgColor == undefined ? bgcolor : hoverBgColor,
+            backgroundColor: hoverBgColor === undefined ? bgcolor : hoverBgColor,
         },
         "&:active": {
-            backgroundColor: activeBgColor == undefined ? bgcolor : activeBgColor,
+            backgroundColor: activeBgColor === undefined ? bgcolor : activeBgColor,
         },
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,

@@ -1,10 +1,10 @@
 import { Uuid } from "../../../utils/Uuid";
-import { BlogComponentListItem, BlogComponentKeyValues, BlogComponentType } from "./type";
+import { DateTime } from "../../utils/DateTime/obj";
+import { BlogComponentListItem, BlogComponentKeyValues } from "./type";
 
 export const initialBlogComponent: BlogComponentListItem = {
-    ComponentTitle: "",
+    MenuTitle: "",
     StrContent: "",
-    BlogComponentId: Uuid.NewUuid(),
     X: 0,
     Y: 0,
     ComponentType: BlogComponentKeyValues.Article,
@@ -13,8 +13,7 @@ export const initialBlogComponent: BlogComponentListItem = {
 }
 
 export const no1BlocComponent: BlogComponentListItem = {
-    BlogComponentId: Uuid.NewUuid(),
-    ComponentTitle: "",
+    MenuTitle: "",
     StrContent: "",
     X: 0,
     Y: 10,

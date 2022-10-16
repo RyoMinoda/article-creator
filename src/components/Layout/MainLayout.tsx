@@ -3,7 +3,7 @@ import { CSSProperties, MouseEventHandler, useContext, useEffect, useState } fro
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 import { MouseActionKeyValues, MouseActionType, MouseModeKeyValues, MousePosition } from "../../models/utils/MousePosition/type";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
-import { getIsDisplayForeGround } from "../../utils/ClassName";
+import { ClassNameKeyValues, getIsDisplayForeGround } from "../../utils/ClassName";
 import TopMenu from "../TopMenu/TopMenu";
 
 export type LayoutProps = {
@@ -17,7 +17,13 @@ export type LayoutProps = {
 const MainLayout = ({ props, children }: { props: LayoutProps, children: React.ReactElement }) => {
     const { isShowDialog, Dialog, hideDialog, updatePosition, mousePosition } = props;
     const { screenHeight, screenWidth } = useScreenSize();
+    const [ cursor, setCursor ] = useState("default");
     const { Layout, Palette } = useContext(UiParamsContext);
+    useEffect(() => {
+        if (ClassNameKeyValues.verticalTransfer === mousePosition.className) {
+            setCursor("col-resize")
+        }
+    }, [mousePosition.id])
     const mainHeight = screenHeight - Layout.TopMenuHeight;
     const backgroundId = "popup-background";
     const onMouseDownBackgroundHandler: React.MouseEventHandler<HTMLDivElement> = (e: any) => {
@@ -62,11 +68,11 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
         updatePosition(position);
     }
     const onMouseMoveHandler: MouseEventHandler<HTMLDivElement |  MouseEvent> = (e) => {
-        if (mousePosition.action == MouseActionKeyValues.MouseDown && mousePosition.id !== "") {
+        if (mousePosition.action === MouseActionKeyValues.MouseDown && mousePosition.id !== "") {
             updateMouse(e, MouseActionKeyValues.DragStart, "");
             return;
         } 
-        if (mousePosition.action == MouseActionKeyValues.MouseDown) {
+        if (mousePosition.action === MouseActionKeyValues.MouseDown) {
             updateMouse(e, MouseActionKeyValues.DragStart);
             return;
         } 
@@ -120,7 +126,7 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
                 onMouseMove={onMouseMoveHandler}
                 onMouseDown={onMouseDownHandler}
                 onMouseUp={onMOuseUpHandler}
-                style={{ position: "absolute", zIndex: 120, top: 0, left: 0, height: screenHeight, width: screenWidth, display: dragBoxDisplay }}
+                style={{ position: "absolute", zIndex: 120, top: 0, left: 0, height: screenHeight, width: screenWidth, display: dragBoxDisplay, cursor }}
             >
             </div>
         </div>

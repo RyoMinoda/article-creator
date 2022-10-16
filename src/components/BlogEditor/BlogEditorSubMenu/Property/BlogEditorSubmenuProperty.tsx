@@ -1,9 +1,8 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { BlogEditorSubmenuPropertyMap, BlogEditorSubmenuPropertyMapProps } from "./BlogEditorSubmenuPropertyMap";
 import { useEffect, useState } from "react";
-import { BlogEditorSubmenuItemProps } from "../Files/type";
 import { GetSubmenuPropertyTypes } from "./func";
-import { BlogEditorSubmenuAccordionType } from "../types";
+import { BlogEditorSubmenuAccordionType, BlogEditorSubmenuItemProps } from "../types";
 import { getNextActiveAccordions } from "../func";
 
 export const BlogEditorSubmenuProperty = ({ props }: { props: BlogEditorSubmenuItemProps }) => {

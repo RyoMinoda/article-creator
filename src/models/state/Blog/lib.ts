@@ -16,7 +16,7 @@ export const defaultBlogThumbnail: BlogThumbnail = {
 }
 
 export const defaultBlog: Blog = {
-    BlogId: Uuid.NewUuid(),
+    BlogId: Uuid.new(),
     Title: "",
     Detail: "",
     Components: [],

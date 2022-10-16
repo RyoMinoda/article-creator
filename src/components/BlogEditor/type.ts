@@ -1,15 +1,19 @@
 import { BlogObj } from "../../models/state/Blog/obj";
-import { BlogComponentType } from "../../models/state/BlogComponent/type";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../models/state/BlogComponent/obj";
 import { MousePosition } from "../../models/utils/MousePosition/type";
 import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
+import { StorageOperationType } from "../../utils/StorageOperation";
+import { BlogEditorComponentEditorComponentItemMeta } from "./BlogEditorComponent/Editor/type";
 
 export type BlogEditorMainComponentProps = {
+    BlogComponentList: BlogComponentListObj,
     width: number,
     height: number,
     mousePosition: MousePosition,
+    componentMetas: Array<BlogEditorComponentEditorComponentItemMeta>,
     Blog: BlogObj,
-    activeComponentType: BlogComponentType | null,
     showDialog: (type: BlogEditorDialogType) => void,
+    updateComponentMetas: (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorModeKeyValues = {

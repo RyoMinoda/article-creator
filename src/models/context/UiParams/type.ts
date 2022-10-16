@@ -49,6 +49,9 @@ export type UiPalette = {
         Dark: string,
         Main: string,
         Light: string,
+        Lighter: string,
+        MuchLighter: string,
+        Lightest: string,
     },
     Pastel: {
         Red: string,

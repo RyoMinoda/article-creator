@@ -1,10 +1,12 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
 import { BlogComponentType } from "../../../../models/state/BlogComponent/type";
 import { BlogEditorSubmenuItemAccordionLayout, BlogEditorSubmenuItemAccordionLayoutProps } from "../BlogEditorSubmenuItemAccordionLayout";
 import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "../types";
-import { BlogEditorSubmenuComponentsCreate } from "./BlogEditorSubmenuComponentsCreate";
+import { BlogEditorSubmenuComponentCreate } from "./BlogEditorSubmenuComponentCreate";
+import { BlogEditorSubmenuComponentListAccordions } from "./BlogEditorSubmenuComponentListAccordions";
 import { BlogEditorSubmenuComponentsMapItemProps } from "./type";
 
 export type BlogEditorSubmenuComponentsMapProps = {
@@ -14,13 +16,13 @@ export type BlogEditorSubmenuComponentsMapProps = {
     detailHeight: number;
     width: number;
     isShown: boolean;
-    activeComponentType: BlogComponentType | null,
+    BlogComponentList: BlogComponentListObj,
     updateIsShown: () => void;
-    updateActiveComponentType: (componentType: BlogComponentType | null) => void
+    createBlogEmptyComponent: (componentType: BlogComponentType) => void
 }
 
 export const BlogEditorSubmenuComponentsMap = ({ props }: { props: BlogEditorSubmenuComponentsMapProps }) => {
-    const { width, detailHeight, isShown, title, updateActiveComponentType, activeComponentType, } = props;
+    const { width, detailHeight, isShown, title, createBlogEmptyComponent, BlogComponentList } = props;
     const { Palette } = useContext(UiParamsContext);
     var Component = <></>;
     const innerBoxSx: SxProps<Theme> = {
@@ -34,7 +36,10 @@ export const BlogEditorSubmenuComponentsMap = ({ props }: { props: BlogEditorSub
     }
     switch (title) {
         case BlogEditorSubmenuAccordionKeyValues.ComponentCreate:
-            Component = <BlogEditorSubmenuComponentsCreate props={componentProps} />
+            Component = <BlogEditorSubmenuComponentCreate props={componentProps} />
+            break;
+        case BlogEditorSubmenuAccordionKeyValues.ComponentList:
+            Component = <BlogEditorSubmenuComponentListAccordions props={componentProps} />;
             break;
     }
 

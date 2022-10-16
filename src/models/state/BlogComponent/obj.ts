@@ -1,13 +1,13 @@
 import { SxProps, Theme } from "@mui/material";
 import { Uuid } from "../../../utils/Uuid";
 import { UiPalette } from "../../context/UiParams/type";
+import { ListItemObj, ListObj } from "../../utils/List/obj";
 import { getBlogComponentIcon } from "./components";
 import { getBlogComponentTypeName } from "./func";
 import { BlogComponentListItem, BlogComponentKeyValues, BlogComponentType } from "./type";
 
-export class BlogComponentListItemObj implements BlogComponentListItem {
-    BlogComponentId: string;
-    ComponentTitle: string;
+export class BlogComponentListItemObj extends ListItemObj  implements BlogComponentListItem {
+    MenuTitle: string;
     X: number;
     Y: number;
     ComponentType: BlogComponentType;
@@ -15,12 +15,9 @@ export class BlogComponentListItemObj implements BlogComponentListItem {
     ColumnSpan: number;
     StrContent: string;
     
-    constructor(componentType: BlogComponentType, x: number, y: number, rowSpan: number, colSpan: number, components?: Array<BlogComponentListItemObj>) {
-        this.BlogComponentId = Uuid.NewUuid();
-        this.ComponentTitle = "";
-        if (components != undefined) {
-            this.ComponentTitle = this.getComponentTitle(componentType, components);
-        }
+    constructor(id: string, componentType: BlogComponentType, menuTitle: string, x: number, y: number, rowSpan: number, colSpan: number) {
+        super(id);
+        this.MenuTitle = menuTitle;
         this.X = x;
         this.Y = y;
         this.ComponentType = componentType;
@@ -29,14 +26,9 @@ export class BlogComponentListItemObj implements BlogComponentListItem {
         this.ColumnSpan = colSpan;
     }
 
-    private getComponentTitle = (componentType: BlogComponentType, components: Array<BlogComponentListItemObj>): string => {
-        const count = components.filter(x => x.ComponentType == componentType).length;
-        return componentType + (count + 1).toString();
-    }
-
-    private setComponentProps = (component: BlogComponentListItem) => {
-        this.BlogComponentId = component.BlogComponentId;
-        this.ComponentTitle = component.ComponentTitle;
+    private setComponentProps = (id: string, component: BlogComponentListItem) => {
+        this.Id = id;
+        this.MenuTitle = component.MenuTitle;
         this.ColumnSpan = component.ColumnSpan;
         this.RowSpan = component.RowSpan;
         this.ComponentType = component.ComponentType;
@@ -80,84 +72,31 @@ export class BlogComponentListItemObj implements BlogComponentListItem {
     }
 
     public static getEmpty = () => {
-        return new BlogComponentListItemObj(BlogComponentKeyValues.Article, 0, 0, 0, 0);
+        return this.create(BlogComponentKeyValues.Article);
     }
 
     public static createObj = (component: BlogComponentListItem): BlogComponentListItemObj => {
-        var target = this.getEmpty();
-        target.setComponentProps(component);
+        const target = this.getEmpty();
+        const uuid = Uuid.new();
+        target.setComponentProps(uuid, component);
         return target;
     }
 
-    public static create = (componentType: BlogComponentType, components: Array<BlogComponentListItemObj>): BlogComponentListItemObj => {
-        const { x, y } = this.getXY(componentType, components);
-        const rowSpan = this.getComponentDefaultRowSpan(componentType);
-        const columnSpan = this.getComponentDefaultColumnSpan(componentType);
-        return new BlogComponentListItemObj(componentType, x, y, rowSpan - 1, columnSpan - 1, components);
+    public static create = (componentType: BlogComponentType): BlogComponentListItemObj => {
+        const uuid = Uuid.new();
+        return new BlogComponentListItemObj(uuid, componentType, "Not Registered", -1, -1, -1, -1);
     }
     
-    private static getXY = (componentType: BlogComponentType, components: Array<BlogComponentListItemObj>): { x: number, y: number } => {
-        if (components.length == 0) return { x: 0, y: 0 };
-        const array = new Array(12).fill(0);
-        const arrayLength = components.map(x => x.RowSpan).reduce((a, b) => a + b);
-        const rowSpan = this.getComponentDefaultRowSpan(componentType);
-        const array2: number[][] = new Array(arrayLength + rowSpan + 1 + 12).fill(0).map(_ => array.map(x => x));
-        components.forEach((component) => {
-            const columnCellArray = new Array(component.ColumnSpan).fill(1);
-            const rowCellArray: Array<number[]> = new Array(component.RowSpan).fill(columnCellArray);
-            rowCellArray.forEach((rowArray, i) => {
-                const row = i + component.Y;
-                rowArray.forEach((c, ii) => {
-                    const col = ii + component.X;
-                    array2[row][col] = 1;
-                })
-            })
-        });
-        var x = 0; var y = 0; var end = false;
-        const columnSpan = this.getComponentDefaultColumnSpan(componentType);
-        array2.forEach((row, i) => {
-            if (end) return;
-            const emptyLength = row.filter(x => x == 0).length;
-            if (columnSpan <= emptyLength) {
-                x = 12 - emptyLength;
-                y = i;
-                end = true;
-            }
-        })
-        return { x, y }
-    }
+}
 
-    private  static getComponentDefaultRowSpan = (type: BlogComponentType): number => {
-        switch(type) {
-            case BlogComponentKeyValues.Article:
-                return 2;
-            case BlogComponentKeyValues.Line:
-                return 1;
-            case BlogComponentKeyValues.Image:
-                return 4;
-            case BlogComponentKeyValues.Headline:
-                return 1;
-            case BlogComponentKeyValues.Table:
-                return 2;
-            default:
-                throw new Error("getComponentDefaultRowSpan");
-        }
+export class BlogComponentListObj extends ListObj<BlogComponentListItemObj> {
+    constructor(list: Array<BlogComponentListItemObj>) {
+        super(list);
     }
-
-    private static getComponentDefaultColumnSpan = (type: BlogComponentType): number => {
-        switch(type) {
-            case BlogComponentKeyValues.Article:
-                return 12;
-            case BlogComponentKeyValues.Line:
-                return 12;
-            case BlogComponentKeyValues.Image:
-                return 6;
-            case BlogComponentKeyValues.Headline:
-                return 12;
-            case BlogComponentKeyValues.Table:
-                return 12;
-            default:
-                throw new Error("getComponentDefaultColumnSpan");
-        }
+    
+    distinctTitles(): Array<string> {
+        const titles = this.Items.map(x => x.MenuTitle);
+        const set = new Set(titles);
+        return Array.from(set);
     }
 }

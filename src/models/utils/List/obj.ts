@@ -24,6 +24,11 @@ export class ListObj<T extends ListItemObj> {
         return this.Items;
     }
 
+    update(item: T): void {
+        this.Items = this.Items.map(x => x.Id === item.Id ? item : x);
+    }
+
+    public isNotEmpty: boolean = this.Items.length > 0;
 }
 
 export class ListItemObj {

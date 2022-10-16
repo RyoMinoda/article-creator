@@ -1,7 +1,16 @@
-import {v4 as uuidv4} from 'uuid';
+import { v4 as uuid } from 'uuid';
 
 export class Uuid {
-    static NewUuid(): string {
-        return uuidv4();
+    private uuid: string;
+    constructor() {
+        this.uuid = uuid();
+    }
+
+    static new(): string {
+        return uuid();
+    }
+
+    public create(): string {
+        return this.uuid;
     }
 }

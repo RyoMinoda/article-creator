@@ -53,7 +53,7 @@ export const BlogEditorSubmenuItemAccordionLayout = ({ props, children }: { prop
     const fixAccordions: Array<string> = [
         BlogEditorSubmenuAccordionKeyValues.FilesBlogs,
         BlogEditorSubmenuAccordionKeyValues.ComponentCreate,
-        BlogEditorSubmenuAccordionKeyValues.ComponentEdit
+        BlogEditorSubmenuAccordionKeyValues.ComponentList
     ];
     if (fixAccordions.includes(title)) {
         const fixSummarySx: SxProps<Theme> = {

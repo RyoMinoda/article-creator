@@ -58,12 +58,12 @@ export class BlogTagItemObj extends ListItemObj implements BlogTagItem {
     }
 
     public static create() {
-        const uuid = Uuid.NewUuid()
+        const uuid = Uuid.new();
         return new BlogTagItemObj(uuid, "", false, true);
     }
 
     public static createByName(tag: string) {
-        const uuid = Uuid.NewUuid()
+        const uuid = Uuid.new();
         return new BlogTagItemObj(uuid, tag, false, true);
     }
 

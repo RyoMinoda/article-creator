@@ -4,6 +4,7 @@ import MainLayout, { LayoutProps } from "../components/Layout/MainLayout";
 import { No1Blog } from "../models/state/Blog/lib";
 import { BlogObj } from "../models/state/Blog/obj";
 import { BlogPropertyKeyValues } from "../models/state/Blog/type";
+import { BlogComponentListObj } from "../models/state/BlogComponent/obj";
 import { BlogEditDetailObj } from "../models/state/BlogEditDetail/obj";
 import { sampleBlogListObj } from "../models/state/BlogList/lib";
 import { BlogListObj } from "../models/state/BlogList/obj";
@@ -26,6 +27,7 @@ const EditPage = () => {
     const [ blogList, setBlogList ] = useState(BlogListObj.create());
     const [ blogTagList, setBlogTagList ] = useState(BlogTagListObj.create());
     const [ blogPreview, setBlogPreview ] = useState(BlogObj.create());
+    const [ blogComponentList, setBlogComponentList ] = useState(new BlogComponentListObj([]))
     const [ blogEditHistoryList, setBlogEditHistoryList ] = useState(BlogListObj.create());
     const initialWindowWidth = PreviewWidthValues[0];
     const [ windowWidth, setWindowWidth ] = useState(initialWindowWidth);
@@ -49,6 +51,7 @@ const EditPage = () => {
         BlogList: blogList,
         BlogTagList: blogTagList,
         BlogEditHistoryList: blogEditHistoryList,
+        BlogComponentList: blogComponentList,
         mousePosition,
         save: () => {
             setBlogPreview(blog);
@@ -60,6 +63,7 @@ const EditPage = () => {
             setBlogPreview(blog);
         },
         updateBlog: (blog: BlogObj) => setBlog(blog),
+        updateBlogComponentList: (componentList: BlogComponentListObj) => setBlogComponentList(componentList),
     }
     const previewProps: BlogEditorDialogProps = {
         type: dialogType,

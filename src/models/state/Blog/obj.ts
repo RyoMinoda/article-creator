@@ -88,7 +88,7 @@ export class BlogObj implements Blog {
     }
 
     public static create(): BlogObj {
-        const uuid = Uuid.NewUuid();
+        const uuid = Uuid.new();
         return new BlogObj(
             uuid, "", "", BlogTagListObj.create(), [], defaultBlogThumbnail, new Date(), new Date(), defaultSetting 
         );

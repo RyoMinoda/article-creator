@@ -1,15 +1,12 @@
-export type BlogComponentList = {
-    List: Array<BlogComponentListItem>
-}
+import { DateTime } from "../../utils/DateTime/obj";
 
 export type BlogComponentListItem = {
-    BlogComponentId: string,
+    MenuTitle: string,
     X: number,
     Y: number,
     ComponentType: BlogComponentType,
     RowSpan: number,
     ColumnSpan: number,
-    ComponentTitle: string,
     StrContent: string;
 }
 
@@ -22,3 +19,5 @@ export const BlogComponentKeyValues = {
 } as const;
 
 export type BlogComponentType = typeof BlogComponentKeyValues[keyof typeof BlogComponentKeyValues];
+
+

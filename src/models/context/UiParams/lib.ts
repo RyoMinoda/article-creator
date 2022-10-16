@@ -45,7 +45,10 @@ const initialPalette: UiPalette = {
         Darker: "#333333",
         Dark: "#565656",
         Main: "#888888",
-        Light: "#FFFFFF"
+        Light: "#AAAAAA",
+        Lighter: "#CCCCCC",
+        MuchLighter:"#EDEDED",
+        Lightest: "#FFFFFF"
     },
     Pastel: {
         Red: "#F4BFBF",

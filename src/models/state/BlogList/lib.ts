@@ -5,7 +5,7 @@ import { BlogListItemObj, BlogListObj } from "./obj";
 import { BlogList, BlogListItem } from "./type";
 
 export const initialBlog: BlogListItem = {
-    Id: Uuid.NewUuid(),
+    Id: Uuid.new(),
     Title: "",
     Tags: BlogTagListObj.create(),
     UpdatedAt: new Date(),

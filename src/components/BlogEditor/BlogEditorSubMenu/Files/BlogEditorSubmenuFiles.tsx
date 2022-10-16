@@ -1,10 +1,9 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getNextActiveAccordions } from "../func";
-import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "../types";
+import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType, BlogEditorSubmenuItemProps } from "../types";
 import { BlogEditorSubmenuFilesMap, BlogEditorSubmenuFilesMapProps } from "./BlogEditorSubmenuFilesMap";
 import { GetSubmenuAccordionBlogsHeight, GetSubmenuAccordionBlogsHeightProps, GetSubmenuFileAccordionContentHeightProps, GetSubmenuFileDefaultAccordions } from "./func";
-import { BlogEditorSubmenuItemProps } from "./type";
 
 export const BlogEditorSubmenuFiles = ({ props }: { props: BlogEditorSubmenuItemProps }) => {
     const { width, height, activeAccordions, updateActiveAccordions } = props;

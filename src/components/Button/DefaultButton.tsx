@@ -6,14 +6,15 @@ export type DefaultButtonProps = {
     sx: SxProps<Theme>,
     onClick: () => void,
     hoverBackgroundColor?: string,
+    hoverColor?: string,
 }
 
 const DefaultButton = ({ props, children }: { props: DefaultButtonProps, children: React.ReactNode }) => {
-    const { sx, onClick, hoverBackgroundColor } = props;
+    const { sx, onClick, hoverBackgroundColor, hoverColor } = props;
     const { Palette } = useContext(UiParamsContext);
     const onClickHandler = () => onClick();
     const tHoverBackgroundColor = hoverBackgroundColor === undefined ? "transparent" : hoverBackgroundColor;
-
+    const tHoverColor = hoverColor === undefined ? Palette.FontColor.Dark : hoverColor;
     const style: SxProps<Theme> = {
         ...sx,
         textTransform: "none",
@@ -22,7 +23,7 @@ const DefaultButton = ({ props, children }: { props: DefaultButtonProps, childre
         boxShadow: "none",
         "&:hover": {
             backgroundColor: tHoverBackgroundColor,
-            color: Palette.FontColor.Dark,
+            color: tHoverColor,
         },
         "&:active": {
             bgColor: Palette.Background.Lighter,

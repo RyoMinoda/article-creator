@@ -1,27 +1,28 @@
-import { Grid, Stack, SxProps, Typography } from "@mui/material";
+import { Grid, Skeleton, SxProps, Typography } from "@mui/material";
 import { Theme } from "@mui/system";
 import { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { BlogEditorMap, BlogEditorMapProps } from "../../components/BlogEditor/BlogEditorMap";
 import { BlogEditorTopButtonGroup, BlogEditorTopButtonGroupProps } from "../../components/BlogEditor/ButtonGroup/BlogEditorTopButtonGroup";
-import { CustomBreadcrumb, CustomBreadcrumbItemProps, CustomBreadcrumbProps } from "../../components/Breadcrumb/CustomBreadcrumb";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 import { BlogObj } from "../../models/state/Blog/obj";
-import { Blog } from "../../models/state/Blog/type";
-import { BlogComponentListItemObj } from "../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../models/state/BlogComponent/obj";
 import { BlogEditorMenuTabType, BlogEditorModeType, BlogEditorModeKeyValues, BlogEditorMenuTabKeyValues } from "../../components/BlogEditor/type";
-import { BlogEditDetail, BlogEditFlow } from "../../models/state/BlogEditDetail/type";
+import { BlogEditDetail } from "../../models/state/BlogEditDetail/type";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
 import { BlogEditorModeMenu, BlogEditorModeMenuProps } from "../../components/BlogEditor/BlogEditorModeMenu/BlogEditorModeMenu";
 import { getSubWindowDefaultWidth } from "../../components/BlogEditor/func";
 import { BlogEditorSubmenu, BlogEditorSubmenuProps } from "../../components/BlogEditor/BlogEditorSubmenu/BlogEditorSubmenu";
 import { MouseActionKeyValues, MousePosition } from "../../models/utils/MousePosition/type";
-import { BlogListItemObj, BlogListObj } from "../../models/state/BlogList/obj";
-import { BlogList } from "../../models/state/BlogList/type";
+import { BlogListObj } from "../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../models/state/BlogTag/obj";
-import { BlogEditorSubmenuAccordionType, BlogEditorSubmenuSearchGenreKeyValues } from "../../components/BlogEditor/BlogEditorSubmenu/types";
+import { BlogEditorSubmenuAccordionType } from "../../components/BlogEditor/BlogEditorSubmenu/types";
 import { defaultActiveSubmenus } from "../../components/BlogEditor/BlogEditorSubmenu/lib";
 import { BlogEditorDialogType } from "./type";
-import { BlogComponentKeyValues, BlogComponentType } from "../../models/state/BlogComponent/type";
+import { BlogComponentType } from "../../models/state/BlogComponent/type";
+import { BlogEditorComponentEditorComponentItemMeta } from "../../components/BlogEditor/BlogEditorComponent/Editor/type";
+import { BlogEditorComponentEditorComponentItemMetaObj } from "../../components/BlogEditor/BlogEditorComponent/Editor/obj";
+import { StorageOperationKeyValues, StorageOperationType } from "../../utils/StorageOperation";
+
 
 export type BlogEditorProps = {
     Blog: BlogObj,
@@ -29,26 +30,27 @@ export type BlogEditorProps = {
     BlogList: BlogListObj,
     BlogTagList: BlogTagListObj,
     BlogEditHistoryList: BlogListObj,
+    BlogComponentList: BlogComponentListObj,
     mousePosition: MousePosition,
     save: () => void,
     showDialog: (type: BlogEditorDialogType) => void,
     updateBlog: (blog: BlogObj) => void,
+    updateBlogComponentList: (componentList: BlogComponentListObj) => void,
 }
 
 export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
-    const { Blog, BlogEditDetail, save, showDialog, mousePosition, BlogList, BlogTagList, updateBlog } = props;
+    const { Blog, mousePosition,  BlogComponentList, updateBlog, updateBlogComponentList, save, showDialog,  } = props;
 
     // States
     const { screenWidth, screenHeight } = useScreenSize();
     const { Layout, FontSize, Palette } = useContext(UiParamsContext);
-    const initialComponents = Blog.Components.map((x) => BlogComponentListItemObj.createObj(x))
-    const [ components, setComponents ] = useState<Array<BlogComponentListItemObj>>(initialComponents);
+    const [ componentMetas, setComponentMetas ] = useState<Array<BlogEditorComponentEditorComponentItemMeta>>([]);
     const [ tabType, setTabType ] = useState<BlogEditorMenuTabType>(BlogEditorMenuTabKeyValues.Home);
     const [ modeType, setModeType ] = useState<BlogEditorModeType>(BlogEditorModeKeyValues.Component);
     const [ subWindowWidth, setSubWindowWidth ] = useState<number>(0);
     const [ activeAccordions, setActiveAccordions ] = useState<Array<BlogEditorSubmenuAccordionType>>(defaultActiveSubmenus);
     const [ canUpdateSubWindowWidth, setCanUpdateSubWindowWidth ] = useState(false);
-    const [ activeComponentType, setActiveComponentType ] = useState<BlogComponentType | null>(null);
+    const [ activeBlogComponentId, setActiveBlogComponentId ] = useState("");
 
     useEffect(() => {
         const width = getSubWindowDefaultWidth(modeType, subWindowWidth);
@@ -82,10 +84,24 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
     const menuHeight = 150;
     const initialRowCount = 12;
     const menuBottomMargin = 4;
-    const componentRowCount = components.length === 0 ? 0 : components.map(x => x.RowSpan).reduce((a, b) => a + b);
     const updateSubWindowWidth = () => setCanUpdateSubWindowWidth(true);
     const updateActiveAccordions = (accordions: Array<BlogEditorSubmenuAccordionType>) => {
         setActiveAccordions(accordions);
+    }
+    const updateComponentMetas = (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => {
+        var newComponentMetas = Array<BlogEditorComponentEditorComponentItemMeta>();
+        switch (operation) {
+            case StorageOperationKeyValues.Create:
+                newComponentMetas = [ ...componentMetas, componentMeta ];
+                break;
+            case StorageOperationKeyValues.Delete:
+                newComponentMetas = componentMetas.filter(x => x.componentId !== componentMeta.componentId);
+                break;
+            case StorageOperationKeyValues.Update:
+                newComponentMetas = componentMetas.map(x => x.componentId === componentMeta.componentId ? componentMeta : x);
+                break;
+        }
+        setComponentMetas(newComponentMetas);
     }
 
     // Props
@@ -111,18 +127,15 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         Blog,
         tabType, menuHeight,
         menuBottomMargin, modeType, mousePosition,
-        emptyRowCount: componentRowCount + initialRowCount,
-        activeComponentType,
-        addComponent: (component: BlogComponentListItemObj) => {
-            const newComponents = [ ...components, component ];
-            setComponents(newComponents);  
-        },
+        emptyRowCount: BlogComponentList.length + initialRowCount,
+        BlogComponentList, 
+        componentMetas,
         updateComponent: (component: BlogComponentListItemObj) => {
-            const newComponents = components.map((x) => {
-                return x.BlogComponentId === component.BlogComponentId ? component : x;
-            })
-            setComponents(newComponents);
+            BlogComponentList.update(component);
+            updateBlogComponentList(BlogComponentList);
         },
+        updateComponentMetas,
+        updateActiveBlogComponent: (id: string) => setActiveBlogComponentId(id),
         updateTabType: (tabType: BlogEditorMenuTabType) => setTabType(tabType),
         updateModeType: (modeType: BlogEditorModeType) => setModeType(modeType),
         showDialog,
@@ -131,13 +144,20 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         ...props,
         width: subWindowWidth, modeType, 
         height: mainHeight, mousePosition,
-        updateSubWindowWidth,
         activeAccordions,
+        BlogComponentList,
+        updateSubWindowWidth,
         updateBlog,
         updateActiveAccordions,
-        activeComponentType,
-        updateActiveComponentType: (componentType: BlogComponentType | null) => {
-            setActiveComponentType(componentType);
+        updateActiveBlogComponent: (id: string) => setActiveBlogComponentId(id),
+        createBlogEmptyComponent: (componentType: BlogComponentType) => {
+            const newComponent = BlogComponentListItemObj.create(componentType);
+            BlogComponentList.add(newComponent);
+            updateBlogComponentList(BlogComponentList);
+            const newMetas = new BlogEditorComponentEditorComponentItemMetaObj(newComponent);
+            const metas = [ ...componentMetas, newMetas ];
+            setComponentMetas(metas);
+            setActiveBlogComponentId(newComponent.Id);
         }
     }
     // Styles
@@ -173,6 +193,25 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         cursor: "text",
         userSelect: "text"
     }
+    const MainComponent = !canUpdateSubWindowWidth ? (
+        <Grid item sx={editorMainContainerSx}>
+            <Grid container>
+                <Grid container sx={editorTitleItemSx}>
+                    <Grid item sx={blogTitleSx}>
+                        <Typography fontSize={FontSize.Large} sx={typographySx}>
+                            {Blog.Title}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <BlogEditorTopButtonGroup props={blogButtonGroupProps} />
+                    </Grid>
+                </Grid>
+                <Grid container sx={editorMainItemSx}>
+                    <BlogEditorMap props={editorProps} />
+                </Grid>
+            </Grid>
+        </Grid>
+    ) : <Skeleton variant="rounded" sx={{ ...editorMainContainerSx, bgcolor: Palette.Background.Light }} />
     return (
         <Grid container sx={{ width: screenWidth, height: screenHeight - Layout.TopMenuHeight }}>
             <Grid item sx={modeMenuSx}>
@@ -182,21 +221,7 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
                 <BlogEditorSubmenu props={subWindowProps} />
             </Grid>
             <Grid item sx={editorMainContainerSx}>
-                <Grid container>
-                    <Grid container sx={editorTitleItemSx}>
-                        <Grid item sx={blogTitleSx}>
-                            <Typography fontSize={FontSize.Large} sx={typographySx}>
-                                {Blog.Title}
-                            </Typography>
-                        </Grid>
-                        <Grid item>
-                            <BlogEditorTopButtonGroup props={blogButtonGroupProps} />
-                        </Grid>
-                    </Grid>
-                    <Grid container sx={editorMainItemSx}>
-                        <BlogEditorMap props={editorProps} />
-                    </Grid>
-                </Grid>
+                {MainComponent}
             </Grid>
         </Grid>
     );

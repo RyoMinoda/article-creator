@@ -1,15 +1,13 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
-import { BlogComponentType } from "../../../../models/state/BlogComponent/type";
-import { BlogEditorSubmenuItemProps } from "../Files/type";
 import { getNextActiveAccordions } from "../func";
-import { BlogEditorSubmenuAccordionType } from "../types";
+import { BlogEditorSubmenuAccordionType, BlogEditorSubmenuItemProps } from "../types";
 import { BlogEditorSubmenuComponentsMap, BlogEditorSubmenuComponentsMapProps } from "./BlogEditorSubmenuComponentsMap";
 import { GetSubmenuComponentItemHeight, GetSubmenuComponentTypes } from "./func";
 
 export const BlogEditorSubmenuComponents = ({ props }: { props: BlogEditorSubmenuItemProps }) => {
-    const { width, height, updateActiveAccordions, accordionTitleHeight, activeAccordions, activeComponentType, updateActiveComponentType } = props;
+    const { width, height, updateActiveAccordions, BlogComponentList, accordionTitleHeight, activeAccordions, createBlogEmptyComponent } = props;
     const { Palette } = useContext(UiParamsContext);
     const [ isShowns, setIsShowns ] = useState<Array<boolean>>([]);
     const [ accordionHeights, setAccordionHeights ] = useState<Array<number>>([]);
@@ -28,7 +26,7 @@ export const BlogEditorSubmenuComponents = ({ props }: { props: BlogEditorSubmen
         const currentActiveAccordions = nextAccordions.filter(x => accordionTypes.includes(x));
         const heights = accordionTypes.map((x) => GetSubmenuComponentItemHeight(x, height, accordionTypes, currentActiveAccordions, accordionTitleHeight));
         setAccordionHeights(heights);
-    }, [isShowns])
+    }, [isShowns]);
 
     const outerSx: SxProps<Theme> = {
         width,
@@ -44,14 +42,14 @@ export const BlogEditorSubmenuComponents = ({ props }: { props: BlogEditorSubmen
                     index: i,
                     width,
                     isShown: isShowns[i],
+                    BlogComponentList,
                     detailHeight: accordionHeights[i],
-                    activeComponentType,
+                    createBlogEmptyComponent,
                     updateIsShown: () => {
                         const nextShowns = [ ...isShowns ];
                         nextShowns[i] = !isShowns[i];
                         setIsShowns(nextShowns);
                     },
-                    updateActiveComponentType
                 }
                 return <BlogEditorSubmenuComponentsMap props={nextProps} key={x} />
             })}

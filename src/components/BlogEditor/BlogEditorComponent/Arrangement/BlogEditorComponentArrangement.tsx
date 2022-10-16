@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, SxProps, Theme, Typography } from "@mui/material"
+import { Box, Grid, Paper, Skeleton, SxProps, Theme, Typography } from "@mui/material"
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib"
 import { BlogObj } from "../../../../models/state/Blog/obj";
@@ -36,16 +36,22 @@ export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorCom
         width, currentPage, Blog,
         updateCurrentPage
     }
+    const skeltonSx: SxProps<Theme> = {
+        width, height,
+    }
+    const Component = !canUpdateComponentWindowWidth ? (
+        <Grid container>
+            <Grid item>
+                <BlogEditorComponentArrangementMain props={mainProps} />
+            </Grid>
+            <Grid item>
+                <BlogEditorComponentArrangementMenu props={menuProps} />
+            </Grid>
+        </Grid>
+    ) : <Box sx={skeltonSx} />
     return (
         <Box sx={outerSx}>
-            <Grid container>
-                <Grid item>
-                    <BlogEditorComponentArrangementMain props={mainProps} />
-                </Grid>
-                <Grid item>
-                    <BlogEditorComponentArrangementMenu props={menuProps} />
-                </Grid>
-            </Grid>
+            {Component}
         </Box>
     );
 }

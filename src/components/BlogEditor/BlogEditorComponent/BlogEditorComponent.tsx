@@ -7,14 +7,16 @@ import { BlogEditorMainComponentProps } from "../type";
 import { BlogEditorComponentArrangement, BlogEditorComponentArrangementProps } from "./Arrangement/BlogEditorComponentArrangement";
 import { BlogEditorComponentSlideLine, BlogEditorComponentSlideLineProps } from "./BlogEditorComponentSlideLine";
 import { BlogEditorComponentEditor, BlogEditorComponentEditorProps } from "./Editor/BlogEditorComponentEditor";
+import { BlogEditorComponentEditorMenuKeyValues, BlogEditorComponentEditorMenuType } from "./Editor/type";
 
 export const BlogEditorComponent = ({ props }: { props: BlogEditorMainComponentProps }) => {
-    const { width, height, mousePosition, Blog, activeComponentType } = props;
+    const { width, height, mousePosition, Blog } = props;
     const [ mainWidth, setMainWidth ] = useState(width / 2);
     const [ canUpdateComponentWindowWidth, setCanUpdateComponentWindowWidth ] = useState(false);
+    const [ menuType, setMenuType ] = useState<BlogEditorComponentEditorMenuType>(BlogEditorComponentEditorMenuKeyValues.Medium);
     const { screenWidth } = useScreenSize();
-    const { Layout } = useContext(UiParamsContext);
     const [ currentPage, setCurrentPage ] = useState(1);
+    const [ activeComponentId, setActiveComponentId ] = useState("");
 
     useEffect(() => {
         setMainWidth(width / 2);
@@ -26,7 +28,7 @@ export const BlogEditorComponent = ({ props }: { props: BlogEditorMainComponentP
             return;
         }
         const left = mousePosition.x - (screenWidth - width)
-        if (canUpdateComponentWindowWidth && left % 10 === 0) {
+        if (canUpdateComponentWindowWidth && left % 15 === 0) {
             setMainWidth(left);
             return;
         }
@@ -68,8 +70,13 @@ export const BlogEditorComponent = ({ props }: { props: BlogEditorMainComponentP
         height, Blog, currentPage, updateCurrentPage
     }
     const componentEditorProps: BlogEditorComponentEditorProps = {
+        ...props,
         width: mainWidth,
-        height, activeComponentType,
+        height, menuType,
+        activeComponentId,
+        updateMenuType: (menuType: BlogEditorComponentEditorMenuType) => setMenuType(menuType),
+        updateActiveComponentId: (id: string) => setActiveComponentId(id),
+        canUpdateComponentWindowWidth,
     }
     return (
         <Box sx={outerSx}>

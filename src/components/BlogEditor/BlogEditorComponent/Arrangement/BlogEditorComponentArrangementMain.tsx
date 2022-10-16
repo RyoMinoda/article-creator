@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Stack, SxProps, Theme } from "@mui/material"
+import { Box, Grid, Paper, Skeleton, Stack, SxProps, Theme } from "@mui/material"
 import { useContext, useState } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 import { BlogObj } from "../../../../models/state/Blog/obj";
@@ -59,7 +59,7 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         <Box sx={stackBoxSx}>
             <BlogEditorComponentArrangementMainForeground props={foregroundProps} />
         </Box>
-    ) : <Box sx={stackBoxSx} />
+    ) : <Skeleton sx={stackBoxSx}  variant="rounded" />
     return (
         <Box sx={outerSx}>
             <Paper sx={paperSx}>
