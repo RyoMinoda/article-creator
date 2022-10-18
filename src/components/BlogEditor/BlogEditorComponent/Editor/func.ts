@@ -32,7 +32,7 @@ export const getMetaDisplayHeight = (component: BlogComponentListItemObj, meta: 
     if (meta.isHidden) return 0;
     switch (component.ComponentType) {
         case BlogComponentKeyValues.Headline:
-            return component.Id === activeId ? 200 : 120;
+            return component.Id === activeId ? 200 : 130;
     }
     return 100;
 }

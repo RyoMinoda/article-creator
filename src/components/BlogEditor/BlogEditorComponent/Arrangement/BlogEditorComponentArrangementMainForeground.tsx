@@ -1,6 +1,7 @@
 import { Grid, SxProps, Theme } from "@mui/material"
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
+import { MousePosition } from "../../../../models/utils/MousePosition/type";
 
 export type BlogEditorComponentArrangementMainForegroundProps = {
     width: number,
@@ -12,12 +13,14 @@ export type BlogEditorComponentArrangementMainForegroundProps = {
     activeStartColumn: number,
     activeEndColumn: number,
     selectable: boolean,
+    isPositionMode: boolean,
+    mousePosition: MousePosition,
     updateActiveCell: (sr: number, er: number, sc: number, ec: number) => void,
 }
 
 export const BlogEditorComponentArrangementMainForeground = ({ props }: { props: BlogEditorComponentArrangementMainForegroundProps }) => {
     const { 
-        rowCount, columnCount, width, height, updateActiveCell, 
+        rowCount, columnCount, width, height, updateActiveCell, isPositionMode,
         activeStartColumn, activeEndRow, activeEndColumn, activeStartRow, selectable
     } = props;
     const { Palette } = useContext(UiParamsContext);
@@ -25,6 +28,7 @@ export const BlogEditorComponentArrangementMainForeground = ({ props }: { props:
     const columns = new Array(columnCount).fill(0).map((x, i) => i);
     const rowHeight = height / rowCount;
     const columnWidth = width / columnCount;
+    const backcolor = isPositionMode ? "transparent" : Palette.Background.Light;
     const itemSx: SxProps<Theme> = {
         width: columnWidth,
         height: rowHeight,
@@ -34,12 +38,17 @@ export const BlogEditorComponentArrangementMainForeground = ({ props }: { props:
         userSelect: "none",
         "&:hover": {
             bgcolor: Palette.Background.Light
-        }
+        },
+    }
+    const containerSx: SxProps<Theme> = {
+        width, height,
+        overflow: "hidden",
     }
     const itemStyle: React.CSSProperties = {
         width: columnWidth,
         height: rowHeight,
         userSelect: "none",
+        backgroundColor: "red"
     }
     const onMouseDownHandler = (row: number, col: number) => {
         updateActiveCell(row, row, col, col);
@@ -58,7 +67,7 @@ export const BlogEditorComponentArrangementMainForeground = ({ props }: { props:
         return "transparent"
     }
     return (
-        <Grid container>
+        <Grid container sx={containerSx}>
             {rows.map((r) => {
                 return (
                     <Grid item key={"row" + r.toString()}>
@@ -67,7 +76,7 @@ export const BlogEditorComponentArrangementMainForeground = ({ props }: { props:
                                 const bgcolor = getBgColor(r, c);
                                 return (
                                     <Grid item 
-                                        sx={{ ...itemSx, bgcolor }} 
+                                        sx={{ ...itemSx, bgcolor: backcolor }} 
                                         key={"row" + r.toString() + "col" + c.toString()}>
                                         {selectable ? (
                                             <div

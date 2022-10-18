@@ -10,17 +10,21 @@ import { BlogEditorComponentEditor, BlogEditorComponentEditorProps } from "./Edi
 import { BlogEditorComponentEditorMenuKeyValues, BlogEditorComponentEditorMenuType } from "./Editor/type";
 
 export const BlogEditorComponent = ({ props }: { props: BlogEditorMainComponentProps }) => {
-    const { width, height, mousePosition, Blog } = props;
+    const { width, height, mousePosition, Blog, activeBlogComponentId, updateActiveBlogComponentId } = props;
     const [ mainWidth, setMainWidth ] = useState(width / 2);
     const [ canUpdateComponentWindowWidth, setCanUpdateComponentWindowWidth ] = useState(false);
     const [ menuType, setMenuType ] = useState<BlogEditorComponentEditorMenuType>(BlogEditorComponentEditorMenuKeyValues.Medium);
+    const [ isPositionMode, setIsPositionMode ] = useState(false);
     const { screenWidth } = useScreenSize();
     const [ currentPage, setCurrentPage ] = useState(1);
-    const [ activeComponentId, setActiveComponentId ] = useState("");
 
     useEffect(() => {
         setMainWidth(width / 2);
     }, [screenWidth])
+
+    useEffect(() => {
+        console.log(mousePosition.id)
+    }, [mousePosition.action])
 
     useLayoutEffect(() => {
         if (mousePosition.action === MouseActionKeyValues.MouseUp || mousePosition.action === MouseActionKeyValues.DragEnd) {
@@ -39,6 +43,9 @@ export const BlogEditorComponent = ({ props }: { props: BlogEditorMainComponentP
     };
     const updateCurrentPage = (page: number) => {
         setCurrentPage(page);
+    }
+    const updateIsPositionMode = (bool: boolean) => {
+        setIsPositionMode(bool);
     }
     const lineWidth = 4;
     const outerSx: SxProps<Theme> = {
@@ -66,17 +73,22 @@ export const BlogEditorComponent = ({ props }: { props: BlogEditorMainComponentP
         height,
     }
     const arrangementProps: BlogEditorComponentArrangementProps = {
+        ...props,
         width: arrangementWidth, canUpdateComponentWindowWidth,
-        height, Blog, currentPage, updateCurrentPage
+        height, Blog, currentPage, updateCurrentPage,
+        updateIsPositionMode,
+        isPositionMode
     }
     const componentEditorProps: BlogEditorComponentEditorProps = {
         ...props,
         width: mainWidth,
         height, menuType,
-        activeComponentId,
+        activeComponentId: activeBlogComponentId,
         updateMenuType: (menuType: BlogEditorComponentEditorMenuType) => setMenuType(menuType),
-        updateActiveComponentId: (id: string) => setActiveComponentId(id),
+        updateActiveBlogComponentId,
         canUpdateComponentWindowWidth,
+        isPositionMode,
+        updateIsPositionMode
     }
     return (
         <Box sx={outerSx}>

@@ -19,13 +19,13 @@ export type BlogEditorComponentEditorMainLayoutProps = {
     componentMeta: BlogEditorComponentEditorComponentItemMeta
     component: BlogComponentListItemObj, 
     activeComponentId: string,
-    updateActiveComponentId: () => void,
+    updateActiveBlogComponentId: (id: string) => void,
     updateComponentMeta: (componentMeta: BlogEditorComponentEditorComponentItemMeta) => void
 }
 
 export const BlogEditorComponentEditorMainLayout = ({ props, children }: { props: BlogEditorComponentEditorMainLayoutProps, children: React.ReactNode }) => {
     const { width, height, activeComponentId, componentMeta, updateComponentMeta,
-        component, menuHeight, paddingTB, paddingLR, updateActiveComponentId } = props;
+        component, menuHeight, paddingTB, paddingLR, updateActiveBlogComponentId } = props;
     const { Palette, FontSize } = useContext(UiParamsContext);
     const outerSx: SxProps<Theme> = {
         width,
@@ -33,7 +33,7 @@ export const BlogEditorComponentEditorMainLayout = ({ props, children }: { props
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        transition: "height 0.1s ease-in-out"
+        transition: "height 0.1s ease-in-out",
     }
     const innerWidth = width - 2 * 8 * paddingLR;
     const innerHeight = height - 2 * 8 * paddingTB;
@@ -52,7 +52,12 @@ export const BlogEditorComponentEditorMainLayout = ({ props, children }: { props
     const iconButtonSize = menuHeight - top * 2;
     const iconSize = iconButtonSize - iconPadding * 8 * 2;
     const iconsWidth = iconButtonSize + 10;
-    const topMenuBgcolor = activeComponentId === component.Id ? Palette.Background.Main : Palette.FontColor.Lighter;
+    var topMenuBgcolor = "";
+    if (activeComponentId === component.Id)  {
+        topMenuBgcolor = Palette.Background.Main;
+    } else {
+        topMenuBgcolor = Palette.FontColor.Lighter;
+    }
     const topMenuSx: SxProps<Theme> = {
         width: innerWidth,
         height: menuHeight,
@@ -108,12 +113,11 @@ export const BlogEditorComponentEditorMainLayout = ({ props, children }: { props
         top: menuHeight,
         height: innerHeight - menuHeight - top,
         width: innerWidth,
-        overflow: "hidden"
     }
     const Icon = GetSubmenuComponentItemIcon(component.ComponentType, headIconSx);
     return (
         <Grid item sx={outerSx}>
-            <div onClick={updateActiveComponentId}>
+            <div onClick={() => updateActiveBlogComponentId(component.Id)}>
                 <Grid container sx={innerSx}>
                     <Grid item sx={topMenuSx}>
                         <Grid container sx={titleSx}>

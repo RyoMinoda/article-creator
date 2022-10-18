@@ -26,7 +26,7 @@ export const DefaultSelector = ({ props }: { props: DefaultSelectorProps }) => {
         width: width - 16,
         height: height - 16,
         padding: 0,
-        margin: 0
+        margin: 0,
     }
     return (
         <FormControl sx={{ width }}>

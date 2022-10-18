@@ -12,18 +12,21 @@ import { BlogEditorDialogType } from "../../../../organizations/BlogEditor/type"
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "../types";
+import { BlogComponentListItemObj } from "../../../../models/state/BlogComponent/obj";
+import { StorageOperationType } from "../../../../utils/StorageOperation";
 
 export type BlogEditorSubmenuPropertyMapProps = {
     width: number,
     height: number,
     title: string,
     accordionTitleHeight: number,
-    showDialog: (type: BlogEditorDialogType) => void,
     Blog: BlogObj,
+    index: number,
+    isShown: boolean,
     updateBlog: (Blog: BlogObj) => void,
     updateIsShown: () => void,
-    index: number,
-    isShown: boolean
+    showDialog: (type: BlogEditorDialogType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 

@@ -1,23 +1,21 @@
-import { Uuid } from "../../../utils/Uuid";
-import { DateTime } from "../../utils/DateTime/obj";
+import { Position } from "../../utils/Position/obj";
+import { Span } from "../../utils/Span/obj";
 import { BlogComponentListItem, BlogComponentKeyValues } from "./type";
 
 export const initialBlogComponent: BlogComponentListItem = {
     MenuTitle: "",
     StrContent: "",
-    X: 0,
-    Y: 0,
+    Position: Position.getUndefined(),
     ComponentType: BlogComponentKeyValues.Article,
-    ColumnSpan: 0,
-    RowSpan: 0,
+    Span: Span.getUndefined(),
+    Styles: []
 }
 
 export const no1BlocComponent: BlogComponentListItem = {
     MenuTitle: "",
     StrContent: "",
-    X: 0,
-    Y: 10,
+    Position: new Position(0, 10),
     ComponentType: BlogComponentKeyValues.Article,
-    ColumnSpan: 0,
-    RowSpan: 0,
+    Span: new Span(4, 3),
+    Styles: []
 }

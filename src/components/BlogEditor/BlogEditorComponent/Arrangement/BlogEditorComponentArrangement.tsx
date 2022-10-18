@@ -2,6 +2,7 @@ import { Box, Grid, Paper, Skeleton, SxProps, Theme, Typography } from "@mui/mat
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib"
 import { BlogObj } from "../../../../models/state/Blog/obj";
+import { MousePosition } from "../../../../models/utils/MousePosition/type";
 import { BlogEditorComponentArrangementMain, BlogEditorComponentArrangementMainProps } from "./BlogEditorComponentArrangementMain";
 import { BlogEditorComponentArrangementMenu, BlogEditorComponentArrangementMenuProps } from "./BlogEditorComponentArrangementMenu";
 
@@ -11,12 +12,14 @@ export type BlogEditorComponentArrangementProps = {
     currentPage: number,
     Blog: BlogObj,
     canUpdateComponentWindowWidth: boolean,
+    isPositionMode: boolean,
+    mousePosition: MousePosition,
     updateCurrentPage: (page: number) => void,
+    updateIsPositionMode: (bool: boolean) => void,
 }
 
 export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorComponentArrangementProps }) => {
     const { width, height, currentPage, Blog, updateCurrentPage, canUpdateComponentWindowWidth } = props;
-    const { Palette } = useContext(UiParamsContext);
     const outerSx: SxProps<Theme> = {
         width, height,
         display: "flex",
@@ -27,8 +30,8 @@ export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorCom
     const mainHeight = height - menuHeight;
 
     const mainProps: BlogEditorComponentArrangementMainProps = {
+        ...props,
         height: mainHeight,
-        width, Blog,
         isActiveArrangementBackground: !canUpdateComponentWindowWidth
     }
     const menuProps: BlogEditorComponentArrangementMenuProps = {

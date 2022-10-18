@@ -49,7 +49,7 @@ export const BlogEditorSubmenuComponentCreate = ({ props }: { props: BlogEditorS
                         display: "flex", justifyContent: "center", alignItems: "center"
                     }
                     const textItemSx: SxProps<Theme> = {
-                        width: buttonInnerWidth * (1 - iconRate),
+                        width: buttonInnerWidth * (1 - iconRate - 0.05),
                         height: itemHeight,
                         display: "flex", justifyContent: "start", alignItems: "center"
                     }

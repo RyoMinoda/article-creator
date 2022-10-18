@@ -1,53 +1,52 @@
 import { SxProps, Theme } from "@mui/material";
+import { cp } from "fs";
 import { Uuid } from "../../../utils/Uuid";
 import { UiPalette } from "../../context/UiParams/type";
 import { ListItemObj, ListObj } from "../../utils/List/obj";
+import { Position } from "../../utils/Position/obj";
+import { Span } from "../../utils/Span/obj";
 import { getBlogComponentIcon } from "./components";
-import { getBlogComponentTypeName } from "./func";
-import { BlogComponentListItem, BlogComponentKeyValues, BlogComponentType } from "./type";
+import { getBlogComponentTypeName, getDefaultBlogComponentStyles } from "./func";
+import { BlogComponentListItem, BlogComponentKeyValues, BlogComponentType, BlogComponentStyleType, BlogComponentStyleKeyValues } from "./type";
 
 export class BlogComponentListItemObj extends ListItemObj  implements BlogComponentListItem {
     MenuTitle: string;
-    X: number;
-    Y: number;
+    Position: Position;
     ComponentType: BlogComponentType;
-    RowSpan: number;
-    ColumnSpan: number;
+    Span: Span;
     StrContent: string;
+    Styles: Array<BlogComponentStyleType>;
     
-    constructor(id: string, componentType: BlogComponentType, menuTitle: string, x: number, y: number, rowSpan: number, colSpan: number) {
+    constructor(id: string, componentType: BlogComponentType, menuTitle: string, position: Position, span: Span) {
         super(id);
         this.MenuTitle = menuTitle;
-        this.X = x;
-        this.Y = y;
+        this.Position = position;
         this.ComponentType = componentType;
         this.StrContent = "";
-        this.RowSpan = rowSpan;
-        this.ColumnSpan = colSpan;
+        this.Span = span;
+        this.Styles = getDefaultBlogComponentStyles(componentType);
     }
 
     private setComponentProps = (id: string, component: BlogComponentListItem) => {
         this.Id = id;
         this.MenuTitle = component.MenuTitle;
-        this.ColumnSpan = component.ColumnSpan;
-        this.RowSpan = component.RowSpan;
+        this.Span = component.Span;
         this.ComponentType = component.ComponentType;
-        this.X = component.X;
-        this.Y = component.Y;
+        this.Position = component.Position;
         this.ComponentType = component.ComponentType;
         this.StrContent = component.StrContent;
     }
 
     public getComponentTypeName = () => getBlogComponentTypeName(this.ComponentType);
 
-    public getComponentIndex = () => this.X * 100 + this.Y;
+    public getComponentIndex = () => this.Position.X * 100 + this.Position.Y;
 
     public setStrCountent = (value: string) => {
         this.StrContent = value;
     };
 
     public include = (r: number, c: number): boolean => {
-        if (this.X <= c && c <= this.X + this.ColumnSpan - 1  && this.Y <= r && r <= this.Y + this.RowSpan - 1) {
+        if (this.Position.X <= c && c <= this.Position.X + this.Span.X - 1  && this.Position.Y <= r && r <= this.Position.Y + this.Span.Y - 1) {
             return true;
         }
         return false;
@@ -71,6 +70,31 @@ export class BlogComponentListItemObj extends ListItemObj  implements BlogCompon
         return component;
     }
 
+    public getComponentStyleStrings = (): string => {
+        var target = Object.values(BlogComponentStyleKeyValues)
+        .filter((x) => x.startsWith(this.ComponentType))
+        .filter((x) => this.Styles.includes(x))
+        .map((x) => {
+            return x.replace(this.ComponentType, "");
+        })
+        if (target.length === 0) return "";
+        if (target.length === 1) return target[0];
+        return target.reduce(x => x + ", ");
+
+    }
+
+    public getIsWarning = () => {
+        if (this.Position === Position.getUndefined() || this.Span === Span.getUndefined()) {
+            return true;
+        }
+        switch (this.ComponentType) {
+            case BlogComponentKeyValues.Headline:
+                if (this.StrContent === "") return true;
+                break;
+        }
+        return false;
+    }
+
     public static getEmpty = () => {
         return this.create(BlogComponentKeyValues.Article);
     }
@@ -84,7 +108,7 @@ export class BlogComponentListItemObj extends ListItemObj  implements BlogCompon
 
     public static create = (componentType: BlogComponentType): BlogComponentListItemObj => {
         const uuid = Uuid.new();
-        return new BlogComponentListItemObj(uuid, componentType, "Not Registered", -1, -1, -1, -1);
+        return new BlogComponentListItemObj(uuid, componentType, "Not Registered", Position.getUndefined(), Span.getUndefined());
     }
     
 }

@@ -22,12 +22,13 @@ export type BlogEditorMapProps = {
     modeType: string,
     mousePosition: MousePosition,
     componentMetas: Array<BlogEditorComponentEditorComponentItemMeta>,
-    updateActiveBlogComponent: (id: string) => void,
-    updateComponent: (component: BlogComponentListItemObj) => void,
+    activeBlogComponentId: string,
+    updateActiveBlogComponentId: (id: string) => void,
     updateTabType: (tabType: BlogEditorMenuTabType) => void,
     updateModeType: (modeType: BlogEditorModeType) => void,
     showDialog: (type: BlogEditorDialogType) => void,
     updateComponentMetas: (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorMap = ({ props }: { props: BlogEditorMapProps }) => {

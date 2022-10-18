@@ -1,10 +1,11 @@
 import { BlogObj } from "../../../models/state/Blog/obj";
-import { BlogComponentListObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../../models/state/BlogComponent/obj";
 import { BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
 import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
+import { StorageOperationType } from "../../../utils/StorageOperation";
 import { BlogEditorModeType } from "../type";
 
 export const BlogEditorSubmenuSearchGenreKeyValues = {
@@ -55,5 +56,6 @@ export type BlogEditorSubmenuItemProps = {
     updateBlog: (blog: BlogObj) => void,
     createBlogEmptyComponent: (componentType: BlogComponentType) => void,
     showDialog: (type: BlogEditorDialogType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 

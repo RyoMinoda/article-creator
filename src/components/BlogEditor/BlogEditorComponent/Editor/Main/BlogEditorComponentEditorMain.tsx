@@ -2,11 +2,12 @@ import { Box, Grid, SxProps, Theme } from "@mui/material";
 import { BlogObj } from "../../../../../models/state/Blog/obj";
 import { BlogComponentListItemObj, BlogComponentListObj } from "../../../../../models/state/BlogComponent/obj";
 import { BlogComponentKeyValues } from "../../../../../models/state/BlogComponent/type";
+import { MousePosition } from "../../../../../models/utils/MousePosition/type";
 import { StorageOperationKeyValues, StorageOperationType } from "../../../../../utils/StorageOperation";
 import { getMetaDisplayHeight } from "../func";
 import { BlogEditorComponentEditorComponentItemMeta } from "../type";
 import { BlogEditorComponentEditorMainLayout, BlogEditorComponentEditorMainLayoutProps } from "./BlogEditorComponentEditorMainLayout";
-import { BlogEditorComponentEditorMainHeadline } from "./Components/BlogEditorComponentEditorMainHeadline";
+import { BlogEditorComponentEditorMainHeadline } from "./Components/Headline/BlogEditorComponentEditorMainHeadline";
 import { BlogEditorComponentEditorMainComponentProps } from "./Components/type";
 
 export type BlogEditorComponentEditorMainProps = {
@@ -16,12 +17,16 @@ export type BlogEditorComponentEditorMainProps = {
     BlogComponentList: BlogComponentListObj,
     componentMetas: Array<BlogEditorComponentEditorComponentItemMeta>,
     activeComponentId: string,
+    mousePosition: MousePosition,
+    isPositionMode: boolean,
     updateComponentMetas: (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => void,
-    updateActiveComponentId: (id: string) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    updateActiveBlogComponentId: (id: string) => void,
+    updateIsPositionMode: (bool: boolean) => void,
 }
 
 export const BlogEditorComponentEditorMain = ({ props }: { props: BlogEditorComponentEditorMainProps }) => {
-    const { width, height, BlogComponentList, componentMetas, updateActiveComponentId, activeComponentId, updateComponentMetas } = props;
+    const { width, height, BlogComponentList, componentMetas, updateActiveBlogComponentId, activeComponentId, updateComponentMetas } = props;
     if (height === 0) return <></>;
     const outerSx: SxProps<Theme> = {
         width, height
@@ -52,9 +57,10 @@ export const BlogEditorComponentEditorMain = ({ props }: { props: BlogEditorComp
                         updateComponentMeta: (componentMeta: BlogEditorComponentEditorComponentItemMeta) => {
                             updateComponentMetas(componentMeta, StorageOperationKeyValues.Update);
                         },
-                        updateActiveComponentId: () => updateActiveComponentId(x.Id),
+                        updateActiveBlogComponentId: () => updateActiveBlogComponentId(x.Id),
                     }
                     const contentProps: BlogEditorComponentEditorMainComponentProps = {
+                        ...props,
                         BlogComponentItem: x,
                         BlogComponentItemMeta: meta,
                         isActive: x.Id === activeComponentId,

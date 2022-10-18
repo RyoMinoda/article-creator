@@ -12,8 +12,11 @@ export type BlogEditorMainComponentProps = {
     mousePosition: MousePosition,
     componentMetas: Array<BlogEditorComponentEditorComponentItemMeta>,
     Blog: BlogObj,
+    activeBlogComponentId: string,
     showDialog: (type: BlogEditorDialogType) => void,
+    updateActiveBlogComponentId: (id: string) => void,
     updateComponentMetas: (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorModeKeyValues = {

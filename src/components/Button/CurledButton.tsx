@@ -2,14 +2,14 @@ import { Button, createTheme, makeStyles, SxProps, Theme, ThemeProvider } from "
 import { useContext } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 
-export type DefaultButtonProps = {
+export type CurledButtonProps = {
     sx: SxProps<Theme>,
     onClick: () => void,
     hoverBackgroundColor?: string,
     hoverColor?: string,
 }
 
-const DefaultButton = ({ props, children }: { props: DefaultButtonProps, children: React.ReactNode }) => {
+const CurledButton = ({ props, children }: { props: CurledButtonProps, children: React.ReactNode }) => {
     const { sx, onClick, hoverBackgroundColor, hoverColor } = props;
     const { Palette } = useContext(UiParamsContext);
     const onClickHandler = () => onClick();
@@ -19,7 +19,7 @@ const DefaultButton = ({ props, children }: { props: DefaultButtonProps, childre
         ...sx,
         textTransform: "none",
         minWidth: 0,
-        border: "none",
+        borderRadius: 100,
         boxShadow: "none",
         overflow: "hidden",
         "&:hover": {
@@ -38,4 +38,4 @@ const DefaultButton = ({ props, children }: { props: DefaultButtonProps, childre
     );
 }
 
-export default DefaultButton;
+export default CurledButton;

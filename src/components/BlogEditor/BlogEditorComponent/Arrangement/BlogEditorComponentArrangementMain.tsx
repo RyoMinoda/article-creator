@@ -2,6 +2,7 @@ import { Box, Grid, Paper, Skeleton, Stack, SxProps, Theme } from "@mui/material
 import { useContext, useState } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 import { BlogObj } from "../../../../models/state/Blog/obj";
+import { MousePosition } from "../../../../models/utils/MousePosition/type";
 import { BlogEditorComponentArrangementMainForeground, BlogEditorComponentArrangementMainForegroundProps } from "./BlogEditorComponentArrangementMainForeground";
 
 export type BlogEditorComponentArrangementMainProps = {
@@ -9,8 +10,9 @@ export type BlogEditorComponentArrangementMainProps = {
     height: number,
     Blog: BlogObj,
     isActiveArrangementBackground: boolean,
+    isPositionMode: boolean,
+    mousePosition: MousePosition,
 }
-
 
 export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEditorComponentArrangementMainProps }) => {
     const { width, height, Blog, isActiveArrangementBackground } = props;
@@ -51,6 +53,7 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         setActiveEndColumn(ec);
     }
     const foregroundProps: BlogEditorComponentArrangementMainForegroundProps = {
+        ...props,
         width, height, rowCount, columnCount, updateActiveCell,
         activeEndColumn, activeEndRow, activeStartColumn, activeStartRow,
         selectable,
@@ -59,7 +62,7 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         <Box sx={stackBoxSx}>
             <BlogEditorComponentArrangementMainForeground props={foregroundProps} />
         </Box>
-    ) : <Skeleton sx={stackBoxSx}  variant="rounded" />
+    ) : <Skeleton sx={stackBoxSx} variant="rounded" />
     return (
         <Box sx={outerSx}>
             <Paper sx={paperSx}>

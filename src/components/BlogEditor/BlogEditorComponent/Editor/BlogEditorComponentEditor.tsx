@@ -9,6 +9,7 @@ import { BlogObj } from "../../../../models/state/Blog/obj";
 import { BlogComponentListItemObj, BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
 import { StorageOperationType } from "../../../../utils/StorageOperation";
 import { getBlogEditorComponentEditorNewComponentHeight } from "./func";
+import { MousePosition } from "../../../../models/utils/MousePosition/type";
 
 export type BlogEditorComponentEditorProps = {
     Blog: BlogObj,
@@ -19,9 +20,13 @@ export type BlogEditorComponentEditorProps = {
     canUpdateComponentWindowWidth: boolean,
     componentMetas: Array<BlogEditorComponentEditorComponentItemMeta>,
     activeComponentId: string,
+    mousePosition: MousePosition,
+    isPositionMode: boolean,
     updateMenuType: (menuType: BlogEditorComponentEditorMenuType) => void,
     updateComponentMetas: (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => void,
-    updateActiveComponentId: (id: string) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    updateActiveBlogComponentId: (id: string) => void,
+    updateIsPositionMode: (bool: boolean) => void,
 }
 
 export const BlogEditorComponentEditor = ({ props }: { props: BlogEditorComponentEditorProps }) => {
@@ -53,7 +58,7 @@ export const BlogEditorComponentEditor = ({ props }: { props: BlogEditorComponen
     const mainProps: BlogEditorComponentEditorMainProps = {
         ...props,
         width, 
-        height: height - menuHeight, 
+        height: height - menuHeight,
     }
     const mainItemSx: SxProps<Theme> = {
         width,

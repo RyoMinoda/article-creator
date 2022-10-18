@@ -35,7 +35,7 @@ export type BlogEditorProps = {
     save: () => void,
     showDialog: (type: BlogEditorDialogType) => void,
     updateBlog: (blog: BlogObj) => void,
-    updateBlogComponentList: (componentList: BlogComponentListObj) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
@@ -130,12 +130,10 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         emptyRowCount: BlogComponentList.length + initialRowCount,
         BlogComponentList, 
         componentMetas,
-        updateComponent: (component: BlogComponentListItemObj) => {
-            BlogComponentList.update(component);
-            updateBlogComponentList(BlogComponentList);
-        },
+        activeBlogComponentId,
+        updateBlogComponentList,
         updateComponentMetas,
-        updateActiveBlogComponent: (id: string) => setActiveBlogComponentId(id),
+        updateActiveBlogComponentId: (id: string) => setActiveBlogComponentId(id),
         updateTabType: (tabType: BlogEditorMenuTabType) => setTabType(tabType),
         updateModeType: (modeType: BlogEditorModeType) => setModeType(modeType),
         showDialog,
@@ -146,14 +144,14 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         height: mainHeight, mousePosition,
         activeAccordions,
         BlogComponentList,
+        activeBlogComponentId,
         updateSubWindowWidth,
         updateBlog,
         updateActiveAccordions,
         updateActiveBlogComponent: (id: string) => setActiveBlogComponentId(id),
         createBlogEmptyComponent: (componentType: BlogComponentType) => {
             const newComponent = BlogComponentListItemObj.create(componentType);
-            BlogComponentList.add(newComponent);
-            updateBlogComponentList(BlogComponentList);
+            updateBlogComponentList(newComponent, StorageOperationKeyValues.Create);
             const newMetas = new BlogEditorComponentEditorComponentItemMetaObj(newComponent);
             const metas = [ ...componentMetas, newMetas ];
             setComponentMetas(metas);

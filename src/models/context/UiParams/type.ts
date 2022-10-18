@@ -43,6 +43,10 @@ export type UiPalette = {
         Lightest: string,
         Darker: string,
         Dark: string,
+        Warning: string,
+        DarkWarning: string,
+        Alert: string,
+        DarkAlert: string,
     },
     FontColor: {
         Darker: string,
@@ -52,6 +56,8 @@ export type UiPalette = {
         Lighter: string,
         MuchLighter: string,
         Lightest: string,
+        Warning: string,
+        Alert: string,
     },
     Pastel: {
         Red: string,

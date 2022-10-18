@@ -4,7 +4,7 @@ import MainLayout, { LayoutProps } from "../components/Layout/MainLayout";
 import { No1Blog } from "../models/state/Blog/lib";
 import { BlogObj } from "../models/state/Blog/obj";
 import { BlogPropertyKeyValues } from "../models/state/Blog/type";
-import { BlogComponentListObj } from "../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../models/state/BlogComponent/obj";
 import { BlogEditDetailObj } from "../models/state/BlogEditDetail/obj";
 import { sampleBlogListObj } from "../models/state/BlogList/lib";
 import { BlogListObj } from "../models/state/BlogList/obj";
@@ -18,6 +18,7 @@ import { BlogEditorPreviewDialog } from "../organizations/BlogEditor/BlogEditorP
 import { BlogEditorTagsDialog } from "../organizations/BlogEditor/BlogEditorTagsDialog";
 import { BlogEditorThumbnailSelectDialog } from "../organizations/BlogEditor/BlogEditorThumbnailSelectDialog";
 import { BlogEditorDialogKeyValues, BlogEditorDialogType, BlogEditorDialogProps } from "../organizations/BlogEditor/type";
+import { StorageOperationKeyValues, StorageOperationType } from "../utils/StorageOperation";
 
 const EditPage = () => {
     const [ isShowDialog, setIsShowDialog ] = useState(false);
@@ -63,7 +64,21 @@ const EditPage = () => {
             setBlogPreview(blog);
         },
         updateBlog: (blog: BlogObj) => setBlog(blog),
-        updateBlogComponentList: (componentList: BlogComponentListObj) => setBlogComponentList(componentList),
+        updateBlogComponentList: (component: BlogComponentListItemObj, operation: StorageOperationType) => {
+            switch (operation) {
+                case StorageOperationKeyValues.Update:
+                    blogComponentList.update(component);
+                    setBlogComponentList(blogComponentList);
+                    break;
+                case StorageOperationKeyValues.Create:
+                    blogComponentList.add(component);
+                    setBlogComponentList(blogComponentList);
+                    break;
+                case StorageOperationKeyValues.Delete:
+                    blogComponentList.remove(component.Id);
+                    setBlogComponentList(blogComponentList);
+            }
+        },
     }
     const previewProps: BlogEditorDialogProps = {
         type: dialogType,

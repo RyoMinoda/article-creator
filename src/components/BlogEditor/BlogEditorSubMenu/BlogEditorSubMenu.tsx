@@ -8,6 +8,7 @@ import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
 import { BlogEditorDialogType } from "../../../organizations/BlogEditor/type";
+import { StorageOperationType } from "../../../utils/StorageOperation";
 import { BlogEditorModeKeyValues, BlogEditorModeType } from "../type";
 import { BlogEditorSubmenuSlideLine, BlogEditorSubmenuSlideLineProps } from "./BlogEditorSubmenuSlideLine";
 import { BlogEditorSubmenuComponents } from "./Components/BlogEditorSubmenuComponents";
@@ -26,12 +27,14 @@ export type BlogEditorSubmenuProps = {
     modeType: BlogEditorModeType,
     mousePosition: MousePosition,
     activeAccordions: Array<BlogEditorSubmenuAccordionType>,
+    activeBlogComponentId: string,
     updateActiveBlogComponent: (id: string) => void,
     updateActiveAccordions: (accordions: Array<BlogEditorSubmenuAccordionType>) => void,
     updateSubWindowWidth: () => void,
     updateBlog: (blog: BlogObj) => void,
     showDialog: (type: BlogEditorDialogType) => void,
-    createBlogEmptyComponent: (componentType: BlogComponentType) => void
+    createBlogEmptyComponent: (componentType: BlogComponentType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) => {
@@ -87,7 +90,6 @@ export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) 
         updateSearchInput,
         updateBlog,
         showDialog,
-        createBlogEmptyComponent,
     }
     var Component = <></>;
     switch (modeType) {
