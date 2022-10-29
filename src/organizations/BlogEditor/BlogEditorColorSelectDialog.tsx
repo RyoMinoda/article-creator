@@ -7,7 +7,7 @@ import { BlogPropertyKeyValues } from "../../models/state/Blog/type";
 import { BlogEditorDialogProps } from "./type";
 
 export const BlogEditorColorSelectDialog = ({ props }: { props: BlogEditorDialogProps }) => {
-    const {  hideDialog, color, updateBlog, Blog, blogPropertyType, opacity, showDialog } = props;
+    const {  hideDialog, color, updateBlog, Blog, blogPropertyType, opacity, showDialog, type } = props;
     const { Palette, FontSize } = useContext(UiParamsContext);
     const [ paletteColor, setPaletteColor ] = useState(color);
     const [ paletteOpacity, setPaletteOpacity ] = useState(opacity);
@@ -32,12 +32,14 @@ export const BlogEditorColorSelectDialog = ({ props }: { props: BlogEditorDialog
     }
     const minHeight = 380;
     const dialogProps: DialogLayoutProps = {
+        type,
         minWidth,
         width: 400,
         minHeight: 400,
         showDialog,
         height: 500,
-        hideDialog
+        hideDialog,
+        title: "",
     }
     const outerContainer: SxProps<Theme> = {
         display: "flex",

@@ -25,6 +25,9 @@ export const BlogComponentStyleKeyValues = {
     HeadlineH1: "HeadlineH1",
     HeadlineH2: "HeadlineH2",
     HeadlineH3: "HeadlineH3",
+    ArticleCustom: "ArticleCustom",
+    ArticleText: "ArticleText",
+    ArticleSub: "ArticleSub",
 }
 
 export type BlogComponentStyleType = typeof BlogComponentStyleKeyValues[keyof typeof BlogComponentStyleKeyValues];

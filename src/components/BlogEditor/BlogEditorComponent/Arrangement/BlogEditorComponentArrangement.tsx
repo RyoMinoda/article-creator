@@ -2,7 +2,11 @@ import { Box, Grid, Paper, Skeleton, SxProps, Theme, Typography } from "@mui/mat
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib"
 import { BlogObj } from "../../../../models/state/Blog/obj";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
+import { BlogPageListObj, BlogPageObj } from "../../../../models/state/BlogPage/obj";
 import { MousePosition } from "../../../../models/utils/MousePosition/type";
+import { BlogEditorDialogType } from "../../../../organizations/BlogEditor/type";
+import { StorageOperationType } from "../../../../utils/StorageOperation";
 import { BlogEditorComponentArrangementMain, BlogEditorComponentArrangementMainProps } from "./BlogEditorComponentArrangementMain";
 import { BlogEditorComponentArrangementMenu, BlogEditorComponentArrangementMenuProps } from "./BlogEditorComponentArrangementMenu";
 
@@ -14,8 +18,13 @@ export type BlogEditorComponentArrangementProps = {
     canUpdateComponentWindowWidth: boolean,
     isPositionMode: boolean,
     mousePosition: MousePosition,
+    activeBlogComponentId: string,
+    BlogComponentList: BlogComponentListObj,
+    BlogPage: BlogPageObj,
+    showDialog: (type: BlogEditorDialogType) => void,
     updateCurrentPage: (page: number) => void,
     updateIsPositionMode: (bool: boolean) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorComponentArrangementProps }) => {
@@ -24,11 +33,10 @@ export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorCom
         width, height,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
     }
     const menuHeight = 70;
     const mainHeight = height - menuHeight;
-
     const mainProps: BlogEditorComponentArrangementMainProps = {
         ...props,
         height: mainHeight,

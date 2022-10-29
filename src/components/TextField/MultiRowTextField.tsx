@@ -2,14 +2,14 @@ import { SxProps, TextField, Theme } from "@mui/material";
 import { useEffect, useState } from "react";
 
 export type MultiRowTextFieldProps = {
-    key: string,
+    key?: string,
     text: string,
     row: number,
     width: number,
     height: number,
-    label: string,
+    label?: string,
     onChangeText: (text: string) => void;
-    onSelectText: () => void;
+    onSelectText?: () => void;
 }
 
 export const MultiRowTextField = ({ props }: { props: MultiRowTextFieldProps }) => {
@@ -21,14 +21,19 @@ export const MultiRowTextField = ({ props }: { props: MultiRowTextFieldProps }) 
     const handleChange = (e: any) => {
         setInput(e.target.value);
     }
-    const handleFocus = () => onSelectText();
+    const handleFocus = () => {
+        if (onSelectText !== undefined) {
+            onSelectText();
+        }
+    }
     const textAreaStyle: React.CSSProperties = {
         height: height * 0.75, 
         width, 
     }
+    const id = key !== undefined ? "multiline-input-" + key : "text-field";
     return (
         <TextField
-            id={"multiline-input-" + key}
+            id={id}
             label={label}
             multiline
             value={input}

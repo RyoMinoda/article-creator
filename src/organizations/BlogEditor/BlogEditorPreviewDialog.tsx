@@ -9,7 +9,7 @@ import { BlogEditorDialogProps } from "./type";
 
 
 export const BlogEditorPreviewDialog = ({ props }: { props: BlogEditorDialogProps }) => {
-    const { Blog, windowWidth, updateWindowWidth, hideDialog, showDialog } = props;
+    const { Blog, windowWidth, updateWindowWidth, hideDialog, showDialog, type } = props;
     const { Palette } = useContext(UiParamsContext);
     const { screenHeight, screenWidth } = useScreenSize();
     const previewHeight = screenHeight * 0.8;
@@ -39,6 +39,8 @@ export const BlogEditorPreviewDialog = ({ props }: { props: BlogEditorDialogProp
         minHeight: 600,
         showDialog,
         hideDialog, 
+        type,
+        title: "",
     }
     const viewerProps: BlogViewerProps = {
         Blog,

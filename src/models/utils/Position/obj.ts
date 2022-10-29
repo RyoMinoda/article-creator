@@ -9,7 +9,7 @@ export class Position {
 
     toString(): string {
         if (this.equal(Position.getUndefined())) return "undefined";
-        return " ( " + this.X + " , " + this.Y + " ) ";
+        return  (this.X + 1) + " , " + (this.Y + 1);
     }
 
     equal(position: Position): boolean {
@@ -22,5 +22,9 @@ export class Position {
 
     static getUndefined(): Position {
         return new Position(-1, -1);
+    }
+
+    static getIsUndefined(position: Position): boolean {
+        return position.X === -1 && position.Y === -1;
     }
 }

@@ -8,6 +8,12 @@ export class ListObj<T extends ListItemObj> {
         this.Items = Items;
     }
 
+    find(id: string): T | null {
+        const target = this.Items.filter(x => x.Id === id);
+        if (target.length > 0) return target[0];
+        return null;
+    }
+
     add(item: T): void {
         this.Items = [ ...this.Items, item ];
     }

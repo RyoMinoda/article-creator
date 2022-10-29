@@ -9,7 +9,7 @@ import { getBlogComponentIcon } from "./components";
 import { getBlogComponentTypeName, getDefaultBlogComponentStyles } from "./func";
 import { BlogComponentListItem, BlogComponentKeyValues, BlogComponentType, BlogComponentStyleType, BlogComponentStyleKeyValues } from "./type";
 
-export class BlogComponentListItemObj extends ListItemObj  implements BlogComponentListItem {
+export class BlogComponentListItemObj extends ListItemObj implements BlogComponentListItem {
     MenuTitle: string;
     Position: Position;
     ComponentType: BlogComponentType;
@@ -80,11 +80,21 @@ export class BlogComponentListItemObj extends ListItemObj  implements BlogCompon
         if (target.length === 0) return "";
         if (target.length === 1) return target[0];
         return target.reduce(x => x + ", ");
+    }
 
+    public getComponentStyles = (): Array<BlogComponentStyleType> => {
+        return this.Styles.filter(x => x.includes(this.ComponentType));
+    }
+
+    public getIsPositionWarning = () => {
+        if (Position.getIsUndefined(this.Position) || Span.getIsUndefined(this.Span)) {
+            return true;
+        }
+        return false;
     }
 
     public getIsWarning = () => {
-        if (this.Position === Position.getUndefined() || this.Span === Span.getUndefined()) {
+        if (Position.getIsUndefined(this.Position) || Span.getIsUndefined(this.Span)) {
             return true;
         }
         switch (this.ComponentType) {

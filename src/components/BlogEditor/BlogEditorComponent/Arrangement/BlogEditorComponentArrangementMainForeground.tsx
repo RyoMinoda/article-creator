@@ -1,70 +1,80 @@
 import { Grid, SxProps, Theme } from "@mui/material"
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
+import { BlogPageObj } from "../../../../models/state/BlogPage/obj";
 import { MousePosition } from "../../../../models/utils/MousePosition/type";
+import { Position } from "../../../../models/utils/Position/obj";
+import { Span } from "../../../../models/utils/Span/obj";
+import { ClassNameKeyValues } from "../../../../utils/ClassName";
 
 export type BlogEditorComponentArrangementMainForegroundProps = {
+    BlogPage: BlogPageObj,
     width: number,
     height: number,
-    rowCount: number,
-    columnCount: number,
-    activeStartRow: number,
-    activeEndRow: number,
-    activeStartColumn: number,
-    activeEndColumn: number,
-    selectable: boolean,
-    isPositionMode: boolean,
+    span: Span,
+    startPosition: Position,
+    endPosition: Position,
     mousePosition: MousePosition,
-    updateActiveCell: (sr: number, er: number, sc: number, ec: number) => void,
+    updateStartPosition: (x: number, y: number) => void, 
+    updateEndPosition: (x: number, y: number) => void, 
+    updateSpan: (x: number, y: number) => void,
 }
 
 export const BlogEditorComponentArrangementMainForeground = ({ props }: { props: BlogEditorComponentArrangementMainForegroundProps }) => {
-    const { 
-        rowCount, columnCount, width, height, updateActiveCell, isPositionMode,
-        activeStartColumn, activeEndRow, activeEndColumn, activeStartRow, selectable
-    } = props;
+    const { BlogPage, width, height, span, updateEndPosition, endPosition, startPosition, updateSpan, updateStartPosition } = props;
     const { Palette } = useContext(UiParamsContext);
-    const rows = new Array(rowCount).fill(0).map((x, i) => i);
-    const columns = new Array(columnCount).fill(0).map((x, i) => i);
-    const rowHeight = height / rowCount;
-    const columnWidth = width / columnCount;
-    const backcolor = isPositionMode ? "transparent" : Palette.Background.Light;
+    const rows = new Array(BlogPage.RowCount).fill(0).map((x, i) => i);
+    const columns = new Array(BlogPage.ColumnCount).fill(0).map((x, i) => i);
+    const rowHeight = 36;
+    const columnWidth = width / BlogPage.ColumnCount;
+    const activeColor = Palette.Background.Lighter;
+    const hoverColor = Palette.Background.Light;
+
     const itemSx: SxProps<Theme> = {
-        width: columnWidth,
-        height: rowHeight,
+        width: columnWidth - 0.5,
+        height: rowHeight - 0.5,
         borderLeft: "solid 0.5px",
         borderBottom: "solid 0.5px",
-        borderColor: Palette.Background.Dark,
-        userSelect: "none",
+        borderColor: activeColor,
+        userSelect: "element",
         "&:hover": {
-            bgcolor: Palette.Background.Light
+            bgcolor: Palette.Background.Lighter
         },
     }
     const containerSx: SxProps<Theme> = {
         width, height,
-        overflow: "hidden",
+        overflow: "scroll",
+        position: "absolute",
     }
     const itemStyle: React.CSSProperties = {
         width: columnWidth,
         height: rowHeight,
         userSelect: "none",
-        backgroundColor: "red"
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
     }
-    const onMouseDownHandler = (row: number, col: number) => {
-        updateActiveCell(row, row, col, col);
+    const onMouseDownHandler = (col: number, row: number) => {
+        updateStartPosition(col, row);
     }
-    const onMouseEnterHandler = (row: number, col: number) => {
-        updateActiveCell(activeStartRow, row, activeStartColumn, col);
+    const onMouseEnterHandler = (col: number, row: number) => {
+        updateSpan(col, row);
     }
-    const getBgColor = (r: number, c: number) => {
-        const sr = activeStartRow <= activeEndRow ? activeStartRow : activeEndRow;
-        const er = activeStartRow <= activeEndRow ? activeEndRow : activeStartRow;
-        const sc = activeStartColumn <= activeEndColumn ? activeStartColumn : activeEndColumn;
-        const ec = activeStartColumn <= activeEndColumn ? activeEndColumn : activeStartColumn;
-        if (sr <= r && r <= er && sc <= c && c <= ec) {
-            return Palette.Main.Bright
+    const onMouseUpHandler = (col: number, row: number) => {
+        updateEndPosition(col, row);
+    }
+    const getBgcolor = (col: number, row: number): string => {
+        if (Position.getIsUndefined(startPosition) || Span.getIsUndefined(span)) return "";
+        if (startPosition.X <= col && col <= startPosition.X + span.X && startPosition.Y <= row && row <= startPosition.Y + span.Y) {
+            return hoverColor;
+        } else if (startPosition.X + span.X <= col && col <= startPosition.X && startPosition.Y <= row && row <= startPosition.Y + span.Y) {
+            return hoverColor;
+        } else if (startPosition.X <= col && col <= startPosition.X + span.X && startPosition.Y + span.Y <= row && row <= startPosition.Y) {
+            return hoverColor;
+        } else if (startPosition.X + span.X <= col && col <= startPosition.X && startPosition.Y + span.Y <= row && row <= startPosition.Y) {
+            return hoverColor;
         }
-        return "transparent"
+        return "";
     }
     return (
         <Grid container sx={containerSx}>
@@ -73,18 +83,23 @@ export const BlogEditorComponentArrangementMainForeground = ({ props }: { props:
                     <Grid item key={"row" + r.toString()}>
                         <Grid container>
                             {columns.map((c) => {
-                                const bgcolor = getBgColor(r, c);
+                                const bgcolor = getBgcolor(c, r);
+                                var sx = itemSx;
+                                if (bgcolor !== "") {
+                                    sx = { ...sx, bgcolor, }
+                                }
                                 return (
                                     <Grid item 
-                                        sx={{ ...itemSx, bgcolor: backcolor }} 
+                                        className={ClassNameKeyValues.componentEditorPanel}
+                                        sx={sx} 
                                         key={"row" + r.toString() + "col" + c.toString()}>
-                                        {selectable ? (
-                                            <div
-                                                onMouseDown={() => onMouseDownHandler(r, c)} 
-                                                onMouseEnter={() => onMouseEnterHandler(r, c)}
-                                                style={itemStyle}>
-                                            </div>
-                                        ) : <div />}
+                                         <div 
+                                            className={ClassNameKeyValues.componentEditorPanel}
+                                            onMouseDown={() => onMouseDownHandler(c, r)} 
+                                            onMouseEnter={() => onMouseEnterHandler(c, r)}
+                                            onMouseUp={() => onMouseUpHandler(c, r)}
+                                            style={itemStyle}>
+                                        </div>
                                     </Grid>
                                 )
                             })}

@@ -8,11 +8,13 @@ import { BlogComponentListItemObj, BlogComponentListObj } from "../models/state/
 import { BlogEditDetailObj } from "../models/state/BlogEditDetail/obj";
 import { sampleBlogListObj } from "../models/state/BlogList/lib";
 import { BlogListObj } from "../models/state/BlogList/obj";
+import { BlogPageListObj, BlogPageObj } from "../models/state/BlogPage/obj";
 import { sampleBlogTagListObj } from "../models/state/BlogTag/lib";
 import { BlogTagListObj } from "../models/state/BlogTag/obj";
 import { initialMousePosition } from "../models/utils/MousePosition/lib";
 import { MousePosition, MouseActionKeyValues } from "../models/utils/MousePosition/type";
 import { BlogEditorProps, BlogEditor } from "../organizations/BlogEditor/BlogEditor";
+import { BlogEditorDialog } from "../organizations/BlogEditor/BlogEditorDialog";
 import { BlogEditorColorSelectDialog } from "../organizations/BlogEditor/BlogEditorColorSelectDialog";
 import { BlogEditorPreviewDialog } from "../organizations/BlogEditor/BlogEditorPreviewDialog";
 import { BlogEditorTagsDialog } from "../organizations/BlogEditor/BlogEditorTagsDialog";
@@ -26,10 +28,12 @@ const EditPage = () => {
     const [ blog, setBlog ] = useState(BlogObj.create());
     const [ blogEditDetail, setBlogEditDetail ] = useState(BlogEditDetailObj.create());
     const [ blogList, setBlogList ] = useState(BlogListObj.create());
+    const [ blogPage, setBlogPage ] = useState(BlogPageListObj.create());
     const [ blogTagList, setBlogTagList ] = useState(BlogTagListObj.create());
     const [ blogPreview, setBlogPreview ] = useState(BlogObj.create());
     const [ blogComponentList, setBlogComponentList ] = useState(new BlogComponentListObj([]))
     const [ blogEditHistoryList, setBlogEditHistoryList ] = useState(BlogListObj.create());
+    const [ activeBlogPage, setActiveBlogPage ] = useState(0);
     const initialWindowWidth = PreviewWidthValues[0];
     const [ windowWidth, setWindowWidth ] = useState(initialWindowWidth);
     const [ mousePosition, setMousePosition ] = useState(initialMousePosition);
@@ -53,6 +57,7 @@ const EditPage = () => {
         BlogTagList: blogTagList,
         BlogEditHistoryList: blogEditHistoryList,
         BlogComponentList: blogComponentList,
+        BlogPageList: blogPage,
         mousePosition,
         save: () => {
             setBlogPreview(blog);
@@ -64,6 +69,22 @@ const EditPage = () => {
             setBlogPreview(blog);
         },
         updateBlog: (blog: BlogObj) => setBlog(blog),
+        updateBlogPage: (page: BlogPageObj, operation: StorageOperationType) => {
+            switch (operation) {
+                case StorageOperationKeyValues.Update:
+                    blogPage.update(page);
+                    setBlogPage(blogPage);
+                    break;
+                case StorageOperationKeyValues.Create:
+                    blogPage.add(page);
+                    setBlogPage(blogPage);
+                    break;
+                case StorageOperationKeyValues.Delete:
+                    blogPage.remove(page.Id);
+                    setBlogPage(blogPage);
+                    break;
+            }
+        },
         updateBlogComponentList: (component: BlogComponentListItemObj, operation: StorageOperationType) => {
             switch (operation) {
                 case StorageOperationKeyValues.Update:
@@ -153,6 +174,9 @@ const Dialog = ({ props }: { props: BlogEditorDialogProps }) => {
                 opacity: Blog.Setting.ThemeOpacity
             }
             return <BlogEditorColorSelectDialog props={targetProps} />;
+        }
+        case BlogEditorDialogKeyValues.ArticleEditor: {
+            return <BlogEditorDialog props={props} />;
         }
         default:
             return <></>;

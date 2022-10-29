@@ -23,6 +23,7 @@ export const BlogEditorDialogKeyValues = {
     ThumbnailBackColorEdit: "ThumbnailBackColorEdit",
     BlogTheme: "BlogTheme",
     Tags: "Tags",
+    ArticleEditor: "ArticleEditor"
 } as const;
 
 export type BlogEditorDialogType = typeof BlogEditorDialogKeyValues[keyof typeof BlogEditorDialogKeyValues];

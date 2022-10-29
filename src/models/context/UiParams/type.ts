@@ -15,7 +15,8 @@ export type UiLayout = {
     BlogPreviewWidth: number,
     BlogEditorTitleHeight: number,
     BlogEditorModeMenuWidth: number,
-    BlogTitleHeight: number
+    BlogTitleHeight: number,
+    FullDialogTitleHeight: number,
 }
 
 export type UiPalette = {

@@ -3,7 +3,7 @@ import { CSSProperties, MouseEventHandler, useContext, useEffect, useState } fro
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 import { MouseActionKeyValues, MouseActionType, MouseModeKeyValues, MousePosition } from "../../models/utils/MousePosition/type";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
-import { ClassNameKeyValues, getIsDisplayForeGround } from "../../utils/ClassName";
+import { ClassNameKeyValues, getIsIncludeClassName } from "../../utils/ClassName";
 import TopMenu from "../TopMenu/TopMenu";
 
 export type LayoutProps = {
@@ -25,28 +25,6 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
         }
     }, [mousePosition.id])
     const mainHeight = screenHeight - Layout.TopMenuHeight;
-    const backgroundId = "popup-background";
-    const onMouseDownBackgroundHandler: React.MouseEventHandler<HTMLDivElement> = (e: any) => {
-        if (hideDialog != undefined && e.target.id === backgroundId) {
-            hideDialog();
-        }
-    };
-    const isDisplayPopup = isShowDialog != undefined && Dialog != undefined && isShowDialog;
-    const popup = (
-        <Grid container sx={{ position: "absolute", top: 0, left: 0, width: screenWidth, height: screenHeight, overflow: "hidden" }}>
-            <Stack position="relative">
-                <Box  position="absolute" sx={{ top: 0, left: 0, width: screenWidth, height: screenHeight, bgcolor: "black", opacity: 0.3, zIndex: 100 }}>
-                </Box>
-                <Box
-                    position="absolute"
-                    id={backgroundId}
-                    onMouseDown={onMouseDownBackgroundHandler}
-                    sx={{ top: 0, left: 0, display: "flex", width: screenWidth, height: screenHeight, justifyContent: "center", alignItems: "center", zIndex: 101, opacity: 1.0 }}>
-                    {Dialog}
-                </Box>
-            </Stack>
-        </Grid>
-    );
     const style: CSSProperties = {
         position: "relative",
         background: "transparent",
@@ -102,7 +80,7 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
     }
     const isDragMode = 
         (mousePosition.action === MouseActionKeyValues.DragStart ||  mousePosition.action === MouseActionKeyValues.DragMove) 
-        && getIsDisplayForeGround(mousePosition.className) 
+        && getIsIncludeClassName(ClassNameKeyValues.verticalTransfer) 
         && mousePosition.id !== "";
     const dragBoxDisplay = isDragMode ? "inherit" : "none";
     return (
@@ -120,9 +98,9 @@ const MainLayout = ({ props, children }: { props: LayoutProps, children: React.R
                     {children}
                 </Grid>
             </Grid>
-            {isDisplayPopup ? popup : <></>}
+            {Dialog}
             <div 
-                className={mousePosition.className}
+                className={ClassNameKeyValues.verticalTransfer}
                 onMouseMove={onMouseMoveHandler}
                 onMouseDown={onMouseDownHandler}
                 onMouseUp={onMOuseUpHandler}

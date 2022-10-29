@@ -1,13 +1,14 @@
-import { Box, SxProps, Theme } from "@mui/material"
+import { Box, Dialog, Divider, Grid, SxProps, Theme, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
 import CloseIcon from '@mui/icons-material/Close';
 import DefaultButton, { DefaultButtonProps } from "../Button/DefaultButton";
-import { Task } from "../../models/utils/Task/obj";
-
+import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
 
 export type DialogLayoutProps = {
+    title: string,
+    type: BlogEditorDialogType;
     minWidth: number,
     width: number,
     minHeight: number,
@@ -18,58 +19,39 @@ export type DialogLayoutProps = {
 }
 
 export const DialogLayout = ({ props, children }: { props: DialogLayoutProps, children: React.ReactNode }) => {
-    const { width, height, minWidth, minHeight, hideDialog, updateDialogSize, showDialog } = props;
-    const { screenHeight, screenWidth } = useScreenSize();
+    const { width, height, hideDialog, updateDialogSize, showDialog, title } = props;
     const { Palette } = useContext(UiParamsContext);
     const [ windowWidth, setWindowWidth ] = useState(width);
     const [ windowHeight, setWindowHeight ] = useState(height);
-    useEffect(() => {
-        const maxWidth = screenWidth * 0.9;
-        const maxHeight = screenHeight * 0.9;
-        var targetWidth = 0;
-        if (maxWidth < width) {
-            targetWidth = maxWidth;
-        } else {
-            targetWidth = width;
-        }
-        var targetHeight = 0;
-        if (maxHeight < height) {
-            targetHeight = maxHeight;
-        } else {
-            targetHeight = height;
-        } 
-        if (updateDialogSize !== undefined) {
-            setWindowWidth(targetWidth);
-            setWindowHeight(targetHeight);
-            updateDialogSize(targetWidth, targetHeight);
-        }
-    }, [screenWidth, screenHeight, showDialog]);
 
-    const outerSx: SxProps<Theme> = {
-        width: windowWidth,
+    const dialogSx: SxProps<Theme> = {
+        width: windowWidth, 
         height: windowHeight,
         borderRadius: 2,
-        bgcolor: Palette.Background.Light,
-        overflow: "hidden",
-        position: "relative"
     }
-    const topHeight = windowHeight / 13;
+    const outerSx: SxProps<Theme> = {
+        width: windowWidth, 
+        height: windowHeight,
+    }
+    const topHeight = 80;
+    const iconWidth = 60;
     const topRowSx: SxProps<Theme> = {
-        width: topHeight,
+        width: windowWidth,
         height: topHeight,
-        position: "absolute",
-        right: 0,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        bgcolor: Palette.Main.Bright
+    }
+    const titleSx: SxProps<Theme> = {
+
     }
     const contentSx: SxProps<Theme> = {
         width: windowWidth,
-        height: windowHeight,
+        height: windowHeight - topHeight,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        position: "absolute",
     }
     const iconSx: SxProps<Theme> = {
         width: 30,
@@ -83,15 +65,22 @@ export const DialogLayout = ({ props, children }: { props: DialogLayoutProps, ch
         onClick: () => hideDialog()
     }
     return (
-        <Box sx={outerSx}>
-            <Box sx={contentSx}>
-                {children}
-            </Box>
-            <Box sx={topRowSx}>
-                <DefaultButton props={buttonProps}>
-                    <CloseIcon sx={iconSx} />
-                </DefaultButton>
-            </Box>
-        </Box>
+        <Dialog open={showDialog} sx={dialogSx}>
+            <Grid container sx={outerSx}>
+                <Grid item sx={topRowSx}>
+                    <Grid container>
+                        <Grid item sx={titleSx}>
+                            <Typography>
+                                {title}
+                            </Typography>
+                        </Grid>
+                        <Grid item></Grid>
+                    </Grid>
+                </Grid>
+                <Grid item sx={contentSx}>
+                    {children}
+                </Grid>
+            </Grid>
+        </Dialog>
     )
 }

@@ -25,6 +25,8 @@ export const getDefaultBlogComponentStyles = (componentType: BlogComponentType):
     switch (componentType) {
         case BlogComponentKeyValues.Headline:
             return [ BlogComponentStyleKeyValues.HeadlineH1 ];
+        case BlogComponentKeyValues.Article:
+            return [ BlogComponentStyleKeyValues.ArticleCustom ];
         default:
             return []
     }

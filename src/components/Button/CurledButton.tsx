@@ -25,6 +25,7 @@ const CurledButton = ({ props, children }: { props: CurledButtonProps, children:
         "&:hover": {
             backgroundColor: tHoverBackgroundColor,
             color: tHoverColor,
+            borderColor: tHoverColor,
         },
         "&:active": {
             bgColor: Palette.Background.Lighter,

@@ -13,6 +13,7 @@ const initialLayout: UiLayout = {
     BlogEditorTitleHeight: 45,
     BlogEditorModeMenuWidth: 60,
     BlogTitleHeight: 45,
+    FullDialogTitleHeight: 60,
 }
 
 const initialPalette: UiPalette = {

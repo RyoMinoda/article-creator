@@ -7,12 +7,13 @@ import { Box, SxProps, Theme } from "@mui/material";
 import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
 import { BlogEditorComponent } from "./BlogEditorComponent/BlogEditorComponent";
 import { MousePosition } from "../../models/utils/MousePosition/type";
-import { BlogEditorComponentEditorComponentItemMeta } from "./BlogEditorComponent/Editor/type";
 import { StorageOperationType } from "../../utils/StorageOperation";
+import { BlogPageListObj, BlogPageObj } from "../../models/state/BlogPage/obj";
 
 export type BlogEditorMapProps = {
     Blog: BlogObj,
     BlogComponentList: BlogComponentListObj,
+    BlogPageList: BlogPageListObj,
     width: number,
     height: number,
     menuHeight: number,
@@ -21,13 +22,14 @@ export type BlogEditorMapProps = {
     tabType: string,
     modeType: string,
     mousePosition: MousePosition,
-    componentMetas: Array<BlogEditorComponentEditorComponentItemMeta>,
     activeBlogComponentId: string,
+    currentPage: number,
     updateActiveBlogComponentId: (id: string) => void,
     updateTabType: (tabType: BlogEditorMenuTabType) => void,
     updateModeType: (modeType: BlogEditorModeType) => void,
     showDialog: (type: BlogEditorDialogType) => void,
-    updateComponentMetas: (componentMeta: BlogEditorComponentEditorComponentItemMeta, operation: StorageOperationType) => void,
+    updateCurrentPage: (page: number) => void,
+    updateBlogPage: (page: BlogPageObj, operation: StorageOperationType) => void,
     updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 

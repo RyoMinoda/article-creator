@@ -6,7 +6,7 @@ import { useScreenSize } from "../../models/utils/ScreenSize/func";
 import { BlogEditorDialogProps } from "./type";
 
 export const BlogEditorThumbnailSelectDialog = ({ props }: { props: BlogEditorDialogProps }) => {
-    const { hideDialog, showDialog } = props;
+    const { hideDialog, showDialog, type } = props;
     const { screenHeight, screenWidth } = useScreenSize();
     const { Palette } = useContext(UiParamsContext);
     const minWidth = 500;
@@ -15,7 +15,9 @@ export const BlogEditorThumbnailSelectDialog = ({ props }: { props: BlogEditorDi
         minWidth, showDialog,
         height: screenHeight * 0.6,
         minHeight: screenHeight * 0.3,
-        hideDialog
+        hideDialog, 
+        type,
+        title: "",
     }
     const innerSx: SxProps<Theme> = {
         width: "100%",

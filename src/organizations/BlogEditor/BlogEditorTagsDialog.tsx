@@ -8,13 +8,14 @@ import { Size } from "../../models/utils/Size/type";
 import { BlogEditorDialogProps } from "./type";
 
 export const BlogEditorTagsDialog = ({ props }: { props: BlogEditorDialogProps }) => {
-    const {  hideDialog, color, updateBlog, Blog, blogPropertyType, BlogTagList, showDialog } = props;
+    const {  hideDialog, color, updateBlog, Blog, blogPropertyType, BlogTagList, showDialog, type } = props;
     const [ searchString, setSearchString ] = useState("");
     const [ dialogSize, setDialogSize ] = useState(defaultSize);
 
     const minHeight = 500;
     const minWidth = 340;
     const dialogProps: DialogLayoutProps = {
+        type,
         minWidth,
         width: 400,
         minHeight,
@@ -24,7 +25,8 @@ export const BlogEditorTagsDialog = ({ props }: { props: BlogEditorDialogProps }
         updateDialogSize: (width: number, height: number) => {
             const size: Size = { width, height };
             setDialogSize(size);
-        }
+        },
+        title: "",
     }
     const outerBoxSx: SxProps<Theme> = {
         width: dialogSize.width,

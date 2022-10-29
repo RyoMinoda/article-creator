@@ -1,8 +1,15 @@
 import { Box, Grid, Paper, Skeleton, Stack, SxProps, Theme } from "@mui/material"
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 import { BlogObj } from "../../../../models/state/Blog/obj";
-import { MousePosition } from "../../../../models/utils/MousePosition/type";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
+import { BlogPageListObj, BlogPageObj } from "../../../../models/state/BlogPage/obj";
+import { MouseActionKeyValues, MousePosition } from "../../../../models/utils/MousePosition/type";
+import { Position } from "../../../../models/utils/Position/obj";
+import { Span } from "../../../../models/utils/Span/obj";
+import { BlogEditorDialogKeyValues, BlogEditorDialogType } from "../../../../organizations/BlogEditor/type";
+import { StorageOperationKeyValues, StorageOperationType } from "../../../../utils/StorageOperation";
+import { BlogEditorComponentArrangementMainComponents, BlogEditorComponentArrangementMainComponentsProps } from "./BlogEditorComponentArrangementMainComponents";
 import { BlogEditorComponentArrangementMainForeground, BlogEditorComponentArrangementMainForegroundProps } from "./BlogEditorComponentArrangementMainForeground";
 
 export type BlogEditorComponentArrangementMainProps = {
@@ -10,22 +17,31 @@ export type BlogEditorComponentArrangementMainProps = {
     height: number,
     Blog: BlogObj,
     isActiveArrangementBackground: boolean,
-    isPositionMode: boolean,
+    activeBlogComponentId: string,
     mousePosition: MousePosition,
+    BlogComponentList: BlogComponentListObj,
+    BlogPage: BlogPageObj,
+    currentPage: number,
+    showDialog: (type: BlogEditorDialogType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEditorComponentArrangementMainProps }) => {
-    const { width, height, Blog, isActiveArrangementBackground } = props;
-    const { Palette } = useContext(UiParamsContext);
-    const [ selectable, setSelectable ] = useState(false);
-    const [ activeStartRow, setActiveStartRow ] = useState(-1);
-    const [ activeStartColumn, setActiveStartColumn ] = useState(-1);
-    const [ activeEndRow, setActiveEndRow ] = useState(-1);
-    const [ activeEndColumn, setActiveEndColumn ] = useState(-1);
-    const minRowCount = 20;
-    const blogRowCount = 5;
-    const rowCount = blogRowCount < minRowCount ? minRowCount : blogRowCount;
-    const columnCount = 12;
+    const { 
+        width, height, Blog, isActiveArrangementBackground, activeBlogComponentId, BlogPage, currentPage,
+        mousePosition, BlogComponentList, updateBlogComponentList, showDialog
+    } = props;
+    const [ span, setSpan ] = useState(Span.getUndefined());
+    const [ startPosition, setStartPosition ] = useState(Position.getUndefined());
+    const [ endPosition, setEndPosition ] = useState(Position.getUndefined());
+
+    useEffect(() => {
+        if (mousePosition.action === MouseActionKeyValues.DragEnd || mousePosition.action === MouseActionKeyValues.MouseUp) {
+            setSpan(Span.getUndefined());
+            setStartPosition(Position.getUndefined());
+            setEndPosition(Position.getUndefined());
+        }
+    }, [mousePosition.action]);
     const outerSx: SxProps<Theme> = {
         width, height,
         display: "flex",
@@ -33,10 +49,10 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         alignItems: "center"
     }
     const paperSx: SxProps<Theme> = {
-        width,
-        height,
+        width: width - 10,
+        height: height - 10,
         overflow: "scroll",
-        bgcolor: Palette.Background.Lighter
+        borderRadius: 1
     }
     const stackBoxSx: SxProps<Theme> = {
         position: "absolute",
@@ -45,30 +61,46 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         width,
         height,
     }
-
-    const updateActiveCell = (sr: number, er: number, sc: number, ec: number) => {
-        setActiveStartRow(sr);
-        setActiveStartColumn(sc);
-        setActiveEndRow(er);
-        setActiveEndColumn(ec);
+    const updateStartPosition = (x: number, y: number) => {
+        setStartPosition(new Position(x, y));
+    }
+    const updateSpan = (x: number, y: number) => {
+        if (Position.getIsUndefined(startPosition)) return;
+        const spanX = x - startPosition.X;
+        const spanY = y - startPosition.Y;
+        setSpan(new Span(spanX, spanY));
+    }
+    const updateEndPosition = (x: number, y: number) => {
+        setEndPosition(new Position(x, y));
+        const item = BlogComponentList.find(activeBlogComponentId);
+        if (item !== null) {
+            item.Position = startPosition;
+            item.Span = span;
+            updateBlogComponentList(item, StorageOperationKeyValues.Update);
+        }
+        showDialog(BlogEditorDialogKeyValues.ArticleEditor);
+        
     }
     const foregroundProps: BlogEditorComponentArrangementMainForegroundProps = {
         ...props,
-        width, height, rowCount, columnCount, updateActiveCell,
-        activeEndColumn, activeEndRow, activeStartColumn, activeStartRow,
-        selectable,
+        width, height, startPosition,
+        span, updateSpan, updateStartPosition, updateEndPosition,
+        endPosition
+    }
+    const componentsProps: BlogEditorComponentArrangementMainComponentsProps = {
+        ...props,
+        BlogPage: BlogPage
     }
     const backComponent = isActiveArrangementBackground ? (
-        <Box sx={stackBoxSx}>
+        <Stack position="relative">
+            <BlogEditorComponentArrangementMainComponents props={componentsProps} />
             <BlogEditorComponentArrangementMainForeground props={foregroundProps} />
-        </Box>
-    ) : <Skeleton sx={stackBoxSx} variant="rounded" />
+        </Stack>
+    ) : <Skeleton sx={stackBoxSx} variant="rounded" />;
     return (
         <Box sx={outerSx}>
             <Paper sx={paperSx}>
-                <Stack position="relative">
-                    {backComponent}
-                </Stack>
+                {backComponent}
             </Paper>
         </Box>
     )
