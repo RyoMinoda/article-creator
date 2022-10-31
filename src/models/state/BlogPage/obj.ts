@@ -7,23 +7,41 @@ export class BlogPageObj extends ListItemObj implements BlogPage {
     ComponentIds: string[];
     RowCount: number;
     ColumnCount: number;
+    PageHeight: number;
+    PageWidth: number;
 
-    private static defaultRowCount: number = 20;
+    private static defaultRowCount: number = 40;
     private static defaultColumnCount: number = 24;
+    private static defaultPageHeight: number = 1200;
+    private static defaultPageWidth: number = 1000;
 
-    constructor(id: string, index: number, componentIds: Array<string>, rowCount: number, columnCount: number) {
+    constructor(
+        id: string, 
+        index: number, 
+        componentIds: Array<string>, 
+        rowCount: number, 
+        columnCount: number,
+        pageHeight: number,
+        pageWidth: number,
+    ) {
         super(id);
         this.Index = index;
         this.ComponentIds = componentIds;
         this.RowCount = rowCount;
         this.ColumnCount = columnCount;
+        this.PageHeight = pageHeight;
+        this.PageWidth = pageWidth;
     }
 
     static create(index: number): BlogPageObj {
         const id = Uuid.new();
         return new BlogPageObj(
-            id, index, [], this.defaultRowCount, this.defaultColumnCount
+            id, index, [], this.defaultRowCount, this.defaultColumnCount, this.defaultPageHeight, this.defaultPageWidth
         )
+    }
+
+    static empty(): BlogPageObj {
+        return new BlogPageObj("", 0, [], 0, 0, 0, 0);
     }
 }
 

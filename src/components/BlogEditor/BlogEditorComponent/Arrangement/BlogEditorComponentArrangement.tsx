@@ -13,22 +13,19 @@ import { BlogEditorComponentArrangementMenu, BlogEditorComponentArrangementMenuP
 export type BlogEditorComponentArrangementProps = {
     width: number,
     height: number,
-    currentPage: number,
     Blog: BlogObj,
-    canUpdateComponentWindowWidth: boolean,
-    isPositionMode: boolean,
     mousePosition: MousePosition,
     activeBlogComponentId: string,
     BlogComponentList: BlogComponentListObj,
     BlogPage: BlogPageObj,
     showDialog: (type: BlogEditorDialogType) => void,
-    updateCurrentPage: (page: number) => void,
-    updateIsPositionMode: (bool: boolean) => void,
+    updateBlogPage: (page: number, operation: StorageOperationType) => void,
+    updateBlogComponent: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
     updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorComponentArrangementProps }) => {
-    const { width, height, currentPage, Blog, updateCurrentPage, canUpdateComponentWindowWidth } = props;
+    const { width, height, Blog, updateBlogPage } = props;
     const outerSx: SxProps<Theme> = {
         width, height,
         display: "flex",
@@ -40,29 +37,22 @@ export const BlogEditorComponentArrangement = ({ props }: { props: BlogEditorCom
     const mainProps: BlogEditorComponentArrangementMainProps = {
         ...props,
         height: mainHeight,
-        isActiveArrangementBackground: !canUpdateComponentWindowWidth
     }
     const menuProps: BlogEditorComponentArrangementMenuProps = {
+        ...props,
         height: menuHeight,
-        width, currentPage, Blog,
-        updateCurrentPage
+        width, Blog
     }
-    const skeltonSx: SxProps<Theme> = {
-        width, height,
-    }
-    const Component = !canUpdateComponentWindowWidth ? (
-        <Grid container>
-            <Grid item>
-                <BlogEditorComponentArrangementMain props={mainProps} />
-            </Grid>
-            <Grid item>
-                <BlogEditorComponentArrangementMenu props={menuProps} />
-            </Grid>
-        </Grid>
-    ) : <Box sx={skeltonSx} />
     return (
         <Box sx={outerSx}>
-            {Component}
+            <Grid container>
+                <Grid item>
+                    <BlogEditorComponentArrangementMain props={mainProps} />
+                </Grid>
+                <Grid item>
+                    <BlogEditorComponentArrangementMenu props={menuProps} />
+                </Grid>
+            </Grid>
         </Box>
     );
 }

@@ -3,4 +3,6 @@ export type BlogPage = {
     ComponentIds: Array<string>;
     RowCount: number;
     ColumnCount: number;
+    PageHeight: number;
+    PageWidth: number;
 }

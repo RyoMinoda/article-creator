@@ -52,7 +52,7 @@ export const BlogEditorSubmenuItemAccordionLayout = ({ props, children }: { prop
     const onChangeHandler = () => updateIsShown();
     const fixAccordions: Array<string> = [
         BlogEditorSubmenuAccordionKeyValues.FilesBlogs,
-        BlogEditorSubmenuAccordionKeyValues.ComponentCreate,
+        BlogEditorSubmenuAccordionKeyValues.ComponentMenu,
         BlogEditorSubmenuAccordionKeyValues.ComponentList
     ];
     if (fixAccordions.includes(title)) {

@@ -1,6 +1,5 @@
 import { BlogObj } from "../../../models/state/Blog/obj";
 import { BlogComponentListItemObj, BlogComponentListObj } from "../../../models/state/BlogComponent/obj";
-import { BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
@@ -26,7 +25,7 @@ export const BlogEditorSubmenuAccordionKeyValues = {
     PropertyThumbnail: "Thumbnail",
     PropertyTags: "Tags",
     PropertyOthers: "Others",
-    ComponentCreate: "Create",
+    ComponentMenu: "Menu",
     ComponentList: "List",
     ComponentProperty: "Property"
 } as const;
@@ -54,7 +53,6 @@ export type BlogEditorSubmenuItemProps = {
     updateSearchInput: (input: string) => void,
     updateActiveAccordions: (accirdions: Array<BlogEditorSubmenuAccordionType>) => void,
     updateBlog: (blog: BlogObj) => void,
-    createBlogEmptyComponent: (componentType: BlogComponentType) => void,
     showDialog: (type: BlogEditorDialogType) => void,
     updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }

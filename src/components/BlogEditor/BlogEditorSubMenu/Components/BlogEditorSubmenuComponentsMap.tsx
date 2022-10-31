@@ -1,11 +1,10 @@
 import { Box, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
-import { BlogComponentListItemObj, BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
-import { BlogComponentType } from "../../../../models/state/BlogComponent/type";
+import { BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
 import { BlogEditorSubmenuItemAccordionLayout, BlogEditorSubmenuItemAccordionLayoutProps } from "../BlogEditorSubmenuItemAccordionLayout";
 import { BlogEditorSubmenuAccordionKeyValues, BlogEditorSubmenuAccordionType } from "../types";
-import { BlogEditorSubmenuComponentCreate } from "./BlogEditorSubmenuComponentCreate";
+import { BlogEditorSubmenuComponentMenu } from "./BlogEditorSubmenuComponentMenu";
 import { BlogEditorSubmenuComponentListAccordions } from "./BlogEditorSubmenuComponentListAccordions";
 import { BlogEditorSubmenuComponentsMapItemProps } from "./type";
 
@@ -18,11 +17,10 @@ export type BlogEditorSubmenuComponentsMapProps = {
     isShown: boolean;
     BlogComponentList: BlogComponentListObj,
     updateIsShown: () => void;
-    createBlogEmptyComponent: (componentType: BlogComponentType) => void
 }
 
 export const BlogEditorSubmenuComponentsMap = ({ props }: { props: BlogEditorSubmenuComponentsMapProps }) => {
-    const { width, detailHeight, isShown, title, createBlogEmptyComponent, BlogComponentList } = props;
+    const { width, detailHeight, isShown, title } = props;
     const { Palette } = useContext(UiParamsContext);
     var Component = <></>;
     const innerBoxSx: SxProps<Theme> = {
@@ -35,8 +33,8 @@ export const BlogEditorSubmenuComponentsMap = ({ props }: { props: BlogEditorSub
         height: detailHeight,
     }
     switch (title) {
-        case BlogEditorSubmenuAccordionKeyValues.ComponentCreate:
-            Component = <BlogEditorSubmenuComponentCreate props={componentProps} />
+        case BlogEditorSubmenuAccordionKeyValues.ComponentMenu:
+            Component = <BlogEditorSubmenuComponentMenu props={componentProps} />
             break;
         case BlogEditorSubmenuAccordionKeyValues.ComponentList:
             Component = <BlogEditorSubmenuComponentListAccordions props={componentProps} />;

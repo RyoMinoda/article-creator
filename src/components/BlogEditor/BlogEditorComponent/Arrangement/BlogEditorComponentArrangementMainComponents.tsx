@@ -2,12 +2,9 @@ import { Box, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 import { BlogComponentListObj } from "../../../../models/state/BlogComponent/obj";
-import { BlogComponentKeyValues } from "../../../../models/state/BlogComponent/type";
-import { BlogPageListObj, BlogPageObj } from "../../../../models/state/BlogPage/obj";
+import { BlogPageObj } from "../../../../models/state/BlogPage/obj";
 import { Position } from "../../../../models/utils/Position/obj";
 import { Span } from "../../../../models/utils/Span/obj";
-import { BlogEditorComponentArrangementHeadline } from "./Components/BlogEditorComponentArrangementHeadline";
-import { BlogEditorComponentArrangementComponentProps } from "./Components/type";
 
 export type BlogEditorComponentArrangementMainComponentsProps = {
     width: number,
@@ -50,17 +47,7 @@ export const BlogEditorComponentArrangementMainComponents = ({ props }: { props:
                         alignItems: "center",
                         overflow: "hidden",
                     }
-                    const componentProps: BlogEditorComponentArrangementComponentProps = {
-                        width: itemWidth,
-                        height: itemHeight,
-                        component: item
-                    }
                     var Component = <></>;
-                    switch (item.ComponentType) {
-                        case BlogComponentKeyValues.Headline:
-                            Component = <BlogEditorComponentArrangementHeadline props={componentProps} />;
-                            break;
-                    }
                     return (
                         <Box sx={itemSx} key={item.Id}>
                             {Component}

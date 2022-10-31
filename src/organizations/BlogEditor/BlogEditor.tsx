@@ -18,7 +18,6 @@ import { BlogTagListObj } from "../../models/state/BlogTag/obj";
 import { BlogEditorSubmenuAccordionType } from "../../components/BlogEditor/BlogEditorSubmenu/types";
 import { defaultActiveSubmenus } from "../../components/BlogEditor/BlogEditorSubmenu/lib";
 import { BlogEditorDialogType } from "./type";
-import { BlogComponentType } from "../../models/state/BlogComponent/type";
 import { StorageOperationKeyValues, StorageOperationType } from "../../utils/StorageOperation";
 import { BlogPageListObj, BlogPageObj } from "../../models/state/BlogPage/obj";
 
@@ -31,17 +30,20 @@ export type BlogEditorProps = {
     BlogEditHistoryList: BlogListObj,
     BlogComponentList: BlogComponentListObj,
     BlogPageList: BlogPageListObj,
+    BlogPage: BlogPageObj,
     mousePosition: MousePosition,
     save: () => void,
     showDialog: (type: BlogEditorDialogType) => void,
     updateBlog: (blog: BlogObj) => void,
-    updateBlogPage: (page: BlogPageObj, operation: StorageOperationType) => void,
-    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    updateBlogPage: (page: number, operation: StorageOperationType) => void,
+    updateBlogPageList: (page: BlogPageObj, operation: StorageOperationType) => void,
+    updateBlogComponent: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void
 }
 
 export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
-    const { Blog, mousePosition,  BlogComponentList, BlogPageList,
-        updateBlog, updateBlogComponentList, save, showDialog, updateBlogPage } = props;
+    const { Blog, mousePosition,  BlogComponentList, BlogPageList, BlogPage,
+        updateBlog, updateBlogComponentList, save, showDialog, updateBlogPageList } = props;
 
     // States
     const { screenWidth, screenHeight } = useScreenSize();
@@ -52,7 +54,6 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
     const [ activeAccordions, setActiveAccordions ] = useState<Array<BlogEditorSubmenuAccordionType>>(defaultActiveSubmenus);
     const [ canUpdateSubWindowWidth, setCanUpdateSubWindowWidth ] = useState(false);
     const [ activeBlogComponentId, setActiveBlogComponentId ] = useState("");
-    const [ currentPage, setCurrentPage ] = useState(1);
 
     useEffect(() => {
         const width = getSubWindowDefaultWidth(modeType, subWindowWidth);
@@ -116,11 +117,9 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         menuBottomMargin, modeType, mousePosition,
         emptyRowCount: BlogComponentList.length + initialRowCount,
         activeBlogComponentId,
-        currentPage,
         updateActiveBlogComponentId: (id: string) => setActiveBlogComponentId(id),
         updateTabType: (tabType: BlogEditorMenuTabType) => setTabType(tabType),
         updateModeType: (modeType: BlogEditorModeType) => setModeType(modeType),
-        updateCurrentPage: (page: number) => setCurrentPage(page),
         showDialog,
     }
     const subWindowProps: BlogEditorSubmenuProps = {
@@ -134,15 +133,6 @@ export const BlogEditor = ({ props }: { props: BlogEditorProps }) => {
         updateBlog,
         updateActiveAccordions,
         updateActiveBlogComponent: (id: string) => setActiveBlogComponentId(id),
-        createBlogEmptyComponent: (componentType: BlogComponentType) => {
-            const newComponent = BlogComponentListItemObj.create(componentType);
-            updateBlogComponentList(newComponent, StorageOperationKeyValues.Create);
-            setActiveBlogComponentId(newComponent.Id);
-            const blogPage = BlogPageList.findPage(currentPage);
-            if (blogPage === null) return;
-            blogPage.ComponentIds = [ ...blogPage.ComponentIds, newComponent.Id ];
-            updateBlogPage(blogPage, StorageOperationKeyValues.Update);
-        }
     }
     // Styles
     const modeMenuSx: SxProps<Theme> = {

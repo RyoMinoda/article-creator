@@ -1,6 +1,6 @@
 import { BlogObj } from "../../models/state/Blog/obj";
 import { BlogComponentListItemObj, BlogComponentListObj } from "../../models/state/BlogComponent/obj";
-import { BlogPageListObj } from "../../models/state/BlogPage/obj";
+import { BlogPageListObj, BlogPageObj } from "../../models/state/BlogPage/obj";
 import { MousePosition } from "../../models/utils/MousePosition/type";
 import { BlogEditorDialogType } from "../../organizations/BlogEditor/type";
 import { StorageOperationType } from "../../utils/StorageOperation";
@@ -12,11 +12,12 @@ export type BlogEditorMainComponentProps = {
     height: number,
     mousePosition: MousePosition,
     Blog: BlogObj,
+    BlogPage: BlogPageObj,
     activeBlogComponentId: string,
-    currentPage: number,
     showDialog: (type: BlogEditorDialogType) => void,
     updateActiveBlogComponentId: (id: string) => void,
-    updateCurrentPage: (page: number) => void,
+    updateBlogPage: (page: number, operation: StorageOperationType) => void,
+    updateBlogComponent: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
     updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 

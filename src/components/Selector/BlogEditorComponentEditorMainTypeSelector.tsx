@@ -1,39 +1,38 @@
 import { useEffect, useState } from "react";
-import { getBlogComponentStyles, getBlogComponentStyleStrings } from "../../models/state/BlogComponent/func";
 import { BlogComponentListItemObj } from "../../models/state/BlogComponent/obj";
-import { BlogComponentStyleType, BlogComponentType } from "../../models/state/BlogComponent/type";
+import { getBlogComponentContentTypeList } from "../../models/state/BlogComponentContent/func";
+import { BlogComponentContentListItemObj } from "../../models/state/BlogComponentContent/obj";
+import { BlogComponentContentKeyValues, BlogComponentContentType } from "../../models/state/BlogComponentContent/types";
 import { StorageOperationKeyValues, StorageOperationType } from "../../utils/StorageOperation";
 import { DefaultSelector, DefaultSelectorProps } from "./DefaultSelector";
 
 export type BlogEditorComponentEditorMainTypeSelectorProps = {
     width: number,
-    rowHeightUnit: number,
-    titleHeight: number,
-    titleWidth: number,
-    BlogComponentItem: BlogComponentListItemObj;
-    updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    height: number,
+    BlogComponentContent: BlogComponentContentListItemObj;
+    updateBlogComponentContentList: (blogComponentContentItem: BlogComponentContentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorComponentEditorMainTypeSelector = ({ props }: { props: BlogEditorComponentEditorMainTypeSelectorProps }) => {
-    const { rowHeightUnit, BlogComponentItem, width, updateBlogComponentList } = props;
-    const initialStyle = BlogComponentItem.getComponentStyles()[0];
-    const [ style, setStyle ] = useState<BlogComponentStyleType>(initialStyle);
+    const { height, BlogComponentContent, width, updateBlogComponentContentList } = props;
+    const initialContentType = BlogComponentContentKeyValues.Text;
+    const [ contentType, setContentType ] = useState<BlogComponentContentType>(initialContentType);
 
     useEffect(() => {
-        BlogComponentItem.Styles = [ style ];
-        updateBlogComponentList(BlogComponentItem, StorageOperationKeyValues.Update);
-    }, [style]);
+        BlogComponentContent.Type = contentType
+        updateBlogComponentContentList(BlogComponentContent, StorageOperationKeyValues.Update);
+    }, [ contentType ]);
 
-    const typeArray = getBlogComponentStyleStrings(BlogComponentItem.ComponentType);
+    const typeArray = getBlogComponentContentTypeList();
     const typeSelectorProps: DefaultSelectorProps = {
-        label: BlogComponentItem.ComponentType,
+        label: "",
         array: typeArray,
-        item: style.replace(BlogComponentItem.ComponentType, ""),
-        width: width / 3,
-        height: rowHeightUnit - 20,
+        item: contentType,
+        width: width,
+        height: height,
         onChangeHandler: (index: number) => {
-            const target = getBlogComponentStyles(BlogComponentItem.ComponentType)[index];
-            setStyle(target);
+            const target = typeArray[index];
+            setContentType(target);
         }
     }
     

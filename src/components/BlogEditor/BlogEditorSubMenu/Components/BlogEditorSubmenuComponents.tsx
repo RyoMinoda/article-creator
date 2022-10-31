@@ -7,7 +7,7 @@ import { BlogEditorSubmenuComponentsMap, BlogEditorSubmenuComponentsMapProps } f
 import { GetSubmenuComponentItemHeight, GetSubmenuComponentTypes } from "./func";
 
 export const BlogEditorSubmenuComponents = ({ props }: { props: BlogEditorSubmenuItemProps }) => {
-    const { width, height, updateActiveAccordions, BlogComponentList, accordionTitleHeight, activeAccordions, createBlogEmptyComponent } = props;
+    const { width, height, updateActiveAccordions, BlogComponentList, accordionTitleHeight, activeAccordions } = props;
     const { Palette } = useContext(UiParamsContext);
     const [ isShowns, setIsShowns ] = useState<Array<boolean>>([]);
     const [ accordionHeights, setAccordionHeights ] = useState<Array<number>>([]);
@@ -44,7 +44,6 @@ export const BlogEditorSubmenuComponents = ({ props }: { props: BlogEditorSubmen
                     isShown: isShowns[i],
                     BlogComponentList,
                     detailHeight: accordionHeights[i],
-                    createBlogEmptyComponent,
                     updateIsShown: () => {
                         const nextShowns = [ ...isShowns ];
                         nextShowns[i] = !isShowns[i];

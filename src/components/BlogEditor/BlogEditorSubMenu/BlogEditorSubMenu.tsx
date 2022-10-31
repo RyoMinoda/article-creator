@@ -3,7 +3,6 @@ import { useContext, useState } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogObj } from "../../../models/state/Blog/obj";
 import { BlogComponentListItemObj, BlogComponentListObj } from "../../../models/state/BlogComponent/obj";
-import { BlogComponentType } from "../../../models/state/BlogComponent/type";
 import { BlogListObj } from "../../../models/state/BlogList/obj";
 import { BlogTagListObj } from "../../../models/state/BlogTag/obj";
 import { MousePosition } from "../../../models/utils/MousePosition/type";
@@ -33,12 +32,11 @@ export type BlogEditorSubmenuProps = {
     updateSubWindowWidth: () => void,
     updateBlog: (blog: BlogObj) => void,
     showDialog: (type: BlogEditorDialogType) => void,
-    createBlogEmptyComponent: (componentType: BlogComponentType) => void,
     updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorSubmenu = ({ props }: { props: BlogEditorSubmenuProps }) => {
-    const { width, height, mousePosition, modeType, updateSubWindowWidth, createBlogEmptyComponent, 
+    const { width, height, mousePosition, modeType, updateSubWindowWidth, 
         updateBlog, showDialog, updateActiveAccordions } = props;
 
     // States

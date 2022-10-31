@@ -11,7 +11,7 @@ export const GetSubmenuComponentItemHeight = (
     const targetHeight = height - accordions.length * titleHeight - 10;
     const unit = targetHeight / 7;
     switch (type) {
-        case BlogEditorSubmenuAccordionKeyValues.ComponentCreate:
+        case BlogEditorSubmenuAccordionKeyValues.ComponentMenu:
             return unit * 2;
         case BlogEditorSubmenuAccordionKeyValues.ComponentList:
             if (activeAccordions.includes(BlogEditorSubmenuAccordionKeyValues.ComponentProperty)) {
@@ -27,8 +27,7 @@ export const GetSubmenuComponentItemHeight = (
 
 export const GetSubmenuComponentTypes = () => {
     return [
-
-        BlogEditorSubmenuAccordionKeyValues.ComponentCreate,
+        BlogEditorSubmenuAccordionKeyValues.ComponentMenu,
         BlogEditorSubmenuAccordionKeyValues.ComponentList,
         BlogEditorSubmenuAccordionKeyValues.ComponentProperty,
     ];

@@ -9,8 +9,6 @@ import { ClassNameKeyValues } from "../../../../utils/ClassName";
 
 export type BlogEditorComponentArrangementMainForegroundProps = {
     BlogPage: BlogPageObj,
-    width: number,
-    height: number,
     span: Span,
     startPosition: Position,
     endPosition: Position,
@@ -21,18 +19,18 @@ export type BlogEditorComponentArrangementMainForegroundProps = {
 }
 
 export const BlogEditorComponentArrangementMainForeground = ({ props }: { props: BlogEditorComponentArrangementMainForegroundProps }) => {
-    const { BlogPage, width, height, span, updateEndPosition, endPosition, startPosition, updateSpan, updateStartPosition } = props;
+    const { BlogPage, span, updateEndPosition, endPosition, startPosition, updateSpan, updateStartPosition } = props;
     const { Palette } = useContext(UiParamsContext);
     const rows = new Array(BlogPage.RowCount).fill(0).map((x, i) => i);
     const columns = new Array(BlogPage.ColumnCount).fill(0).map((x, i) => i);
-    const rowHeight = 36;
-    const columnWidth = width / BlogPage.ColumnCount;
-    const activeColor = Palette.Background.Lighter;
+    const rowHeight = BlogPage.PageHeight / BlogPage.RowCount;
+    const columnWidth = BlogPage.PageWidth / BlogPage.ColumnCount;
+    const activeColor = Palette.Background.Light;
     const hoverColor = Palette.Background.Light;
 
     const itemSx: SxProps<Theme> = {
-        width: columnWidth - 0.5,
-        height: rowHeight - 0.5,
+        width: columnWidth,
+        height: rowHeight,
         borderLeft: "solid 0.5px",
         borderBottom: "solid 0.5px",
         borderColor: activeColor,
@@ -42,7 +40,8 @@ export const BlogEditorComponentArrangementMainForeground = ({ props }: { props:
         },
     }
     const containerSx: SxProps<Theme> = {
-        width, height,
+        width: BlogPage.PageWidth, 
+        height: BlogPage.PageHeight,
         overflow: "scroll",
         position: "absolute",
     }

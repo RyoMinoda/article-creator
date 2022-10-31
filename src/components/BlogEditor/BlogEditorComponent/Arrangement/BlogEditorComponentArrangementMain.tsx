@@ -16,19 +16,18 @@ export type BlogEditorComponentArrangementMainProps = {
     width: number,
     height: number,
     Blog: BlogObj,
-    isActiveArrangementBackground: boolean,
     activeBlogComponentId: string,
     mousePosition: MousePosition,
     BlogComponentList: BlogComponentListObj,
     BlogPage: BlogPageObj,
-    currentPage: number,
     showDialog: (type: BlogEditorDialogType) => void,
+    updateBlogComponent: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
     updateBlogComponentList: (componentItem: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEditorComponentArrangementMainProps }) => {
     const { 
-        width, height, Blog, isActiveArrangementBackground, activeBlogComponentId, BlogPage, currentPage,
+        width, height, Blog, activeBlogComponentId, BlogPage, updateBlogComponent,
         mousePosition, BlogComponentList, updateBlogComponentList, showDialog
     } = props;
     const [ span, setSpan ] = useState(Span.getUndefined());
@@ -46,20 +45,14 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         width, height,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        overflow: "scroll",
     }
     const paperSx: SxProps<Theme> = {
-        width: width - 10,
-        height: height - 10,
-        overflow: "scroll",
-        borderRadius: 1
-    }
-    const stackBoxSx: SxProps<Theme> = {
-        position: "absolute",
-        left: 0,
-        top: 0,
-        width,
-        height,
+        width: BlogPage.PageWidth,
+        height: BlogPage.PageHeight,
+        borderRadius: 1,
+        marginTop: 1,
+        marginBottom: 1,
     }
     const updateStartPosition = (x: number, y: number) => {
         setStartPosition(new Position(x, y));
@@ -71,19 +64,24 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         setSpan(new Span(spanX, spanY));
     }
     const updateEndPosition = (x: number, y: number) => {
+        const endPosition = new Position(x, y);
         setEndPosition(new Position(x, y));
         const item = BlogComponentList.find(activeBlogComponentId);
         if (item !== null) {
-            item.Position = startPosition;
-            item.Span = span;
-            updateBlogComponentList(item, StorageOperationKeyValues.Update);
+            updateBlogComponent(item, StorageOperationKeyValues.Update);
+        } else {
+            const newItem = BlogComponentListItemObj.create();
+            newItem.Position = startPosition;
+            newItem.Span = span;
+            updateBlogComponent(newItem, StorageOperationKeyValues.Update);
+            updateBlogComponentList(newItem, StorageOperationKeyValues.Create);
         }
         showDialog(BlogEditorDialogKeyValues.ArticleEditor);
         
     }
     const foregroundProps: BlogEditorComponentArrangementMainForegroundProps = {
-        ...props,
-        width, height, startPosition,
+        ...props, 
+        startPosition,
         span, updateSpan, updateStartPosition, updateEndPosition,
         endPosition
     }
@@ -91,16 +89,13 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         ...props,
         BlogPage: BlogPage
     }
-    const backComponent = isActiveArrangementBackground ? (
-        <Stack position="relative">
-            <BlogEditorComponentArrangementMainComponents props={componentsProps} />
-            <BlogEditorComponentArrangementMainForeground props={foregroundProps} />
-        </Stack>
-    ) : <Skeleton sx={stackBoxSx} variant="rounded" />;
     return (
         <Box sx={outerSx}>
             <Paper sx={paperSx}>
-                {backComponent}
+                <Stack position="relative">
+                    <BlogEditorComponentArrangementMainComponents props={componentsProps} />
+                    <BlogEditorComponentArrangementMainForeground props={foregroundProps} />
+                </Stack>
             </Paper>
         </Box>
     )
