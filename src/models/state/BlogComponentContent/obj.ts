@@ -6,16 +6,17 @@ export class BlogComponentContentListItemObj extends ListItemObj implements Blog
     Type: BlogComponentContentType;
     Text: string;
     Styles: BlogComponentContentStyleType[];
-    FontSize: number;
+    IsDefault: boolean;
+    
+
+    private defaultStyles: BlogComponentContentStyleType[] = [];
 
     constructor(id: string, type: BlogComponentContentType, text: string) {
         super(id);
         this.Type = type;
         this.Text = text;
-        this.Styles = [
-            
-        ];
-        this.FontSize = 16;
+        this.Styles = this.defaultStyles;
+        this.IsDefault = true;
     }
     
     public static create = (): BlogComponentContentListItemObj => {
@@ -23,12 +24,23 @@ export class BlogComponentContentListItemObj extends ListItemObj implements Blog
         const type = BlogComponentContentKeyValues.Text;
         return new BlogComponentContentListItemObj(id, type, "");
     }
+
+    public static createFromText(text: string) {
+        const id = Uuid.new();
+        const type = BlogComponentContentKeyValues.Text;
+        return new BlogComponentContentListItemObj(id, type, text);
+    }
 }
 
 export class BlogComponentContentListObj extends ListObj<BlogComponentContentListItemObj> {
-    constructor () {
-        super([]);
+    constructor (items: Array<BlogComponentContentListItemObj>) {
+        super(items);
     }
 
-    public static create = (): BlogComponentContentListObj => new BlogComponentContentListObj();
+    getText = () => {
+        if (this.Items.length === 0) return "";
+        return this.Items.map(x => x.Text).reduce((a, b) => a + b);
+    }
+
+    public static create = (): BlogComponentContentListObj => new BlogComponentContentListObj([]);
 }

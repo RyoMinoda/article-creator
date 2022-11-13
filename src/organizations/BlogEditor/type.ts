@@ -1,6 +1,6 @@
 import { BlogObj } from "../../models/state/Blog/obj";
 import { BlogPropertyType } from "../../models/state/Blog/type";
-import { BlogComponentListItemObj } from "../../models/state/BlogComponent/obj";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../models/state/BlogComponent/obj";
 import { BlogComponentContentListItemObj, BlogComponentContentListObj } from "../../models/state/BlogComponentContent/obj";
 import { BlogComponentContentListItem } from "../../models/state/BlogComponentContent/types";
 import { BlogPageObj } from "../../models/state/BlogPage/obj";
@@ -13,6 +13,7 @@ export type BlogEditorDialogProps = {
     BlogPage: BlogPageObj,
     BlogTagList: BlogTagListObj,
     BlogComponent: BlogComponentListItemObj,
+    BlogComponentList: BlogComponentListObj,
     BlogComponentContentList: BlogComponentContentListObj,
     windowWidth: number,
     color: string,
@@ -22,6 +23,7 @@ export type BlogEditorDialogProps = {
     updateWindowWidth: (width: number) => void,
     updateBlog: (blog: BlogObj) => void,
     updateBlogComponent: (component: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    updateBlogComponentList: (component: BlogComponentListItemObj, operation: StorageOperationType) => void,
     updateBlogComponentContentList: (blogComponentContentItem: BlogComponentContentListItemObj, operation: StorageOperationType) => void,
     hideDialog: () => void
 }

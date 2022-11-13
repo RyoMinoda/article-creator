@@ -1,4 +1,5 @@
 import { Box, Divider, Grid, SxProps, Theme } from "@mui/material";
+import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
 import { BlogComponentContentListItemObj, BlogComponentContentListObj } from "../../../models/state/BlogComponentContent/obj";
 import { BlogComponentContentKeyValues } from "../../../models/state/BlogComponentContent/types";
 import { StorageOperationType } from "../../../utils/StorageOperation";
@@ -10,18 +11,21 @@ export type BlogComponentEditorMenuProps = {
     height: number,
     BlogComponentContentList: BlogComponentContentListObj;
     BlogComponentContent: BlogComponentContentListItemObj;
-    updateBlogComponentContentList: (blogComponentContentItem: BlogComponentContentListItemObj, operation: StorageOperationType) => void,
+    BlogComponent: BlogComponentListItemObj;
+    updateComponentContentList: (blogComponentContentList: BlogComponentContentListObj) => void,
+    updateBlogComponent: (blogComponent: BlogComponentListItemObj) => void,
 }
 
 export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorMenuProps }) => {
-    const { width, height, BlogComponentContent } = props;
+    const { width, height, BlogComponentContent, BlogComponent, updateComponentContentList, updateBlogComponent } = props;
     const menuWidth = width - 20;
     const outerSx: SxProps<Theme> = {
         width, 
         height,
         display: "flex",
         justifyContent: "center",
-        alignItems: "center"
+        alignItems: "center",
+        overflow: "hidden"
     }
     const innerSx: SxProps<Theme> = {
         width: menuWidth,
@@ -29,11 +33,12 @@ export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorM
     }
     const inputTypeWidth = 150;
     const dividerWidth = 15;
-    const mainMenuWidth = menuWidth - inputTypeWidth - dividerWidth;
+    const mainMenuWidth = menuWidth - inputTypeWidth - dividerWidth * 2;
     const selectorProps: BlogEditorComponentEditorMainTypeSelectorProps = {
         ...props,
         width: inputTypeWidth,
         height: height,
+        updateComponentContentList,
     }
     const selectorSx: SxProps<Theme> = {
         width: inputTypeWidth,
@@ -48,7 +53,8 @@ export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorM
     }
     const textProps: BlogComponentEditorMenuTextProps = {
         width: mainMenuWidth,
-        height, BlogComponentContent
+        height, BlogComponentContent, BlogComponent, 
+        updateBlogComponent
     }
     const dividerItemSx: SxProps<Theme> = {
         width: dividerWidth,

@@ -65,11 +65,29 @@ const EditPage = () => {
     const updateBlogComponent = (component: BlogComponentListItemObj, operation: StorageOperationType) => {
         switch (operation) {
             case StorageOperationKeyValues.Update:
+                setBlogComponent(component);
                 break;
             case StorageOperationKeyValues.Delete:
+                setBlogComponent(BlogComponentListItemObj.create());
                 break;
         }
     };
+
+    const updateBlogComponentList = (component: BlogComponentListItemObj, operation: StorageOperationType) => {
+        switch (operation) {
+            case StorageOperationKeyValues.Update:
+                blogComponentList.update(component);
+                setBlogComponentList(blogComponentList);
+                break;
+            case StorageOperationKeyValues.Create:
+                blogComponentList.add(component);
+                setBlogComponentList(blogComponentList);
+                break;
+            case StorageOperationKeyValues.Delete:
+                blogComponentList.remove(component.Id);
+                setBlogComponentList(blogComponentList);
+        }
+    }
 
     const contentProps: BlogEditorProps = {
         Blog: blog, 
@@ -117,21 +135,7 @@ const EditPage = () => {
                     break;
             }
         },
-        updateBlogComponentList: (component: BlogComponentListItemObj, operation: StorageOperationType) => {
-            switch (operation) {
-                case StorageOperationKeyValues.Update:
-                    blogComponentList.update(component);
-                    setBlogComponentList(blogComponentList);
-                    break;
-                case StorageOperationKeyValues.Create:
-                    blogComponentList.add(component);
-                    setBlogComponentList(blogComponentList);
-                    break;
-                case StorageOperationKeyValues.Delete:
-                    blogComponentList.remove(component.Id);
-                    setBlogComponentList(blogComponentList);
-            }
-        },
+        updateBlogComponentList,
         updateBlogComponent
     }
     const previewProps: BlogEditorDialogProps = {
@@ -139,6 +143,7 @@ const EditPage = () => {
         Blog: blogPreview,
         BlogPage: blogPage,
         BlogComponent: blogComponent,
+        BlogComponentList: blogComponentList,
         BlogComponentContentList: blogComponentContentList,
         windowWidth,
         color: "transparent",
@@ -148,6 +153,7 @@ const EditPage = () => {
             setWindowWidth(width);
         },
         updateBlogComponent,
+        updateBlogComponentList,
         updateBlogComponentContentList,
         updateBlog: (blog: BlogObj) => setBlog(blog),
         blogPropertyType: BlogPropertyKeyValues.None,
@@ -179,7 +185,7 @@ export default EditPage;
 
 
 const Dialog = ({ props }: { props: BlogEditorDialogProps }) => {
-    const { type, Blog } = props;
+    const { type, Blog, BlogComponent } = props;
     switch (type) {
         case BlogEditorDialogKeyValues.Preview:
             return <BlogEditorPreviewDialog props={props} />;
@@ -216,6 +222,7 @@ const Dialog = ({ props }: { props: BlogEditorDialogProps }) => {
         case BlogEditorDialogKeyValues.ArticleEditor: {
             const layoutProps: FullDialogLayoutProps = {
                 ...props,
+                isLoading: BlogComponent.getIsUndefined(),
                 title: "Article Editor",
             }
             return (

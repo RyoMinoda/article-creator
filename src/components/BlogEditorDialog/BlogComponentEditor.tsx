@@ -1,10 +1,13 @@
 import { Box, Grid, SxProps, Theme, Typography } from "@mui/material";
 import { useContext, useState } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
+import { BlogComponentListItemObj, BlogComponentListObj } from "../../models/state/BlogComponent/obj";
 import { BlogComponentContentListItemObj, BlogComponentContentListObj } from "../../models/state/BlogComponentContent/obj";
 import { BlogPageObj } from "../../models/state/BlogPage/obj";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
-import { StorageOperationType } from "../../utils/StorageOperation";
+import { initialSelectionRange } from "../../models/utils/SelectionRange/lib";
+import { SelectionRange } from "../../models/utils/SelectionRange/type";
+import { StorageOperationKeyValues, StorageOperationType } from "../../utils/StorageOperation";
 import { BlogComponentEditorMain, BlogComponentEditorMainProps } from "./Main/BlogComponentEditorMain";
 import { BlogComponentEditorMenu, BlogComponentEditorMenuProps } from "./Menu/BlogComponentEditorMenu";
 import { BlogComponentEditorViewer, BlogComponentEditorViewerProps } from "./Viewer/BlogComponentEditorViewer";
@@ -12,34 +15,49 @@ import { BlogComponentEditorViewer, BlogComponentEditorViewerProps } from "./Vie
 export type BlogEditorDialogProps = {
     BlogPage: BlogPageObj,
     BlogComponentContentList: BlogComponentContentListObj;
-    updateBlogComponentContentList: (blogComponentContentItem: BlogComponentContentListItemObj, operation: StorageOperationType) => void,
+    BlogComponent: BlogComponentListItemObj,
+    BlogComponentList: BlogComponentListObj,
+    updateBlogComponentList: (blogComponent: BlogComponentListItemObj, operation: StorageOperationType) => void,
+    updateBlogComponent: (blogComponent: BlogComponentListItemObj, operation: StorageOperationType) => void,
 }
 
 export const BlogEditorDialog = ({ props }: { props: BlogEditorDialogProps }) => {
-    const { BlogPage } = props;
+    const { BlogPage, BlogComponent, BlogComponentList } = props;
     const { Layout, Palette } = useContext(UiParamsContext);
     const { screenWidth, screenHeight } = useScreenSize();
     const initialViewerHeight = 220;
     const [ viewerHeight, setViewerHeight ] = useState(initialViewerHeight);
+    const [ blogComponent, setBlogComponent ] = useState(BlogComponent);
+    const [ selectionRange, setSelectionRange ] = useState<SelectionRange>(initialSelectionRange);
     const innerHeight = screenHeight - Layout.FullDialogTitleHeight;
     const outerSx: SxProps<Theme> = {
         width: screenWidth,
         height: innerHeight
     }
-    const marginLR = 2;
     const dividerHeight = 2;
-    const mainWidth = screenWidth - 2 * marginLR * 8;
-    const menuHeight = 50;
+    const menuHeight = 45;
     const mainHeight = innerHeight - viewerHeight - dividerHeight - menuHeight;
     const menuItemSx: SxProps<Theme> = {
         height: menuHeight,
         width: screenWidth
+    }
+    const updateComponentContentList = (blogComponentContentList: BlogComponentContentListObj) => {
+        blogComponent.ContentList = blogComponentContentList.Items;
+        setBlogComponent(blogComponent);
+    }
+    const updateBlogComponent = (blogComponent: BlogComponentListItemObj) => {
+        setBlogComponent(blogComponent);
+    }
+    const updateSelectRange = (range: SelectionRange) => {
+        setSelectionRange(range);
     }
     const menuProps: BlogComponentEditorMenuProps = {
         ...props,
         BlogComponentContent: BlogComponentContentListItemObj.create(),
         height: menuHeight,
         width: screenWidth,
+        updateComponentContentList,
+        updateBlogComponent
     }
     const editorSx: SxProps<Theme> = {
         width: screenWidth,
@@ -50,8 +68,11 @@ export const BlogEditorDialog = ({ props }: { props: BlogEditorDialogProps }) =>
         alignItems: "center"
     }
     const editorMainProps: BlogComponentEditorMainProps = {
-        width: mainWidth,
+        width: screenWidth,
         height: mainHeight,
+        BlogComponent: blogComponent,
+        updateComponentContentList,
+        updateSelectRange,
     }
     const dividerItemSx: SxProps<Theme> = {
         width: screenWidth,
@@ -75,7 +96,9 @@ export const BlogEditorDialog = ({ props }: { props: BlogEditorDialogProps }) =>
     const viewerProps: BlogComponentEditorViewerProps = {
         width: screenWidth,
         height: viewerHeight,
-        BlogPage
+        BlogPage, 
+        BlogComponent: blogComponent,
+        BlogComponentList
     }
     return (
         <Grid container sx={outerSx}>

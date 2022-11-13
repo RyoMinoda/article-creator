@@ -1,4 +1,4 @@
-import { Box, Dialog, Divider, Grid, SxProps, Theme, Typography } from "@mui/material"
+import { Box, CircularProgress, Dialog, Divider, Grid, SxProps, Theme, Typography } from "@mui/material"
 import { useContext, useEffect, useState } from "react";
 import { UiParamsContext } from "../../models/context/UiParams/lib";
 import { useScreenSize } from "../../models/utils/ScreenSize/func";
@@ -13,13 +13,13 @@ export type FullDialogLayoutProps = {
     hideDialog: () => void,
     updateDialogSize?: (width: number, height: number) => void,
     showDialog: boolean,
+    isLoading: boolean,
 }
 
 export const FullDialogLayout = ({ props, children }: { props: FullDialogLayoutProps, children: React.ReactNode }) => {
-    const { hideDialog, updateDialogSize, showDialog, title } = props;
+    const { hideDialog, updateDialogSize, showDialog, title, isLoading } = props;
     const { Palette, FontSize, Layout } = useContext(UiParamsContext);
     const { screenHeight, screenWidth } = useScreenSize();
-
     const dialogSx: SxProps<Theme> = {
         borderRadius: 2,
     }
@@ -67,7 +67,7 @@ export const FullDialogLayout = ({ props, children }: { props: FullDialogLayoutP
         onClick: () => hideDialog()
     }
     return (
-        <Dialog open={showDialog} sx={dialogSx} fullScreen >
+        <Dialog open={showDialog} sx={dialogSx} fullScreen>
             <Grid container sx={outerSx}>
                 <Grid item sx={topRowSx}>
                     <Grid container>
@@ -89,7 +89,7 @@ export const FullDialogLayout = ({ props, children }: { props: FullDialogLayoutP
                     </Grid>
                 </Grid>
                 <Grid item sx={contentSx}>
-                    {children}
+                    {isLoading ? <CircularProgress /> : children}
                 </Grid>
             </Grid>
         </Dialog>

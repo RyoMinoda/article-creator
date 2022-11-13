@@ -64,17 +64,16 @@ export const BlogEditorComponentArrangementMain = ({ props }: { props: BlogEdito
         setSpan(new Span(spanX, spanY));
     }
     const updateEndPosition = (x: number, y: number) => {
-        const endPosition = new Position(x, y);
-        setEndPosition(new Position(x, y));
+        const spanX = x - startPosition.X;
+        const spanY = y - startPosition.Y;
         const item = BlogComponentList.find(activeBlogComponentId);
         if (item !== null) {
             updateBlogComponent(item, StorageOperationKeyValues.Update);
         } else {
             const newItem = BlogComponentListItemObj.create();
             newItem.Position = startPosition;
-            newItem.Span = span;
+            newItem.Span = new Span(spanX, spanY);
             updateBlogComponent(newItem, StorageOperationKeyValues.Update);
-            updateBlogComponentList(newItem, StorageOperationKeyValues.Create);
         }
         showDialog(BlogEditorDialogKeyValues.ArticleEditor);
         

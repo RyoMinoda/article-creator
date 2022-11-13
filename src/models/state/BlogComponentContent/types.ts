@@ -1,8 +1,7 @@
 export type BlogComponentContentListItem = {
     Type: BlogComponentContentType,
     Text: string,
-    Styles: Array<BlogComponentContentStyleType>,
-    FontSize: number,
+    Styles: Array<BlogComponentContentStyleType>
 }
 
 export const BlogComponentContentKeyValues = {
