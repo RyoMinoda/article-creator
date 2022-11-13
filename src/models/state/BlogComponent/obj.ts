@@ -14,8 +14,9 @@ export class BlogComponentListItemObj extends ListItemObj implements BlogCompone
     ContentList: BlogComponentContentListItemObj[];
     ContentType: BlogComponentContentType;
     FontSize: number;
+    Text: string;
     
-    constructor(id: string, menuTitle: string, position: Position, span: Span, contentList: BlogComponentContentListItemObj[], contentType: BlogComponentContentType, fontSize: number) {
+    constructor(id: string, menuTitle: string, position: Position, span: Span, contentList: BlogComponentContentListItemObj[], contentType: BlogComponentContentType, fontSize: number, text: string) {
         super(id);
         this.MenuTitle = menuTitle;
         this.Position = position;
@@ -25,6 +26,7 @@ export class BlogComponentListItemObj extends ListItemObj implements BlogCompone
         this.ContentList = contentList;
         this.ContentType = contentType;
         this.FontSize = fontSize;
+        this.Text = text;
     }
 
     public getComponentIndex = () => this.Position.X * 100 + this.Position.Y;
@@ -54,8 +56,9 @@ export class BlogComponentListItemObj extends ListItemObj implements BlogCompone
         return false;
     }
 
-    public getRowTextComponent = () => {
-
+    public updateText = (text: string) => {
+        this.Text = text;
+        
     }
 
     public static create = (): BlogComponentListItemObj => {
@@ -65,10 +68,10 @@ export class BlogComponentListItemObj extends ListItemObj implements BlogCompone
             "Not Registered", 
             Position.getUndefined(), Span.getUndefined(), [],
             BlogComponentContentKeyValues.Text,
-            16
+            16,
+            ""
         );
     }
-    
 }
 
 export class BlogComponentListObj extends ListObj<BlogComponentListItemObj> {

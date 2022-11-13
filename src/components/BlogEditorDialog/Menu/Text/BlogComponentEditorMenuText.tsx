@@ -3,7 +3,6 @@ import DefaultButton, { DefaultButtonProps } from "../../../Button/DefaultButton
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
-import FormatAlignJustifyIcon from '@mui/icons-material/FormatAlignJustify';
 import FormatAlignLeftIcon from '@mui/icons-material/FormatAlignLeft';
 import FormatAlignCenterIcon from '@mui/icons-material/FormatAlignCenter';
 import FormatAlignRightIcon from '@mui/icons-material/FormatAlignRight';
@@ -15,23 +14,26 @@ import CropDinIcon from '@mui/icons-material/CropDin';
 import { UiParamsContext } from "../../../../models/context/UiParams/lib";
 import { useContext, useEffect, useState } from "react";
 import { DefaultSelector, DefaultSelectorProps } from "../../../Selector/DefaultSelector";
-import { BlogComponentContentListItemObj } from "../../../../models/state/BlogComponentContent/obj";
 import { BlogComponentListItemObj } from "../../../../models/state/BlogComponent/obj";
 import { BlogComponentListItemAlignKeyValues, BlogComponentListItemAlignType, BlogComponentListItemOverflowKeyValues, BlogComponentListItemOverflowType } from "../../../../models/state/BlogComponent/type";
-import { BlogComponentContentStyleKeyValues, BlogComponentContentStyleType } from "../../../../models/state/BlogComponentContent/types";
+import { SelectionRange } from "../../../../models/utils/SelectionRange/type";
+import { BlogComponentContentStyleListItemObj } from "../../../../models/state/BlogComponentContentStyle/obj";
+import { BlogComponentContentStyleKeyValues, BlogComponentContentStyleType } from "../../../../models/state/BlogComponentContentStyle/type";
+import { initialSelectionRange } from "../../../../models/utils/SelectionRange/lib";
 
 export type BlogComponentEditorMenuTextProps = {
     width: number,
     height: number,
     BlogComponent: BlogComponentListItemObj,
-    BlogComponentContent: BlogComponentContentListItemObj,
+    BlogComponentContentStyleList: BlogComponentContentStyleListItemObj[],
+    selectionRange: SelectionRange,
     updateBlogComponent: (blogComponent: BlogComponentListItemObj) => void,
+    updateContentStyle: (style: BlogComponentContentStyleType) => void,
 }
 
 export const BlogComponentEditorMenuText = ({ props }: { props: BlogComponentEditorMenuTextProps }) => {
-    const { width, height, BlogComponentContent, BlogComponent, updateBlogComponent } = props;
+    const { width, height, BlogComponentContentStyleList, BlogComponent, updateBlogComponent, updateContentStyle, selectionRange } = props;
     const { Palette } = useContext(UiParamsContext);
-    const [ styles, setStyles ] = useState<BlogComponentContentStyleType[]>(BlogComponentContent.Styles);
     const [ alignType, setAlignType ] = useState<BlogComponentListItemAlignType>(BlogComponent.AlignType);
     const [ overflowType, setOverflowType ] = useState<BlogComponentListItemOverflowType>(BlogComponent.OverflowType);
     
@@ -44,7 +46,11 @@ export const BlogComponentEditorMenuText = ({ props }: { props: BlogComponentEdi
         BlogComponent.OverflowType = overflowType;
         updateBlogComponent(BlogComponent);
     }, [overflowType]);
+    
+    const styles = BlogComponentContentStyleList.map(x => x.Style);
+    const updateStyles = (style: BlogComponentContentStyleType) => updateContentStyle(style);
 
+    const contentAny = selectionRange.Start !== initialSelectionRange.Start;
     const outerSx: SxProps<Theme> = {
         width, height
     }
@@ -89,9 +95,15 @@ export const BlogComponentEditorMenuText = ({ props }: { props: BlogComponentEdi
     const includeItalic = styles.indexOf(BlogComponentContentStyleKeyValues.Italic) > -1;
     const italicButtonProps: DefaultButtonProps = {
         ...buttonProps,
-        onClick: () => {
-
-        },
+        onClick: () => updateStyles(BlogComponentContentStyleKeyValues.Italic),
+    }
+    const boldButtonProps: DefaultButtonProps = {
+        ...buttonProps,
+        onClick: () => updateStyles(BlogComponentContentStyleKeyValues.Bold),
+    }
+    const underlineButtonProps: DefaultButtonProps = {
+        ...buttonProps,
+        onClick: () => updateStyles(BlogComponentContentStyleKeyValues.Underline),
     }
     const isOverflowIgnored = overflowType === BlogComponentListItemOverflowKeyValues.Ignored;
     const overflowIgnoreButtonProps: DefaultButtonProps = {
@@ -140,33 +152,33 @@ export const BlogComponentEditorMenuText = ({ props }: { props: BlogComponentEdi
                 </DefaultButton>
             </Grid>
             <Grid item sx={menuButtonItemSx}>
-                <DefaultButton props={buttonProps}>
-                    <FormatItalicIcon sx={getIconSx(includeItalic)} />
+                <DefaultButton props={italicButtonProps}>
+                    <FormatItalicIcon sx={getIconSx(contentAny)} />
+                </DefaultButton>
+            </Grid>
+            <Grid item sx={menuButtonItemSx}>
+                <DefaultButton props={boldButtonProps}>
+                    <FormatBoldIcon sx={getIconSx(contentAny)} />
+                </DefaultButton>
+            </Grid>
+            <Grid item sx={menuButtonItemSx}>
+                <DefaultButton props={underlineButtonProps}>
+                    <FormatUnderlinedIcon sx={getIconSx(contentAny)} />
                 </DefaultButton>
             </Grid>
             <Grid item sx={menuButtonItemSx}>
                 <DefaultButton props={buttonProps}>
-                    <FormatBoldIcon sx={getIconSx(true)} />
+                    <FormatColorTextIcon sx={getIconSx(contentAny)} />
                 </DefaultButton>
             </Grid>
             <Grid item sx={menuButtonItemSx}>
                 <DefaultButton props={buttonProps}>
-                    <FormatUnderlinedIcon sx={getIconSx(true)} />
+                    <FormatColorFillIcon sx={getIconSx(contentAny)} />
                 </DefaultButton>
             </Grid>
             <Grid item sx={menuButtonItemSx}>
                 <DefaultButton props={buttonProps}>
-                    <FormatColorTextIcon sx={getIconSx(true)} />
-                </DefaultButton>
-            </Grid>
-            <Grid item sx={menuButtonItemSx}>
-                <DefaultButton props={buttonProps}>
-                    <FormatColorFillIcon sx={getIconSx(true)} />
-                </DefaultButton>
-            </Grid>
-            <Grid item sx={menuButtonItemSx}>
-                <DefaultButton props={buttonProps}>
-                    <AddLinkIcon sx={getIconSx(true)} />
+                    <AddLinkIcon sx={getIconSx(contentAny)} />
                 </DefaultButton>
             </Grid>
             <Grid item sx={menuButtonItemSx}>

@@ -1,23 +1,27 @@
 import { Box, Divider, Grid, SxProps, Theme } from "@mui/material";
 import { BlogComponentListItemObj } from "../../../models/state/BlogComponent/obj";
+import { BlogComponentContentKeyValues } from "../../../models/state/BlogComponent/type";
 import { BlogComponentContentListItemObj, BlogComponentContentListObj } from "../../../models/state/BlogComponentContent/obj";
-import { BlogComponentContentKeyValues } from "../../../models/state/BlogComponentContent/types";
-import { StorageOperationType } from "../../../utils/StorageOperation";
+import { BlogComponentContentStyleListItemObj } from "../../../models/state/BlogComponentContentStyle/obj";
+import { BlogComponentContentStyleType } from "../../../models/state/BlogComponentContentStyle/type";
+import { SelectionRange } from "../../../models/utils/SelectionRange/type";
 import { BlogEditorComponentEditorMainTypeSelector, BlogEditorComponentEditorMainTypeSelectorProps } from "../../Selector/BlogEditorComponentEditorMainTypeSelector";
 import { BlogComponentEditorMenuText, BlogComponentEditorMenuTextProps } from "./Text/BlogComponentEditorMenuText";
 
 export type BlogComponentEditorMenuProps = {
     width: number,
     height: number,
-    BlogComponentContentList: BlogComponentContentListObj;
-    BlogComponentContent: BlogComponentContentListItemObj;
+    BlogComponentContentStyleList: BlogComponentContentStyleListItemObj[];
     BlogComponent: BlogComponentListItemObj;
-    updateComponentContentList: (blogComponentContentList: BlogComponentContentListObj) => void,
+    selectionRange: SelectionRange,
+    updateComponentContentList: (blogComponentContentList: BlogComponentContentListItemObj[]) => void,
     updateBlogComponent: (blogComponent: BlogComponentListItemObj) => void,
+    updateContentStyle: (style: BlogComponentContentStyleType) => void;
 }
 
 export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorMenuProps }) => {
-    const { width, height, BlogComponentContent, BlogComponent, updateComponentContentList, updateBlogComponent } = props;
+    const { width, height, BlogComponent, updateComponentContentList, 
+        updateBlogComponent, updateContentStyle } = props;
     const menuWidth = width - 20;
     const outerSx: SxProps<Theme> = {
         width, 
@@ -38,7 +42,6 @@ export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorM
         ...props,
         width: inputTypeWidth,
         height: height,
-        updateComponentContentList,
     }
     const selectorSx: SxProps<Theme> = {
         width: inputTypeWidth,
@@ -52,9 +55,11 @@ export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorM
         height,
     }
     const textProps: BlogComponentEditorMenuTextProps = {
+        ...props,
         width: mainMenuWidth,
-        height, BlogComponentContent, BlogComponent, 
-        updateBlogComponent
+        height, 
+        updateBlogComponent,
+        updateContentStyle
     }
     const dividerItemSx: SxProps<Theme> = {
         width: dividerWidth,
@@ -64,7 +69,7 @@ export const BlogComponentEditorMenu = ({ props }: { props: BlogComponentEditorM
         alignItems: "center"
     }
     var ContentMenu = <></>;
-    switch (BlogComponentContent.Type) {
+    switch (BlogComponent.ContentType) {
         case BlogComponentContentKeyValues.Text:
             ContentMenu = <BlogComponentEditorMenuText props={textProps} />;
             break;

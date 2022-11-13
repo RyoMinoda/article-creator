@@ -1,25 +1,24 @@
 import { useEffect, useState } from "react";
+import { getBlogComponentContentTypeList } from "../../models/state/BlogComponent/func";
 import { BlogComponentListItemObj } from "../../models/state/BlogComponent/obj";
-import { getBlogComponentContentTypeList } from "../../models/state/BlogComponentContent/func";
-import { BlogComponentContentListItemObj, BlogComponentContentListObj } from "../../models/state/BlogComponentContent/obj";
-import { BlogComponentContentKeyValues, BlogComponentContentType } from "../../models/state/BlogComponentContent/types";
-import { StorageOperationKeyValues, StorageOperationType } from "../../utils/StorageOperation";
+import { BlogComponentContentKeyValues, BlogComponentContentType } from "../../models/state/BlogComponent/type";
 import { DefaultSelector, DefaultSelectorProps } from "./DefaultSelector";
 
 export type BlogEditorComponentEditorMainTypeSelectorProps = {
     width: number,
     height: number,
-    BlogComponentContent: BlogComponentContentListItemObj;
-    updateComponentContentList: (blogComponentContentList: BlogComponentContentListObj) => void,
+    BlogComponent: BlogComponentListItemObj;
+    updateBlogComponent: (blogComponent: BlogComponentListItemObj) => void,
 }
 
 export const BlogEditorComponentEditorMainTypeSelector = ({ props }: { props: BlogEditorComponentEditorMainTypeSelectorProps }) => {
-    const { height, BlogComponentContent, width, updateComponentContentList } = props;
+    const { height, BlogComponent, width, updateBlogComponent } = props;
     const initialContentType = BlogComponentContentKeyValues.Text;
     const [ contentType, setContentType ] = useState<BlogComponentContentType>(initialContentType);
 
     useEffect(() => {
-        BlogComponentContent.Type = contentType;
+        BlogComponent.ContentType = contentType;
+        updateBlogComponent(BlogComponent);
     }, [ contentType ]);
 
     const typeArray = getBlogComponentContentTypeList();
@@ -39,3 +38,4 @@ export const BlogEditorComponentEditorMainTypeSelector = ({ props }: { props: Bl
         <DefaultSelector props={typeSelectorProps} />
     );
 }
+

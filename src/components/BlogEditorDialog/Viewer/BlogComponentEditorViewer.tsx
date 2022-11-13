@@ -2,7 +2,9 @@ import { Box, Grid, Paper, SxProps, Theme } from "@mui/material";
 import { useContext } from "react";
 import { UiParamsContext } from "../../../models/context/UiParams/lib";
 import { BlogComponentListItemObj, BlogComponentListObj } from "../../../models/state/BlogComponent/obj";
-import { BlogComponentContentKeyValues } from "../../../models/state/BlogComponentContent/types";
+import { BlogComponentContentKeyValues } from "../../../models/state/BlogComponent/type";
+import { BlogComponentContentListItemObj, BlogComponentContentListObj } from "../../../models/state/BlogComponentContent/obj";
+import { BlogComponentContentStyleListItemObj } from "../../../models/state/BlogComponentContentStyle/obj";
 import { BlogPageObj } from "../../../models/state/BlogPage/obj";
 import { BlogComponentEditorViewerComponentText } from "./Components/BlogComponentEditorViewerComponentText";
 import { BlogComponentEditorViewerComponentProps } from "./Components/type";
@@ -12,11 +14,12 @@ export type BlogComponentEditorViewerProps = {
     height: number,
     BlogPage: BlogPageObj,
     BlogComponent: BlogComponentListItemObj,
-    BlogComponentList: BlogComponentListObj,
+    BlogComponentContentList: BlogComponentContentListItemObj[],
+    BlogComponentContentStyleList: BlogComponentContentStyleListItemObj[],
 }
 
 export const BlogComponentEditorViewer = ({ props }: { props: BlogComponentEditorViewerProps }) => {
-    const { width, height, BlogPage, BlogComponent, BlogComponentList } = props;
+    const { width, height, BlogPage, BlogComponent, BlogComponentContentList } = props;
     const { Palette } = useContext(UiParamsContext);
     const outerSx: SxProps<Theme> = {
         width,
@@ -69,9 +72,9 @@ export const BlogComponentEditorViewer = ({ props }: { props: BlogComponentEdito
         return "";
     }
     const contentMapProps: BlogComponentEditorViewerComponentProps = {
+        ...props,
         cellWidth, cellHeight,
         BlogComponentListItem: BlogComponent,
-        BlogPage,
     }
     var Component = <></>;
     switch (BlogComponent.ContentType) {

@@ -1,34 +1,24 @@
+import { isEditable } from "@testing-library/user-event/dist/utils";
 import { Uuid } from "../../../utils/Uuid";
 import { ListItemObj, ListObj } from "../../utils/List/obj";
-import { BlogComponentContentKeyValues, BlogComponentContentListItem, BlogComponentContentStyleType, BlogComponentContentType } from "./types";
+import { BlogComponentContentListItem } from "./types";
 
 export class BlogComponentContentListItemObj extends ListItemObj implements BlogComponentContentListItem {
-    Type: BlogComponentContentType;
     Text: string;
-    Styles: BlogComponentContentStyleType[];
-    IsDefault: boolean;
-    
 
-    private defaultStyles: BlogComponentContentStyleType[] = [];
-
-    constructor(id: string, type: BlogComponentContentType, text: string) {
+    constructor(id: string, text: string, start: number, end: number, isEntered: boolean) {
         super(id);
-        this.Type = type;
         this.Text = text;
-        this.Styles = this.defaultStyles;
-        this.IsDefault = true;
     }
     
     public static create = (): BlogComponentContentListItemObj => {
         const id = Uuid.new();
-        const type = BlogComponentContentKeyValues.Text;
-        return new BlogComponentContentListItemObj(id, type, "");
+        return new BlogComponentContentListItemObj(id, "", 0, 0, false);
     }
 
-    public static createFromText(text: string) {
+    public static createFromText(text: string, start: number, end: number, isEntered: boolean) {
         const id = Uuid.new();
-        const type = BlogComponentContentKeyValues.Text;
-        return new BlogComponentContentListItemObj(id, type, text);
+        return new BlogComponentContentListItemObj(id, text, start, end, isEntered);
     }
 }
 

@@ -1,9 +1,12 @@
 import { Box, Grid, SxProps, Theme, Typography } from "@mui/material";
 import { BlogComponentListItemAlignKeyValues, BlogComponentListItemOverflowKeyValues } from "../../../../models/state/BlogComponent/type";
+import { BlogComponentContentListObj } from "../../../../models/state/BlogComponentContent/obj";
+import { BlogComponentContentStyleListItemObj } from "../../../../models/state/BlogComponentContentStyle/obj";
+import { BlogComponentContentStyleKeyValues } from "../../../../models/state/BlogComponentContentStyle/type";
 import { BlogComponentEditorViewerComponentProps } from "./type"
 
 export const BlogComponentEditorViewerComponentText = ({ props }: { props: BlogComponentEditorViewerComponentProps }) => {
-    const { BlogPage, BlogComponentListItem, cellWidth, cellHeight } = props;
+    const { BlogPage, BlogComponentListItem, cellWidth, cellHeight, BlogComponentContentList, BlogComponentContentStyleList } = props;
     var align = "";
     var maxWidth = 0;
     var left = cellWidth * BlogComponentListItem.Position.X;
@@ -33,11 +36,11 @@ export const BlogComponentEditorViewerComponentText = ({ props }: { props: BlogC
         alignItems: "end"
     }
     var outerSx: SxProps<Theme> = {};
-    
     switch (BlogComponentListItem.OverflowType) {
         case BlogComponentListItemOverflowKeyValues.Hidden:
             outerSx = {
                 ...commonSx,
+                height: cellHeight * (BlogComponentListItem.Span.Y + 1),
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
                 overflow: "hidden"
@@ -47,20 +50,68 @@ export const BlogComponentEditorViewerComponentText = ({ props }: { props: BlogC
             outerSx = {
                 ...commonSx,
                 width: maxWidth,
-                overflow: "hidden",
             };
             break;
     }
+    const gridItemSx: SxProps<Theme> = {
+        width: maxWidth,
+    }
+    const containerSx: SxProps<Theme> = {
+        width: maxWidth,
+    }
+    var index = 0;
     return (
         <Box sx={outerSx}>
-            {BlogComponentListItem.ContentList.map((x) => {
-                const style: React.CSSProperties = {
-                    fontSize: BlogComponentListItem.FontSize + "px",
-                    lineHeight: cellHeight + "px",
-                    maxWidth: maxWidth,
-                }
-                return <span key={x.Id} style={style}>{x.Text}</span>
-            })}
+            <Grid container sx={containerSx}>
+                {BlogComponentContentList.map(x => {
+                    const textArray = new Array(x.Text.length).fill(0).map((_, i) => x.Text.charAt(i));
+                    return (
+                        <Grid item sx={gridItemSx} key={x.Id}>
+                            {textArray.map((x) => {
+                                const htmlProps: ITextHtmlProps = {
+                                    height: cellHeight,
+                                    BlogComponentContentStyleList,
+                                    index: index
+                                }
+                                index++;
+                                return <TextHtml key={index} props={htmlProps}>{x}</TextHtml>;
+                            })}
+                        </Grid>
+                    )
+                })}
+            </Grid>
         </Box>
     );
+}
+
+type ITextHtmlProps = {
+    index: number,
+    height: number,
+    BlogComponentContentStyleList: BlogComponentContentStyleListItemObj[],
+}
+
+const TextHtml = ({ props, children }: { props: ITextHtmlProps, children: React.ReactNode }) => {
+    const { height, BlogComponentContentStyleList, index } = props;
+    const style: React.CSSProperties = {
+        lineHeight: height + "px",
+        height,
+        fontFamily: "游ゴシック",
+    }
+    const contentStyles = BlogComponentContentStyleList
+        .filter(x => x.Start <= index && index < x.End)
+        .map(x => x.Style);
+    if (contentStyles.includes(BlogComponentContentStyleKeyValues.Italic)) {
+        style.fontStyle = "italic";
+    }
+    if (contentStyles.includes(BlogComponentContentStyleKeyValues.Bold)) {
+        style.fontWeight = "bolder";
+    }
+    if (contentStyles.includes(BlogComponentContentStyleKeyValues.Underline)) {
+        style.textDecoration = "Underline";
+    }
+    return (
+        <span style={style}>
+            {children}
+        </span>
+    )
 }
